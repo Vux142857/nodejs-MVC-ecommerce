@@ -1,0 +1,23 @@
+<% actionHelper=(collection)=> {
+    let actions = [
+    { value: "", name: "Bulk Action" },
+    { value: "change-status/active", name: "Active" },
+    { value: "change-status/inactive", name: "InActive" },
+    { value: "change-ordering/", name: "Change Ordering" },
+    { value: "delete", name: "Delete" },
+    ];
+    let xhtmlAction = '';
+
+    actions.forEach((action)=> {
+    // let link = "admin" + '/' + collection + '/' + action.value;
+    xhtmlAction += `<option value="${action.value}">${action.name}</option>`;
+    });
+
+    return `<div class="zcontrols">
+        <select name="action" class="form-control slbAction">
+            ${xhtmlAction}
+        </select>
+        <button class="btn btn-info btnAction" type="button" id="btn-action" value="btnAction" disabled>Apply</button>
+    </div>`;
+    }
+    %>

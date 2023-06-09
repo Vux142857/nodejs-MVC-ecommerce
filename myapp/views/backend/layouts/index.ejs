@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('../elements/head') %>
+</head>
+
+<body class="hold-transition sidebar-mini">
+
+  <div class="wrapper">
+    <!-- Preloader -->
+    <%- include('../elements/preloader') %>
+
+      <!-- Navbar -->
+      <%- include('../elements/navbar') %>
+
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+          <!-- Brand Logo -->
+          <%- include('../elements/logo') %>
+
+            <!-- Sidebar -->
+            <%- include('../elements/sidebar') %>
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+          <!-- Content Header (Page header) -->
+          <%- include('../elements/contentHeader') %>
+
+            <!-- Main content -->
+            <div class="content"><%- body %></div>
+        </div>
+
+        <!-- Control Sidebar -->
+        <%- include('../elements/controlSidebar') %>
+
+          <!-- Main Footer -->
+  </div>
+
+  <%- include('../elements/script') %>
+</body>
+
+</html>

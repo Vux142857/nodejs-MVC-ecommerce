@@ -1,0 +1,15 @@
+<% statusHelper=(collection, status, id)=> {
+    let link = "change-status/" + id + "/" + status;
+    %>
+    <a href="<%= link %>">
+        <% if (status==='active' ) { %>
+            <span class="label label-success">
+                Active
+            </span>
+            <% } else if (status==='inactive' ) { %>
+                <span class="label label-warning">
+                    Inactive
+                </span>
+                <% } %>
+    </a>
+    <% } %>

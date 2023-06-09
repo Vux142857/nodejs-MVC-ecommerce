@@ -1,0 +1,45 @@
+div.zcontrols {
+    margin-bottom: 20px;
+}
+
+div.zcontrols select {
+    width: 200px;
+    display: inline-block;
+}
+
+li.active > a:first-child{
+    color: #000;
+}
+.status-list{
+    margin-bottom: 15px;
+}
+#icon-reload{
+    float: right;
+}
+.input-group-btn a {
+    color: white;
+}
+/* #pagination .panel-body{
+    display: flex;
+    justify-content: space-between;
+} */
+#pagination .panel-heading span{
+    float: right;
+    margin-right: 10px;
+    line-height: 15px;
+}
+
+.infor-pagination span{
+    color: blue;
+    font-weight: bold;
+}
+.infor-pagination{
+    float: left;
+}
+.ad-pagination{
+    float: right;
+}
+
+img.error-page-img {
+    width: 800px;
+}

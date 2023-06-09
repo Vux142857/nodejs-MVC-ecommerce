@@ -1,0 +1,64 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <!-- <div class="card-header">
+            <h3 class="card-title">Bordered Table</h3>
+          </div> -->
+        <div class="card-body">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header bg-dark">
+                <h3 class="card-title">Filter</h3>
+              </div>
+              <div class="card-body">
+                <% include ./../../helper/filter-status %>
+                  <div class="btn-group" role="group" aria-label="Basic outlined example">
+                    <%= filterStatusHelper(statusFilter, keyword) %>
+                  </div>
+                  <% include ./../../helper/search-form %>
+                    <%= formSearch() %>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <form role="form" class="form-inline zt-form" id="zt-form" action="" method="post">
+              <% include ./../../helper/action %>
+                <%- actionHelper(currentStatus) %>
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>
+                          <div class="form-check">
+                            <input type="checkbox" class="cbAll" />
+                          </div>
+                        </th>
+                        <th>Name</th>
+                        <th>Ordering</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% include ./../../helper/status %>
+                        <% include ./../../helper/show-items %>
+                          <%= showItemsHelper(items) %>
+                    </tbody>
+                  </table>
+            </form>
+          </div>
+
+          <div class="card-footer clearfix">
+            <ul class="pagination pagination-sm m-0 float-right">
+              <li class="page-item"><a class="page-link" href="#">«</a></li>
+              <li class="page-item"><a class="page-link" href="#">1</a></li>
+              <li class="page-item"><a class="page-link" href="#">2</a></li>
+              <li class="page-item"><a class="page-link" href="#">3</a></li>
+              <li class="page-item"><a class="page-link" href="#">»</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
