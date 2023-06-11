@@ -6,13 +6,15 @@ const changeStatus = (id, status) => {
         dataType: "JSON",
         success: function (response) {
             let newStatus = response.data;
-            let statusClass = (newStatus === 'active') ? "label-success" : "label-warning";
-            $(`#${id}`).html(`<a href="javascript:changeStatus('${id}','${newStatus}')"><span class="label ${statusClass}">${newStatus}</span></a>`);
+            if (newStatus) {
+                let statusClass = (newStatus === 'active') ? "label-success" : "label-warning";
+                $(`#${id}`).html(`<a href="javascript:changeStatus('${id}','${newStatus}')"><span class="label ${statusClass}">${newStatus}</span></a>`);
+            }
         }
     });
 }
 
-const changeOrdering = (ordering, id) => {
+const changeOrdering = (id, ordering) => {
     let newLinkChangeStatus = `change-ordering/${id}`;
     $.ajax({
         type: "post",

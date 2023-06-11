@@ -1,18 +1,19 @@
-<% formSearch=()=> { %>
-    <div class="btn-group">
-        <form action="<%= currentStatus %>" method="get">
-            <div class="input-group">
-                <input type="search" class="form-control form-control-lg" name="search"
-                    placeholder="Type your keywords..." value="<%= keyword %>">
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-lg btn-default">
-                        <i class="fa fa-search"></i>
-                    </button>
-                    <a type="button" class="btn btn-lg btn-default" href="<%= currentStatus %>">
-                        Clear
-                    </a>
+<% formSearch=(currentStatus)=> { %>
+    <% currentStatus=(currentStatus==undefined) ? 'list' : currentStatus %>
+        <div class="btn-group">
+            <form action="<%= currentStatus %>" method="get">
+                <div class="input-group">
+                    <input type="search" class="form-control form-control-lg" name="search"
+                        placeholder="Type your keywords..." value="<%= keyword %>">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-lg btn-default">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        <a type="button" class="btn btn-lg btn-default" href="<%= currentStatus %>">
+                            Clear
+                        </a>
+                    </div>
                 </div>
-            </div>
-        </form>
-    </div>
-    <% } %>
+            </form>
+        </div>
+        <% } %>

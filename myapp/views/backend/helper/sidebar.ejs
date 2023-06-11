@@ -8,7 +8,7 @@
     name: 'Dashboard',
   },
   {
-    class: 'menu-open',
+    class: '',
     href: '#',
     icon: 'nav-icon fa-solid fa-layer-group',
     name: 'Items',
@@ -32,7 +32,7 @@
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <% data.forEach(item => { %>
           <li class="nav-item <%= item.class %>">
-            <a href="<%= item.href %>" class="nav-link">
+            <a href="<%= item.href %>" class="nav-link ">
               <i class="<%= item.icon %>"></i>
               <p>
                 <%= item.name %>
@@ -45,7 +45,7 @@
               <ul class="<%= item.class_childItems %>">
                 <% item.childItems.forEach(childItem => { %>
                   <li class="nav-item <%= childItem.class %>">
-                    <a href="<%= childItem.href %>" class="nav-link">
+                    <a href="<%= childItem.href %>" class="nav-link <%= currentPath == childItem.href ? 'active' : '' %>">
                       <i class="<%= childItem.icon %>"></i>
                       <p>
                         <%= childItem.name %>

@@ -60,7 +60,6 @@ router.get("/change-status/:id/:status", async (req, res, next) => {
   try {
     const { id, status } = req.params;
     let newStatus = (status == 'active') ? 'inactive' : 'active';
-    console.log(id + "" + status);
     await itemService.updateOneById(id, { status: newStatus });
     res.send({ data: newStatus })
   } catch (error) {
@@ -116,26 +115,27 @@ router.post("/delete", async (req, res, next) => {
 });
 
 // Change status multi
-// router.post("/change-ordering", async (req, res, next) => {
-//   try {
+router.post("/change-ordering", async (req, res, next) => {
+  try {
 
-//     let cids = req.body.cid;
-//     let orderings = req.body.ordering;
+    let cids = req.body.cid;
+    let orderings = req.body.ordering;
 
-//     if (Array.isArray(cids)) {
-//       cids.forEach((item, index) => {
-//         itemService.updateOneById({ _id: item }, { ordering: parseInt(orderings[index]) });
-//       })
-//     } else {
-//       await itemService.updateOneById({ _id: cids }, { ordering: parseInt(orderings) });
-//     }
+    if (Array.isArray(cids)) {
+      cids.forEach((item, index) => {
+        itemService.updateOneById({ _id: item }, { ordering: parseInt(orderings[index]) });
+      })
+    } else {
+      await itemService.updateOneById({ _id: cids }, { ordering: parseInt(orderings) });
+    }
 
-//     res.redirect('/admin/items/list');
-//   } catch (error) {
-//     console.log("Error: ", error);
-//   }
-// });
+    res.redirect('/admin/items/list');
+  } catch (error) {
+    console.log("Error: ", error);
+  }
+});
 
+// Change ordering single
 router.post("/change-ordering/:id", async (req, res, next) => {
   try {
     let id = req.params.id;

@@ -7,10 +7,9 @@ notify -
 
 // Adjust FE
 add status effect -
-add containHelper -
 adjust filter bar -
-active sidebar -
-delete sidebar class -
+active sidebar +
+delete sidebar class +
 kéo hết include -
 add new -
 adjust status -
