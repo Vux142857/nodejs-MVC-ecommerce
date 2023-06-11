@@ -1,0 +1,23 @@
+<% paginationHelper=(totalItems, itemsPerPage, currentPage)=> {
+    let totalPage = 0;
+    if (totalItems % itemsPerPage <= 0) { 
+        totalPage = totalItems / itemsPerPage; 
+    } else if (totalItems % itemsPerPage > 0) {
+        totalPage = Math.floor(totalItems / itemsPerPage) + 1;
+    }
+    
+    let html = ``;
+    for (let i = 1; i <= totalPage; i++){
+        html += `<li class="page-item"><a class="page-link" href="?page=${i}">${i}</a></li>`;
+    }
+    
+    let controlNext = (currentPage == totalPage) ? "disabled" : "";
+    let controlPrev = (currentPage == 1) ? "disabled" : "";
+    return ` <div class="card-footer clearfix">
+        <ul class="pagination pagination-sm m-0 float-right">
+            <li class="page-item"><a class="page-link ${controlPrev}" href="?page=${currentPage-1}" >«</a></li>
+            ${html}
+            <li class="page-item"><a class="page-link ${controlNext}" href="?page=${currentPage+1}" >»</a></li>
+        </ul>
+    </div>`;
+} %>

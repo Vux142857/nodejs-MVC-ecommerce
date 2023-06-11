@@ -2,7 +2,9 @@ const Item = require("../models/itemModel");
 
 exports.getAll = (params) => {
   try {
-    return Item.find(params);
+    return Item.find(params).sort({
+      createdAt: -1
+    });
   } catch (error) {
     console.log(error);
   }
