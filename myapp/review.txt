@@ -1,0 +1,19 @@
+// Add function
+adjust edit +
+add id to <td></td> + 
+ajax status, ordering +
+pagination -
+notify -
+
+// Adjust FE
+add status effect -
+add containHelper -
+adjust filter bar -
+active sidebar -
+delete sidebar class -
+kéo hết include -
+add new -
+adjust status -
+
+// Knowledge
+'' ejs => định dạng kiểu dữ liệu

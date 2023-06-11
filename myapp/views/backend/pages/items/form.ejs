@@ -7,8 +7,8 @@
             <%= title %>
           </h3>
         </div>
-        <% let action=(currentId !== '' ) ? 'edit' : 'save' %>
-          <form action="<%= action %>" method="POST">
+        <% let action=(currentId !=='' ) ? 'updated' : 'save' ;%>
+          <form action="/admin/items/<%= action %>" method="post">
             <div class="card-body">
               <div class="form-group">
                 <label for="name">Name</label>
@@ -34,7 +34,7 @@
 
             <div class="card-footer">
               <!-- <button type="submit" class="btn btn-default">Cancel</button> -->
-              <input name="currentId" class="form-control" value="<%= currentId %>" hidden />
+              <input name="id" class="form-control" value="<%= item.id %>" hidden />
               <button type="submit" class="btn btn-primary float-right">
                 Submit
               </button>

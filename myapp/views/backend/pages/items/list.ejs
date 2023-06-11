@@ -35,15 +35,15 @@
                           </div>
                         </th>
                         <th>Name</th>
-                        <th>Ordering</th>
                         <th>Status</th>
+                        <th>Ordering</th>
                         <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
                       <% include ./../../helper/status %>
                         <% include ./../../helper/show-items %>
-                          <%= showItemsHelper(items) %>
+                          <%= showItemsHelper(items, keyword) %>
                     </tbody>
                   </table>
             </form>

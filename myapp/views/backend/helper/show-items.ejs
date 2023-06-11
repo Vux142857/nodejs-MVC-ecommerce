@@ -1,23 +1,24 @@
-<% showItemsHelper=(items)=> { %>
-    <% items.forEach((item,index)=> { %>
-        <tr>
-            <td>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="cid" value="<%= item.id %>" />
-                </div>
-            </td>
-            <td>
-                <%=item.name%>
-            </td>
-            <td>
-                <input type="number" value="<%= item.ordering %>" class="text-center ordering">
-            </td>
-            <td>
-                <%= statusHelper("items",item.status, item.id) %>
-            </td>
-            <td><a href="form/<%= item.id %>" type="button" class="btn btn-warning btn-sm">Edit</a>
-                <a href="delete/<%=item.id %>" type="button" class="btn btn-danger btn-sm btn-delete">Delete</a>
-            </td>
-        </tr>
-        <%}) %>
-            <% } %>
+<% include highlightHelper %>
+    <% showItemsHelper=(items, keyword)=> { %>
+        <% items.forEach((item,index)=> { %>
+            <tr>
+                <td>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="cid" value="<%= item.id %>" />
+                    </div>
+                </td>
+                <td>
+                    <%- highlightHelper(item.name, keyword) %>
+                </td>
+                <td id="<%= item.id %>">
+                    <%= statusHelper("items",item.status, item.id) %>
+                </td>
+                <td class="<%= item.id %>">
+                    <input type="number" value="<%= item.ordering %>" class="text-center ordering"
+                        onchange="changeOrdering(this.value, '<%= item.id %>')">
+                </td>
+                <td><a href="form/<%= item.id %>" type="button" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="delete/<%=item.id %>" type="button" class="btn btn-danger btn-sm btn-delete">Delete</a>
+                </td>
+            </tr>
+            <%})} %>

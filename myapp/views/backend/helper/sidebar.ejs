@@ -2,31 +2,27 @@
 <% sidebar = () =>{ %>
     <% let data = [
   {
-    class: 'nav-item',
+    class: '',
     href: '/admin/',
-    class_href: 'nav-link',
     icon: 'nav-icon fas fa-tachometer-alt',
     name: 'Dashboard',
   },
   {
-    class: 'nav-item menu-open',
+    class: 'menu-open',
     href: '#',
-    class_href: 'nav-link',
     icon: 'nav-icon fa-solid fa-layer-group',
     name: 'Items',
     class_childItems: 'nav nav-treeview',
     childItems: [
       {
-        class: 'nav-item',
+        class: '',
         href: '/admin/items/list',
-        class_href: 'nav-link',
         icon: 'far fa-circle nav-icon',
         name: 'List',
       },
       {
-        class: 'nav-item',
+        class: '',
         href: '/admin/items/form',
-        class_href: 'nav-link',
         icon: 'far fa-circle nav-icon',
         name: 'Add items',
       }
@@ -35,8 +31,8 @@
 ]; %>
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <% data.forEach(item => { %>
-          <li class="<%= item.class %>">
-            <a href="<%= item.href %>" class="<%= item.class_href %>">
+          <li class="nav-item <%= item.class %>">
+            <a href="<%= item.href %>" class="nav-link">
               <i class="<%= item.icon %>"></i>
               <p>
                 <%= item.name %>
@@ -48,8 +44,8 @@
             <% if (item.childItems && item.childItems.length > 0) { %>
               <ul class="<%= item.class_childItems %>">
                 <% item.childItems.forEach(childItem => { %>
-                  <li class="<%= childItem.class %>">
-                    <a href="<%= childItem.href %>" class="<%= childItem.class_href %>">
+                  <li class="nav-item <%= childItem.class %>">
+                    <a href="<%= childItem.href %>" class="nav-link">
                       <i class="<%= childItem.icon %>"></i>
                       <p>
                         <%= childItem.name %>
