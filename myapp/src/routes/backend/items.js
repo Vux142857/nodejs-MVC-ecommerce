@@ -28,56 +28,111 @@ router.get("/form(/:id)?", async (req, res, next) => {
 });
 
 // Filter, show and find Items, Pagination
+// router.get("(/list)?(/:status)?", async (req, res, next) => {
+//   try {
+//     let currentStatus = req.params.status;
+
+//     // Find items
+//     let condition =
+//       currentStatus == "all" || currentStatus == undefined
+//         ? {}
+//         : { status: currentStatus };
+
+//     let keyword = utilGetParam.getParam(req.query, "search", "");
+//     if (keyword != "") {
+//       const nameRegex = new RegExp(keyword, "ig");
+//       condition.name = nameRegex;
+//     } else {
+//       Reflect.deleteProperty(condition, "name");
+//     }
+
+//     // Filter status
+//     const statusFilter = await utilStatusFilter.createFilterStatus(
+//       currentStatus
+//     );
+
+//     let totalCurrentItems;
+
+//     if (currentStatus === "") {
+//       totalCurrentItems = statusFilter[0].count;
+//     } else {
+//       const currentItem = statusFilter.find(
+//         (item) => item.value === currentStatus
+//       );
+//       totalCurrentItems = currentItem ? currentItem.count : 0;
+//     }
+
+//     console.log(totalCurrentItems);
+//     // Pagination
+//     const pagination = {
+//       totalItems: totalCurrentItems,
+//       currentPage: parseInt(utilGetParam.getParam(req.query, "page", 1)),
+//       itemsPerPage: 4,
+//     };
+
+//     await itemService
+//       .getAll(condition)
+//       .skip((pagination.currentPage - 1) * pagination.itemsPerPage)
+//       .limit(pagination.itemsPerPage)
+//       .then((items) => {
+//         res.render("backend/pages/items/list", {
+//           title: "List items",
+//           items,
+//           statusFilter,
+//           currentStatus,
+//           keyword,
+//           totalItems: pagination.totalItems,
+//           itemsPerPage: pagination.itemsPerPage,
+//           currentPage: pagination.currentPage,
+//         });
+//       });
+//   } catch (error) {
+//     console.log("Error: ", error);
+//   }
+// });
 router.get("(/list)?(/:status)?", async (req, res, next) => {
   try {
-    let currentStatus = req.params.status;
-
-    // Find items
-    let condition =
-      currentStatus == "all" || currentStatus == undefined
-        ? {}
-        : { status: currentStatus };
-
+    let currentStatus = req.params.status || "all";
     let keyword = utilGetParam.getParam(req.query, "search", "");
-    if (keyword != "") {
+
+    const condition = currentStatus === "all" ? {} : { status: currentStatus };
+
+    if (keyword !== "") {
       const nameRegex = new RegExp(keyword, "ig");
       condition.name = nameRegex;
     } else {
       Reflect.deleteProperty(condition, "name");
     }
 
-    // Filter status
-    const statusFilter = await utilStatusFilter.createFilterStatus(
-      currentStatus
-    );
+    const statusFilter = await utilStatusFilter.createFilterStatus(currentStatus);
 
-    // Pagination
+    const totalCurrentItems = currentStatus === "" ? statusFilter[0].count : statusFilter.find(item => item.value === currentStatus)?.count || 0;
+
     const pagination = {
-      totalItems: statusFilter[0].count,
+      totalItems: totalCurrentItems,
       currentPage: parseInt(utilGetParam.getParam(req.query, "page", 1)),
       itemsPerPage: 4,
     };
 
-    await itemService
-      .getAll(condition)
+    const items = await itemService.getAll(condition)
       .skip((pagination.currentPage - 1) * pagination.itemsPerPage)
-      .limit(pagination.itemsPerPage)
-      .then((items) => {
-        res.render("backend/pages/items/list", {
-          title: "List items",
-          items,
-          statusFilter,
-          currentStatus,
-          keyword,
-          totalItems: pagination.totalItems,
-          itemsPerPage: pagination.itemsPerPage,
-          currentPage: pagination.currentPage,
-        });
-      });
+      .limit(pagination.itemsPerPage);
+
+    res.render("backend/pages/items/list", {
+      title: "List items",
+      items,
+      statusFilter,
+      currentStatus,
+      keyword,
+      totalItems: pagination.totalItems,
+      itemsPerPage: pagination.itemsPerPage,
+      currentPage: pagination.currentPage,
+    });
   } catch (error) {
     console.log("Error: ", error);
   }
 });
+
 
 // Change status single
 router.get("/change-status/:id/:status", async (req, res, next) => {
@@ -179,7 +234,7 @@ router.post(
         title: "Add Item",
         item,
         currentId: utilGetParam.getParam(req.params, "id", ""),
-        errorsNotify
+        errorsNotify,
       });
     } else {
       await itemService.create(item);
@@ -203,7 +258,7 @@ router.post(
         title: "Edit Item",
         item,
         currentId: utilGetParam.getParam(req.params, "id", ""),
-        errorsNotify
+        errorsNotify,
       });
     } else {
       await itemService.updateOneById(id, {
