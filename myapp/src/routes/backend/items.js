@@ -27,7 +27,7 @@ router.get("/form(/:id)?", async (req, res, next) => {
   });
 });
 
-// Filter, show and find Items
+// Filter, show and find Items, Pagination
 router.get("(/list)?(/:status)?", async (req, res, next) => {
   try {
     let currentStatus = req.params.status;
@@ -35,6 +35,8 @@ router.get("(/list)?(/:status)?", async (req, res, next) => {
       currentStatus == "all" || currentStatus == undefined
         ? {}
         : { status: currentStatus };
+
+    // Find items
     let keyword = utilGetParam.getParam(req.query, "search", "");
     if (keyword != "") {
       const nameRegex = new RegExp(keyword, "ig");
@@ -42,11 +44,13 @@ router.get("(/list)?(/:status)?", async (req, res, next) => {
     } else {
       Reflect.deleteProperty(condition, "name");
     }
-
+    
+    // Filter status
     const statusFilter = await utilStatusFilter.createFilterStatus(
       currentStatus
     );
 
+    // Pagination
     const pagination = {
       totalItems: statusFilter[0].count,
       currentPage: parseInt(utilGetParam.getParam(req.query, "page", 1)),
@@ -85,19 +89,6 @@ router.get("/change-status/:id/:status", async (req, res, next) => {
     console.log("Error: ", error);
   }
 });
-
-//
-// router.get("/change-status", async (req, res, next) => {
-//   try {
-//     let currentStatus = utilGetParam.getParam(req.params, "status", 'all');
-//     let currentId = utilGetParam.getParam(req.params, "id", '');
-//     let status = (currentStatus == 'active') ? 'inactive' : 'active';
-//     await itemService.updateOneById({ _id: currentId }, { status: status });
-//     res.redirect('/admin/items/list');
-//   } catch (error) {
-//     console.log("Error: ", error);
-//   }
-// });
 
 // Delete single
 router.get("/delete/:id", async (req, res, next) => {
