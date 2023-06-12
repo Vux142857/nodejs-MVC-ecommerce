@@ -11,8 +11,8 @@ exports.validateItemsQueries = [
     body('ordering')
         .notEmpty()
         .withMessage('Ordering is required')
-        .isInt({ gt: 0, lt: 1000 })
-        .withMessage('Ordering must be an integer')
+        .isInt({ gt: 0, lt: 1001 })
+        .withMessage('Ordering must be 0 < and <= 1000')
 ]
 
 exports.validateItemsErros = (req) => {

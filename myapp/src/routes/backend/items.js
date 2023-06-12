@@ -179,7 +179,8 @@ router.post(
       res.render("backend/pages/items/form", {
         title: "Add Item",
         item,
-        errorsNotify,
+        currentId: utilGetParam.getParam(req.params, "id", ""),
+        errorsNotify
       });
     } else {
       await itemService.create(item);
@@ -188,7 +189,7 @@ router.post(
   }
 );
 
-// Update item
+// Update items
 router.post(
   "/updated",
   validateItems.validateItemsQueries,
@@ -200,9 +201,10 @@ router.post(
     if (!errorsMsg.isEmpty()) {
       console.log(errorsNotify);
       res.render("backend/pages/items/form", {
-        title: "Add Item",
+        title: "Edit Item",
         item,
-        errorsNotify,
+        currentId: utilGetParam.getParam(req.params, "id", ""),
+        errorsNotify
       });
     } else {
       await itemService.updateOneById(id, {

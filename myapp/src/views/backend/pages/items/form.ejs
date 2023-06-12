@@ -44,3 +44,16 @@
     </div>
   </div>
 </div>
+
+<!-- Notify-catch errors -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<% if (typeof errorsNotify !== 'undefined' && errorsNotify !== '') {
+  errorsNotify.forEach(element => { %>
+  <button class="notify" onclick="generateNotify('<%= element.msg %>')" hidden>Click Me</button>
+ <% });%>
+<% } %>
+<script>
+  $(function(){
+     $('.notify').click();
+  });
+  </script>
