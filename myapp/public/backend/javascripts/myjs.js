@@ -24,23 +24,18 @@ const changeStatus = (id, status) => {
 
 const changeOrdering = (id, ordering) => {
   let newLinkChangeStatus = `change-ordering/${id}`;
-  $.ajax({
-    type: "post",
-    url: newLinkChangeStatus,
-    data: { ordering: ordering },
-    dataType: "JSON",
-    success: function (response) {
-      let newOrdering = response.data;
-      if (newOrdering != undefined) {
-        $(`.${id}`)
-          .html(`<input type="number" value="${newOrdering}" class="text-center ordering"
-                onchange="changeOrdering('${id}',${newOrdering})">`);
-        generateNotify("You have changed the ordering");
-      } else {
-        generateNotify("Failed to change the ordering");
-      }
-    },
-  });
+  try {
+    $.ajax({
+      type: "post",
+      url: newLinkChangeStatus,
+      data: { ordering: ordering },
+      dataType: "JSON",
+      success: function (response) {},
+    });
+    generateNotify("You have changed the ordering");
+  } catch (error) {
+    generateNotify("Failed to change the ordering");
+  }
 };
 
 const generateNotify = (notify) => {

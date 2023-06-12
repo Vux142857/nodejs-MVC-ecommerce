@@ -147,7 +147,6 @@ router.post("/change-ordering", async (req, res, next) => {
         { ordering: parseInt(orderings) }
       );
     }
-
     res.redirect("/admin/items/list");
   } catch (error) {
     console.log("Error: ", error);
