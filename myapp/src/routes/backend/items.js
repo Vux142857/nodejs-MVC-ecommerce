@@ -31,12 +31,13 @@ router.get("/form(/:id)?", async (req, res, next) => {
 router.get("(/list)?(/:status)?", async (req, res, next) => {
   try {
     let currentStatus = req.params.status;
+
+    // Find items
     let condition =
       currentStatus == "all" || currentStatus == undefined
         ? {}
         : { status: currentStatus };
 
-    // Find items
     let keyword = utilGetParam.getParam(req.query, "search", "");
     if (keyword != "") {
       const nameRegex = new RegExp(keyword, "ig");
@@ -44,7 +45,7 @@ router.get("(/list)?(/:status)?", async (req, res, next) => {
     } else {
       Reflect.deleteProperty(condition, "name");
     }
-    
+
     // Filter status
     const statusFilter = await utilStatusFilter.createFilterStatus(
       currentStatus
