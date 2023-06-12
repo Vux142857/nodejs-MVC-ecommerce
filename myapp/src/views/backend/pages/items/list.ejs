@@ -52,7 +52,8 @@ include ./../../helper/show-items %> <% include ./../../helper/pagination %>
               </table>
             </form>
           </div>
-          <%- paginationHelper(totalItems, itemsPerPage, currentPage) %>
+          <%- paginationHelper(statusFilter, itemsPerPage, currentPage,
+          currentStatus) %>
         </div>
       </div>
     </div>

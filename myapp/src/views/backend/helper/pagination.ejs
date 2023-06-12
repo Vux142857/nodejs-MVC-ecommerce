@@ -1,4 +1,5 @@
-<% paginationHelper=(totalItems, itemsPerPage, currentPage)=> {
+<% paginationHelper=(statusFilter, itemsPerPage, currentPage, currentStatus)=> {
+    const totalItems = currentStatus === "" ? statusFilter[0].count : statusFilter.find(item => item.value === currentStatus)?.count || 0;
     let totalPage = 0;
     if (totalItems % itemsPerPage <= 0) { 
         totalPage = totalItems / itemsPerPage; 
