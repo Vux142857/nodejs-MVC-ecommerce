@@ -3,7 +3,7 @@ adjust edit +
 add id to <td></td> + 
 ajax status, ordering +
 pagination +
-notify -
+notify +
 
 // Adjust FE
 add status effect +
