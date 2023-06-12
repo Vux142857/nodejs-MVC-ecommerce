@@ -6,7 +6,7 @@ const changeStatus = (id, status) => {
     dataType: "JSON",
     success: function (response) {
       let newStatus = response.data;
-      if (newStatus) {
+      if (newStatus != undefined && newStatus != "") {
         let statusClass =
           newStatus === "active"
             ? "btn btn-block btn-info"
@@ -31,10 +31,10 @@ const changeOrdering = (id, ordering) => {
     dataType: "JSON",
     success: function (response) {
       let newOrdering = response.data;
-      if (newOrdering) {
+      if (newOrdering != undefined) {
         $(`.${id}`)
           .html(`<input type="number" value="${newOrdering}" class="text-center ordering"
-                onchange="changeOrdering(${newOrdering}, '${id}')">`);
+                onchange="changeOrdering('${id}',${newOrdering})">`);
         generateNotify("You have changed the ordering");
       } else {
         generateNotify("Failed to change the ordering");
