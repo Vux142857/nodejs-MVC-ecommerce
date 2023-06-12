@@ -1,8 +1,9 @@
 <% statusHelper=(collection, status, id)=> {
-    let statusClass = (status ==='active') ? "label-success" : "label-warning" ;
+    let statusClass = (status ==='active') ? "btn btn-block btn-info" : "btn btn-block btn-danger" ;
     %>
-    <a href="javascript:changeStatus('<%= id %>','<%= status %>')">
-        <span class="label <%= statusClass %>">
+    
+    <a href="javascript:changeStatus('<%= id %>','<%= status %>')" class="<%= statusClass %>">
+        <span class="label">
             <%= status %>
         </span>
     </a>

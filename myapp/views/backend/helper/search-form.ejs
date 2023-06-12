@@ -1,6 +1,6 @@
 <% formSearch=(currentStatus)=> { %>
     <% currentStatus=(currentStatus==undefined) ? 'list' : currentStatus %>
-        <div class="btn-group">
+        <div class="btn-group float-right">
             <form action="<%= currentStatus %>" method="get">
                 <div class="input-group">
                     <input type="search" class="form-control form-control-lg" name="search"

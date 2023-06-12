@@ -6,12 +6,12 @@ pagination +
 notify -
 
 // Adjust FE
-add status effect -
-adjust filter bar -
+add status effect +
+adjust filter bar +
 active sidebar +
 delete sidebar class +
-kéo hết include -
-add new -
+kéo hết include +
+add new +
 
 // Knowledge
 '' ejs => định dạng kiểu dữ liệu

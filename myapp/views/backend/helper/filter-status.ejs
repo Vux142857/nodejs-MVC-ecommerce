@@ -2,7 +2,7 @@
     <% statusFilter.forEach((filter)=> {
         let link = (keyword != '' && keyword != undefined) ? filter.value + "?search=" + keyword : filter.value;
         %>
-        <a class="btn m-b-sm btn-default <%= filter.class %> btn-sm" href="<%= link %>">
+        <a class="btn m-b-sm btn-default <%= filter.class %> btn-sm" href="<%= link %>" style="font-size: 1.4rem;">
             <%= filter.name %> (<%= filter.count %>)
         </a>
         <% }); %>

@@ -13,11 +13,15 @@
     xhtmlAction += `<option value="${action.value}">${action.name}</option>`;
     });
 
-    return `<div class="zcontrols">
-        <select name="action" class="form-control slbAction">
+    return `<div style="width: 100%;">
+    <div class="zcontrols" style="display: inline-block;">
+        <select name="action" class="form-control slbAction" style="width: auto; display: inline-block;">
             ${xhtmlAction}
         </select>
-        <button class="btn btn-info btnAction" type="button" id="btn-action" value="btnAction" disabled>Apply</button>
-    </div>`;
+        <button class="btn btn-info btnAction" type="button" id="btn-action" value="btnAction" disabled style="display: inline-block;">Apply</button>
+    </div>
+    <a class="btn btn-success btn-lg float-right" href="/admin/items/form">Add items</a>
+</div>
+    `;
     }
     %>
