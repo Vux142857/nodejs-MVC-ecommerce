@@ -5,7 +5,8 @@ const changeStatus = (id, status) => {
     url: newLinkChangeStatus,
     dataType: "JSON",
     success: function (response) {
-      let newStatus = response.data;
+      // Change status
+      let newStatus = response.newStatus;
       if (newStatus != undefined && newStatus != "") {
         let statusClass =
           newStatus === "active"
@@ -14,6 +15,14 @@ const changeStatus = (id, status) => {
         $(`#${id}`).html(
           `<a href="javascript:changeStatus('${id}','${newStatus}')" class="${statusClass}"><span>${newStatus}</span></a>`
         );
+
+        // Recount status
+        let statusFilter = response.recount;
+        if (statusFilter != undefined) {
+          statusFilter.forEach((filter) => {
+            $(`#${filter.value}`).html(`${filter.name} (${filter.count})`);
+          });
+        }
         generateNotify("You have changed the status");
       } else {
         generateNotify("Failed to change the status");
@@ -44,3 +53,38 @@ const generateNotify = (notify) => {
     duration: 3000,
   }).showToast();
 };
+
+$("a.btn-delete").on("click", (event) => {
+  event.preventDefault();
+  return Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Yes, delete it!",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const deleteButton = $(event.target);
+      const itemId = deleteButton.data("id");
+      const itemStatus = deleteButton.data("status");
+      $.ajax({
+        type: "DELETE",
+        url: `delete/${itemId}/${itemStatus}`,
+        success: function (response) {
+          Swal.fire("Deleted!", "Your file has been deleted.", "success");
+          deleteButton.closest("tr").remove();
+          // Recount status
+          let statusFilter = response.recount;
+          if (statusFilter != undefined) {
+            statusFilter.forEach((filter) => {
+              $(`#${filter.value}`).html(`${filter.name} (${filter.count})`);
+            });
+          }
+        },
+        error: function (error) {
+          Swal.fire("Error", "Failed to delete the item.", "error");
+        },
+      });
+    }
+  });
+});

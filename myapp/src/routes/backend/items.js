@@ -1,6 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const itemService = require("../../services/itemService");
+
+// Model Control
+const mainService = require("../../services/mainService");
+const currentService = mainService.modelControl.item.itemService;
+const currentModel = mainService.modelControl.item;
+
+// Utility
 const utilStatusFilter = require("../../utils/utilCreateStatus");
 const utilGetParam = require("../../utils/utilParam");
 const validateItems = require("../../validates/items");
@@ -15,7 +21,7 @@ router.get("/form(/:id)?", async (req, res, next) => {
   let errorsNotify = [];
   if (currentId != "") {
     title = "Edit item";
-    item = await itemService.getOne({ _id: currentId });
+    item = await currentService.getOne({ _id: currentId });
   } else {
     title = "Add item";
   }
@@ -42,18 +48,21 @@ router.get("(/list)?(/:status)?", async (req, res, next) => {
       Reflect.deleteProperty(condition, "name");
     }
 
-    const statusFilter = await utilStatusFilter.createFilterStatus(currentStatus);
+    const statusFilter = await utilStatusFilter.createFilterStatus(
+      currentStatus
+    );
 
     const pagination = {
       currentPage: parseInt(utilGetParam.getParam(req.query, "page", 1)),
       itemsPerPage: 4,
     };
 
-    const items = await itemService.getAll(condition)
+    const items = await currentService
+      .getAll(condition)
       .skip((pagination.currentPage - 1) * pagination.itemsPerPage)
       .limit(pagination.itemsPerPage);
 
-    res.render("backend/pages/items/list", {
+    res.render(`backend/pages/${currentModel.index}`, {
       title: "List items",
       items,
       statusFilter,
@@ -67,25 +76,27 @@ router.get("(/list)?(/:status)?", async (req, res, next) => {
   }
 });
 
-
 // Change status single
 router.get("/change-status/:id/:status", async (req, res, next) => {
   try {
     const { id, status } = req.params;
     let newStatus = status == "active" ? "inactive" : "active";
-    await itemService.updateOneById(id, { status: newStatus });
-    res.send({ data: newStatus });
+    await currentService.updateOneById(id, { status: newStatus });
+    const recount = await utilStatusFilter.createFilterStatus(status);
+    res.send({ newStatus, recount });
   } catch (error) {
     console.log("Error: ", error);
   }
 });
 
 // Delete single
-router.get("/delete/:id", async (req, res, next) => {
+router.delete("/delete/:id/:status", async (req, res, next) => {
   try {
+    let currentStatus = req.params.status || "all";
     let currentId = utilGetParam.getParam(req.params, "id", "");
-    await itemService.delete(currentId);
-    res.redirect("/admin/items/list");
+    await currentService.delete(currentId);
+    let recount = await utilStatusFilter.createFilterStatus(currentStatus);
+    res.send({ recount });
   } catch (error) {
     console.log("Error: ", error);
   }
@@ -97,11 +108,11 @@ router.get("/delete/:id", async (req, res, next) => {
 router.post("/change-status/:status", async (req, res, next) => {
   try {
     let currentStatus = utilGetParam.getParam(req.params, "status", "active");
-    await itemService.updateMany(
+    await currentService.updateMany(
       { _id: { $in: req.body.cid } },
       { status: currentStatus }
     );
-    res.redirect("/admin/items/list");
+    res.redirect(`/admin/${currentModel.index}`);
   } catch (error) {
     console.log("Error: ", error);
   }
@@ -110,8 +121,8 @@ router.post("/change-status/:status", async (req, res, next) => {
 // Delete multi
 router.post("/delete", async (req, res, next) => {
   try {
-    await itemService.deleteMany({ _id: { $in: req.body.cid } });
-    res.redirect("/admin/items/list");
+    await currentService.deleteMany({ _id: { $in: req.body.cid } });
+    res.redirect(`/admin/${currentModel.index}`);
   } catch (error) {
     console.log("Error: ", error);
   }
@@ -125,18 +136,18 @@ router.post("/change-ordering", async (req, res, next) => {
 
     if (Array.isArray(cids)) {
       cids.forEach((item, index) => {
-        itemService.updateOneById(
+        currentService.updateOneById(
           { _id: item },
           { ordering: parseInt(orderings[index]) }
         );
       });
     } else {
-      await itemService.updateOneById(
+      await currentService.updateOneById(
         { _id: cids },
         { ordering: parseInt(orderings) }
       );
     }
-    res.redirect("/admin/items/list");
+    res.redirect(`/admin/${currentModel.index}`);
   } catch (error) {
     console.log("Error: ", error);
   }
@@ -147,7 +158,7 @@ router.post("/change-ordering/:id", async (req, res, next) => {
   try {
     let id = req.params.id;
     let ordering = req.body.ordering;
-    await itemService.updateOneById(id, { ordering: parseInt(ordering) });
+    await currentService.updateOneById(id, { ordering: parseInt(ordering) });
     res.send({ data: ordering });
   } catch (error) {
     console.log("Error: ", error);
@@ -162,6 +173,10 @@ router.post(
     const errorsMsg = validateItems.validateItemsErros(req);
     let errorsNotify = Object.assign(errorsMsg.errors);
     let item = req.body;
+    item.slug = item.name
+      .toLowerCase()
+      .replace(/ /g, "-")
+      .replace(/[^\w-]+/g, "");
     if (!errorsMsg.isEmpty()) {
       console.log(errorsNotify);
       res.render("backend/pages/items/form", {
@@ -171,8 +186,8 @@ router.post(
         errorsNotify,
       });
     } else {
-      await itemService.create(item);
-      res.redirect("/admin/items/list");
+      await currentService.create(item);
+      res.redirect(`/admin/${currentModel.index}`);
     }
   }
 );
@@ -184,8 +199,12 @@ router.post(
   async (req, res, next) => {
     const errorsMsg = validateItems.validateItemsErros(req);
     let errorsNotify = Object.assign(errorsMsg.errors);
-    const { id, name, ordering, status } = req.body;
-    let item = { id, name, ordering, status };
+    // const { id, name, ordering, status, slug, imgURL } = req.body;
+    let item = req.body;
+    slug = item.name
+      .toLowerCase()
+      .replace(/ /g, "-")
+      .replace(/[^\w-]+/g, "");
     if (!errorsMsg.isEmpty()) {
       console.log(errorsNotify);
       res.render("backend/pages/items/form", {
@@ -195,12 +214,14 @@ router.post(
         errorsNotify,
       });
     } else {
-      await itemService.updateOneById(id, {
+      await currentService.updateOneById(id, {
         name: item.name,
         ordering: parseInt(item.ordering),
         status: item.status,
+        slug: item.slug,
+        imgURL: item.imgURL
       });
-      res.redirect("/admin/items/list");
+      res.redirect(`/admin/${currentModel.index}`);
     }
   }
 );

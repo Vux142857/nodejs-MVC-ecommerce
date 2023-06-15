@@ -4,6 +4,9 @@ add id to <td></td> +
 ajax status, ordering +
 pagination +
 notify +
+if search return notify -
+adjust notify delete +
+
 
 // Adjust FE
 add status effect +

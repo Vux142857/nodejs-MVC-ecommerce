@@ -13,12 +13,13 @@
                 <td id="<%= item.id %>">
                     <%= statusHelper("items",item.status, item.id) %>
                 </td>
+                <td><img src="<%= item.imgURL %>" /></td>
                 <td class="<%= item.id %>">
                     <input type="number" value="<%= item.ordering %>" class="text-center ordering"
                         onchange="changeOrdering('<%= item.id %>', this.value)">
                 </td>
                 <td><a href="form/<%= item.id %>" type="button" class="btn btn-warning btn-sm">Edit</a>
-                    <a href="delete/<%=item.id %>" type="button" class="btn btn-danger btn-sm btn-delete">Delete</a>
+                    <a data-id="<%=item.id %>" data-status="<%=currentStatus %>" type="button" class="btn btn-danger btn-sm btn-delete">Delete</a>
                 </td>
             </tr>
             <%})} %>

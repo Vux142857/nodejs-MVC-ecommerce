@@ -36,11 +36,6 @@ $(document).ready(function () {
             $(this).parents("tr").find('.ordering').removeAttr("name");
         }
     });
-    
-    // CONFIRM DELETE
-    $('a.btn-delete').on('click', () => {
-        if (!confirm("Are you sure you want to delete this item?")) return false;
-    });
 
     //active menu function
     function activeMenu() {

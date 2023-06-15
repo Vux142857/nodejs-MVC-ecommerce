@@ -30,8 +30,15 @@
   }
 ]; %>
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-        <% data.forEach(item => { %>
-          <li class="nav-item <%= item.class %>">
+        <% data.forEach(item => { 
+          let open = '';
+          if (currentPath == '/admin/items/list' || currentPath == '/admin/items/form'){
+              open ="menu-is-opening menu-open";
+          } else {
+            open = '';
+          }
+          %>
+          <li class="nav-item <%= item.class %> <%= open %>">
             <a href="<%= item.href %>" class="nav-link ">
               <i class="<%= item.icon %>"></i>
               <p>

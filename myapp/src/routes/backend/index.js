@@ -8,5 +8,6 @@ router.use((req, res, next) => {
 
 router.use("/", require("./dashboard"));
 router.use("/items", require("./items"));
+router.use("/demo", require("./demo"));
 
 module.exports = router;
