@@ -19,6 +19,18 @@ include ./../../helper/show-items %> <% include ./../../helper/pagination %>
                 >
                   <%= filterStatusHelper(statusFilter, keyword) %>
                 </div>
+                <div class="form-group">
+                  <label>Categories</label>
+                  <ul class="tag-list">
+                    <% category.forEach((item) => { %>
+                    <li>
+                      <a href="<%= item._id %>" 
+                        ><%= item.name %></a
+                      >
+                    </li>
+                    <% }) %>
+                  </ul>
+                </div>
                 <%= formSearch(currentStatus) %>
               </div>
             </div>
@@ -42,12 +54,11 @@ include ./../../helper/show-items %> <% include ./../../helper/pagination %>
                     </th>
                     <th>Name</th>
                     <th>Status</th>
-                    <th>Image</th>
                     <th>Ordering</th>
                     <th>Action</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody id="article-list">
                   <%= showItemsHelper(items, keyword) %>
                 </tbody>
               </table>

@@ -7,7 +7,7 @@ notify +
 if search return notify -
 adjust notify delete +
 add upload img -
-adjust get item -
+adjust get item +
 
 
 // Adjust FE
@@ -17,8 +17,9 @@ active sidebar +
 delete sidebar class +
 kéo hết include +
 add new +
-add category -
-add item-category -
+add category +
+add item-category +
+adjust FE category & article -
 
 // Knowledge
 '' ejs => định dạng kiểu dữ liệu

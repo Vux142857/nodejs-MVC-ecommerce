@@ -1,5 +1,5 @@
 <% include highlightHelper %>
-    <% showItemsHelper=(items, keyword)=> { %>
+    <% showItemsHelper=(items, keyword, collection)=> { %>
         <% items.forEach((item,index)=> { %>
             <tr>
                 <td>
@@ -13,7 +13,8 @@
                 <td id="<%= item.id %>">
                     <%= statusHelper("items",item.status, item.id) %>
                 </td>
-                <td><img src="<%= item.imgURL %>" /></td>
+                <% if (collection === "items"){ %>
+                <td><img src="<%= item.imgURL %>" /></td> <% } %>
                 <td class="<%= item.id %>">
                     <input type="number" value="<%= item.ordering %>" class="text-center ordering"
                         onchange="changeOrdering('<%= item.id %>', this.value)">

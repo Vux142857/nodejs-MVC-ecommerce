@@ -7,9 +7,13 @@ const articleSchema = mongoose.Schema(
       required: [true, "A category must have a name"],
       unique: true,
     },
-    parentID: {
-      type: String,
-    },
+    ordering: Number,
+    status: String,
+    category: [
+      {
+        id: String
+      }
+    ],
   },
   { timestamps: true }
 );

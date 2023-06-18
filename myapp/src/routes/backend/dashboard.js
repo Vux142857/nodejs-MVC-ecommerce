@@ -4,7 +4,7 @@ const router = express.Router();
 // router.use("/", indexRouter);
 
 router.get("/", (req, res, next) => {
-  console.log("dashboard");
+  // console.log("dashboard");
   res.render("backend/pages/dashboard/index", {
     title: "Dashboard",
   });

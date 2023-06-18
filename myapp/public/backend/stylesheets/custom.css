@@ -2,6 +2,36 @@ div.zcontrols {
     margin-bottom: 20px;
 }
 
+.tag-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.tag-list li {
+    margin-bottom: 5px;
+}
+
+.tag-toggle {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #eee;
+    color: #333;
+    text-decoration: none;
+}
+
+.sub-tags {
+    display: none;
+    padding-left: 20px;
+}
+
+.sub-tags li {
+    margin-bottom: 2px;
+}
+
+.sub-tags.open {
+    display: block;
+}
+
 .disabled {
     pointer-events: none;
     cursor: default;

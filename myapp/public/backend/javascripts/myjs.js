@@ -88,3 +88,10 @@ $("a.btn-delete").on("click", (event) => {
     }
   });
 });
+
+$(document).ready(function() {
+  $('.tag-toggle').click(function(e) {
+    e.preventDefault();
+    $(this).siblings('.sub-tags').toggleClass('open');
+  });
+});

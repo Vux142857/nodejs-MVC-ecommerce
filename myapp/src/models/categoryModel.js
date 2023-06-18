@@ -7,14 +7,11 @@ const categorySchema = mongoose.Schema(
       required: [true, "A category must have a name"],
       unique: true,
     },
-    ordering: {
-      type: Number,
-    },
-    status: {
-      type: String,
-    }
+    ordering: Number,
+    status: String,
+    slug: String
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Categories", categorySchema);
+module.exports = mongoose.model("Categorie", categorySchema);

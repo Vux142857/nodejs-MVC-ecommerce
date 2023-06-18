@@ -65,7 +65,6 @@ $(document).ready(function () {
         var optValue;
         var isDelete = false;
         var pattenCheckDelete = new RegExp("delete", "i");
-        console.log(form_selector);
         
         $(slb_selector).on("change", function () {
             optValue = $(this).val();
