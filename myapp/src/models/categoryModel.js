@@ -1,15 +1,20 @@
 const mongoose = require("mongoose");
-const categoryList = require("./category");
-const itemSchema = mongoose.Schema(
+
+const categorySchema = mongoose.Schema(
   {
     name: {
       type: String,
       required: [true, "A category must have a name"],
       unique: true,
     },
-    parentID: categoryList._id,
+    ordering: {
+      type: Number,
+    },
+    status: {
+      type: String,
+    }
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Itemcategory", itemSchema);
+module.exports = mongoose.model("Categories", categorySchema);

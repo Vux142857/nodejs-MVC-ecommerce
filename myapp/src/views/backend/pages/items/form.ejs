@@ -7,8 +7,7 @@
             <%= title %>
           </h3>
         </div>
-        <% let action=(currentId !=='' ) ? 'updated' : 'save' ;%>
-          <form action="/admin/items/<%= action %>" method="post">
+          <form action="/admin/items/save" method="post">
             <div class="card-body">
               <div class="form-group">
                 <label for="name">Name</label>

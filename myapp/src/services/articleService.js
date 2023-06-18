@@ -1,9 +1,9 @@
-const Item = require("../models/vd");
+const Item = require("../models/articleModel");
 
 exports.getAll = (params) => {
   try {
     return Item.find(params).sort({
-      createdAt: -1
+      createdAt: -1,
     });
   } catch (error) {
     console.log(error);
@@ -13,6 +13,15 @@ exports.getAll = (params) => {
 exports.getOne = async (id) => {
   try {
     const item = await Item.findById(id);
+    return item;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.findOne = async (params) => {
+  try {
+    const item = await Item.find(params);
     return item;
   } catch (error) {
     console.log(error);
@@ -57,7 +66,7 @@ exports.updateMany = async (conditions, params) => {
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 exports.deleteMany = async (conditions) => {
   try {
@@ -65,4 +74,4 @@ exports.deleteMany = async (conditions) => {
   } catch (error) {
     console.log(error);
   }
-}
+};

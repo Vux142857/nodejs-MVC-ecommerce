@@ -1,4 +1,4 @@
-const Item = require("../models/category");
+const Item = require("../models/categoryModel");
 
 exports.getAll = (params) => {
   try {
