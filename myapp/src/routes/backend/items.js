@@ -158,7 +158,6 @@ router.post(
           name: item.name,
           ordering: parseInt(item.ordering),
           status: item.status,
-          imgURL: item.imgURL,
         });
       } else {
         await mainService.create(item);

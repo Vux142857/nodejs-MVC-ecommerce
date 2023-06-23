@@ -25,4 +25,7 @@ adjust FE category & article -
 '' ejs => định dạng kiểu dữ liệu
 
 
-// 
+// Today
+complete all notify
+optmize code
+add multer
