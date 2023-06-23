@@ -11,11 +11,6 @@ exports.validateItemsQueries = [
     .withMessage("Ordering is required")
     .isInt({ gt: 0, lt: 1001 })
     .withMessage("Ordering must be 0 < and <= 1000"),
-  body("imgURL")
-    .notEmpty()
-    .withMessage("Image URL is required")
-    .isURL()
-    .withMessage("Invalid Image URL")
 ];
 
 exports.validateItemsErros = (req) => {

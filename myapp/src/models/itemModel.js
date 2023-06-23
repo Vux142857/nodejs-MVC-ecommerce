@@ -7,18 +7,10 @@ const itemSchema = mongoose.Schema(
       required: [true, "A item must have a name"],
       unique: true,
     },
-    ordering: {
-      type: Number,
-    },
-    status: {
-      type: String,
-    },
-    slug: {
-      type: String,
-    },
-    imgURL: {
-      type: String,
-    },
+    ordering: Number,
+    status: String,
+    slug: String,
+    img: String
   },
   { timestamps: true }
 );
