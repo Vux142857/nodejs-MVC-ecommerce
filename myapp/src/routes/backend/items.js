@@ -167,7 +167,6 @@ router.post(
           status: item.status,
         });
         req.flash("successMessage", "Item updated successfully");
-        console.log(123);
       } else {
         await mainService.create(item);
         req.flash("successMessage", "Item created successfully");

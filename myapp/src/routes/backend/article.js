@@ -202,8 +202,10 @@ router.post(
 
       if (item.id && typeof item.id !== "undefined") {
         await mainService.updateOneById(item.id, articleData);
+        req.flash("successMessage", "Item updated successfully");
       } else {
         await mainService.create(articleData);
+        req.flash("successMessage", "Item created successfully");
       }
       res.redirect(`/admin/${currentModel.index}`);
     }

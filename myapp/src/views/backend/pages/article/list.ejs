@@ -24,9 +24,7 @@ include ./../../helper/show-items %> <% include ./../../helper/pagination %>
                   <ul class="tag-list">
                     <% category.forEach((item) => { %>
                     <li>
-                      <a href="<%= item._id %>" 
-                        ><%= item.name %></a
-                      >
+                      <a href="<%= item._id %>"><%= item.name %></a>
                     </li>
                     <% }) %>
                   </ul>
@@ -71,3 +69,16 @@ include ./../../helper/show-items %> <% include ./../../helper/pagination %>
     </div>
   </div>
 </div>
+<!-- Notify-catch errors -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<% if (typeof messages.successMessage !== 'undefined' && messages.successMessage
+!== '') { messages.successMessage.forEach(element => { %>
+<button class="notify" onclick="generateNotify('<%= element%>')" hidden>
+  Click Me
+</button>
+<% });%> <% } %>
+<script>
+  $(function () {
+    $(".notify").click();
+  });
+</script>

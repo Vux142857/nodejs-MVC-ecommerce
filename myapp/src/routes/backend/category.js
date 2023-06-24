@@ -178,8 +178,10 @@ router.post(
           status: item.status,
           imgURL: item.imgURL,
         });
+        req.flash("successMessage", "Item updated successfully");
       } else {
         await mainService.create(item);
+        req.flash("successMessage", "Item created successfully");
       }
       res.redirect(`/admin/${currentModel.index}`);
     }
