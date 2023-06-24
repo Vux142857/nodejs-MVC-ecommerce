@@ -4,18 +4,36 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 // const logger = require("morgan");
-
 const expressLayouts = require("express-ejs-layouts");
 const mongoose = require("mongoose");
-
+const session = require("express-session");
+var flash = require("connect-flash");
 const app = express();
+
+// Session
+app.use(
+  session({
+    secret: "vux-142857",
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      maxAge: 5 * 60 * 1000,
+    }
+  })
+);
+
+// Flash
+app.use(flash());
+app.use(function (req, res, next) {
+  res.locals.messages = req.flash();
+  next();
+});
 
 // view engine setup
 app.set("views", path.join(__dirname, "src", "views"));
 app.set("view engine", "ejs");
 
 app.use(expressLayouts);
-
 mongoose
   .connect(process.env.DATABASE_URL)
   .then(() => console.log("Database connection successfully!"));

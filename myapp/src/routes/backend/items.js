@@ -24,14 +24,13 @@ router.get("/form(/:id)?", async (req, res, next) => {
     item,
     currentId,
     errorsNotify,
-    collection: currentModel.name
+    collection: currentModel.name,
   });
 });
 
 // Filter, show and find Items, Pagination
 router.get("(/list)?(/:status)?", async (req, res, next) => {
   const currentStatus = req.params.status || "all";
-
   // Find
   const keyword = utilGetParam.getParam(req.query, "search", "");
   const condition = currentStatus === "all" ? {} : { status: currentStatus };
@@ -42,7 +41,10 @@ router.get("(/list)?(/:status)?", async (req, res, next) => {
   }
 
   // Filter
-  const statusFilter = await utilStatusFilter.createFilterStatus(currentStatus, mainService);
+  const statusFilter = await utilStatusFilter.createFilterStatus(
+    currentStatus,
+    mainService
+  );
 
   // Pagination
   const pagination = {
@@ -54,7 +56,6 @@ router.get("(/list)?(/:status)?", async (req, res, next) => {
     .getAll(condition)
     .skip((pagination.currentPage - 1) * pagination.itemsPerPage)
     .limit(pagination.itemsPerPage);
-
   // Render
   res.render(`backend/pages/${currentModel.index}`, {
     title: "List items",
@@ -64,7 +65,7 @@ router.get("(/list)?(/:status)?", async (req, res, next) => {
     keyword,
     itemsPerPage: pagination.itemsPerPage,
     currentPage: pagination.currentPage,
-    collection: currentModel.name
+    collection: currentModel.name,
   });
 });
 
@@ -73,7 +74,10 @@ router.get("/change-status/:id/:status", async (req, res, next) => {
   const { id, status } = req.params;
   const newStatus = status === "active" ? "inactive" : "active";
   await mainService.updateOneById(id, { status: newStatus });
-  const recount = await utilStatusFilter.createFilterStatus(status, mainService);
+  const recount = await utilStatusFilter.createFilterStatus(
+    status,
+    mainService
+  );
   res.send({ newStatus, recount });
 });
 
@@ -81,7 +85,10 @@ router.get("/change-status/:id/:status", async (req, res, next) => {
 router.delete("/delete/:id/:status", async (req, res, next) => {
   const { id, status } = req.params;
   await mainService.delete(id);
-  const recount = await utilStatusFilter.createFilterStatus(status, mainService);
+  const recount = await utilStatusFilter.createFilterStatus(
+    status,
+    mainService
+  );
   res.send({ recount });
 });
 
@@ -159,8 +166,11 @@ router.post(
           ordering: parseInt(item.ordering),
           status: item.status,
         });
+        req.flash("successMessage", "Item updated successfully");
+        console.log(123);
       } else {
         await mainService.create(item);
+        req.flash("successMessage", "Item created successfully");
       }
       res.redirect(`/admin/${currentModel.index}`);
     }
