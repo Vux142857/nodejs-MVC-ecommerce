@@ -8,7 +8,7 @@
             <%= title %>
           </h3>
         </div>
-          <form action="/admin/<%= collection %>/save" method="post">
+          <form action="/admin/<%= collection %>/save" method="post" enctype="multipart/form-data">
             <div class="card-body">
               <div class="form-group">
                 <label for="name">Name</label>
@@ -41,11 +41,15 @@
                   </div>
                 <% }) %>
               </div>
-              
+              <div class="form-group">
+                <label for="thumb">Thumb</label>
+                <input class="form-control" type="file" name="thumb">
+              </div>
             </div>
 
             <div class="card-footer">
               <!-- <button type="submit" class="btn btn-default">Cancel</button> -->
+							<input name="thumb_old" value="<%= item.thumb %>" type="hidden"  />
               <input name="id" class="form-control" value="<%= item.id %>" hidden />
               <button type="submit" class="btn btn-primary float-right">
                 Submit

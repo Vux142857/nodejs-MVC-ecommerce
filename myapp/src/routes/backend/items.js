@@ -10,7 +10,6 @@ const mainService = currentModel.itemService; // Service
 const utilStatusFilter = require("../../utils/utilCreateStatus");
 const utilGetParam = require("../../utils/utilParam");
 const validateItems = require("../../validates/items");
-
 // ---------------------------------------------------------------GET
 
 // Get form edit or add
@@ -154,7 +153,7 @@ router.post(
     if (!errorsMsg.isEmpty()) {
       console.log(errorsNotify);
       res.render(`backend/pages/${currentModel.save}`, {
-        title: "Edit Item",
+        title: "Invalid input",
         item,
         currentId: utilGetParam.getParam(req.params, "id", ""),
         errorsNotify,

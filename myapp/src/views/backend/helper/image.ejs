@@ -1,0 +1,12 @@
+<% 
+    imageHelper = (folder, imageName, alt = "Image", className = "img-responsive img-avatar") => {
+
+        if(imageName == null){ 
+            imageName = 'no-avatar.png';
+        }
+        return `<img class="${className}" src="${folder + imageName}" alt="${alt}" />`;
+    }
+%>
+
+
+

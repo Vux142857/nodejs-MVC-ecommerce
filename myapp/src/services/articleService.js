@@ -19,15 +19,6 @@ exports.getOne = async (id) => {
   }
 };
 
-exports.findOne = async (params) => {
-  try {
-    const item = await Item.find(params);
-    return item;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 exports.create = (params) => {
   try {
     return Item.create(params);

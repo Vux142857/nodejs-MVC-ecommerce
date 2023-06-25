@@ -12,6 +12,8 @@ const subService = subModel.categoryService;
 const utilStatusFilter = require("../../utils/utilCreateStatus");
 const utilGetParam = require("../../utils/utilParam");
 const validateItems = require("../../validates/article");
+const utilUpload = require("../../utils/utilUpload.js");
+const uploadFileMiddleware = utilUpload.upload("thumb", "article");
 
 // ---------------------------------------------------------------GET
 
@@ -34,27 +36,39 @@ router.get("/form(/:id)?", async (req, res, next) => {
   });
 });
 
-// router.get("/:id", async (req, res, next) => {
-//   const category = await subService.getAll();
-
-//   let category_id = req.params.id;
-//   let items = await mainService.findOne({ "category.id": category_id });
-//   // res.send(items)
-// });
+// Filter category
+router.get("/filter-category(/:category_id)?", (req, res, next) => {
+  req.session.category_id = utilGetParam.getParam(
+    req.params,
+    "category_id",
+    ""
+  );
+  res.redirect(`/admin/${currentModel.index}`);
+});
 
 // Filter, show and find Items, Pagination
-router.get("(/:id)?(/list)?(/:status)?", async (req, res, next) => {
-  const currentStatus = req.params.status || "all";
+router.get("(/list)?(/:status)?", async (req, res, next) => {
+  const currentStatus = utilGetParam.getParam(req.params, "status", "all");
   const category = await subService.getAll();
-
+  const category_id = utilGetParam.getParam(req.session, "category_id", "");
   // Find
   const keyword = utilGetParam.getParam(req.query, "search", "");
-  const condition = currentStatus === "all" ? {} : { status: currentStatus };
+  let condition = currentStatus === "all" ? {} : { status: currentStatus };
   if (keyword) {
     condition.name = new RegExp(keyword, "ig");
   } else {
     delete condition.name;
   }
+
+  condition =
+    category_id !== ""
+      ? {
+          $and: [
+            { category: { $elemMatch: { $eq: category_id } } },
+            { status: currentStatus },
+          ],
+        }
+      : condition;
 
   // Filter
   const statusFilter = await utilStatusFilter.createFilterStatus(
@@ -68,14 +82,10 @@ router.get("(/:id)?(/list)?(/:status)?", async (req, res, next) => {
     itemsPerPage: 4,
   };
 
-  let category_id = req.params.id;
-  let items = (category_id)
-    ? await mainService
-        .findOne({ "category.id": category_id })
-    : await mainService
-        .getAll(condition)
-        .skip((pagination.currentPage - 1) * pagination.itemsPerPage)
-        .limit(pagination.itemsPerPage);
+  let items = await mainService
+    .getAll(condition)
+    .skip((pagination.currentPage - 1) * pagination.itemsPerPage)
+    .limit(pagination.itemsPerPage);
 
   // Render
   res.render(`backend/pages/${currentModel.index}`, {
@@ -88,6 +98,7 @@ router.get("(/:id)?(/list)?(/:status)?", async (req, res, next) => {
     currentPage: pagination.currentPage,
     collection: currentModel.name,
     category,
+    category_id,
   });
 });
 
@@ -164,92 +175,51 @@ router.post("/change-ordering/:id", async (req, res, next) => {
 // Create and Update items
 router.post(
   "/save",
+  uploadFileMiddleware,
   validateItems.validateItemsQueries,
   async (req, res, next) => {
     const errorsMsg = validateItems.validateItemsErros(req);
     const errorsNotify = Object.assign(errorsMsg.errors);
     const item = req.body;
-
+    let taskCurrent =
+      typeof item !== "undefined" && item.id !== "" ? "Edit" : "Add";
     if (!errorsMsg.isEmpty()) {
       console.log(errorsNotify);
+      if (typeof req.file != "undefined")
+        FileHelpers.remove("public/backend/upload/article/", req.file.filename);
       res.render(`backend/pages/${currentModel.save}`, {
-        title: `Edit ${currentModel.name}`,
+        title: `${taskCurrent} ${currentModel.name}`,
         item,
         currentId: utilGetParam.getParam(req.params, "id", ""),
         errorsNotify,
       });
     } else {
+      item.thumb =
+        typeof req.file == "undefined" ? item.thumb_old : req.file.filename;
       let data = [];
       if (Array.isArray(item.categories)) {
         item.categories.forEach((id) => {
-          let ids = { id };
-          data.push(ids);
+          data.push(id);
         });
       } else {
         let id = item.categories;
-        data.push({ id });
+        data.push(id);
       }
-      console.log(data);
-
       const articleData = {
         name: item.name,
         ordering: parseInt(item.ordering),
         status: item.status,
         category: data,
+        thumb: item.thumb
       };
-
-      console.log(articleData);
-
       if (item.id && typeof item.id !== "undefined") {
         await mainService.updateOneById(item.id, articleData);
-        req.flash("successMessage", "Item updated successfully");
       } else {
         await mainService.create(articleData);
-        req.flash("successMessage", "Item created successfully");
       }
       res.redirect(`/admin/${currentModel.index}`);
     }
   }
 );
 
-// router.post(
-//   "/save",
-//   validateItems.validateItemsQueries,
-//   async (req, res, next) => {
-//     const item = req.body;
-//     let data = await mainService.create(item);
-//     res.send({data});
-//   }
-// );
-
 module.exports = router;
-
-// const express = require("express");
-// const router = express.Router();
-
-// // Model Control
-// const containService = require("../../services/containService");
-// const currentModel = containService.modelControl.category;
-// const articleService = currentModel.articleService; // Service
-
-// router.get("/(/:limit)?(/:next)?", async (req, res, next) => {
-//   try {
-//     let limit = parseInt(req.query.limit);
-//     let next = parseInt(req.query.next);
-//     let data= await articleService.getAll().limit(limit).skip(next);
-//     res.send(data);
-//   } catch (error) {
-//     console.log("Error: ", error);
-//   }
-// });
-
-// router.post("/add", async (req, res, next) => {
-//   try {
-//     let item = req.body;
-//     let data = await articleService.create(item);
-//     res.send(data);
-//   } catch (error) {
-//     console.log("Error: ", error);
-//   }
-// });
-// module.exports = router;

@@ -95,3 +95,12 @@ $(document).ready(function() {
     $(this).siblings('.sub-tags').toggleClass('open');
   });
 });
+
+function submitCategoryForm() {
+  console.log(123);
+  const form = document.getElementById('categoryForm');
+  const selectedCategoryId = form.filter_category.value;
+  const url = `/admin/article/filter-category/${selectedCategoryId}`;
+  form.action = url;
+  form.submit();
+}

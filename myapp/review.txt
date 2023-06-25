@@ -4,11 +4,11 @@ add id to <td></td> +
 ajax status, ordering +
 pagination +
 notify +
-if search return notify -
+if search return notify +
 adjust notify delete +
-add upload img -
+add upload img +
 adjust get item +
-
+sort by category +
 
 // Adjust FE
 add status effect +
@@ -19,7 +19,7 @@ kéo hết include +
 add new +
 add category +
 add item-category +
-adjust FE category & article -
+adjust FE category & article +
 
 // Knowledge
 '' ejs => định dạng kiểu dữ liệu
@@ -27,5 +27,5 @@ adjust FE category & article -
 
 // Today
 complete all notify +
-optmize code
-add multer
+optmize code +
+add multer +
