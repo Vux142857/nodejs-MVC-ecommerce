@@ -89,18 +89,43 @@ $("a.btn-delete").on("click", (event) => {
   });
 });
 
-$(document).ready(function() {
-  $('.tag-toggle').click(function(e) {
+$(document).ready(function () {
+  $(".tag-toggle").click(function (e) {
     e.preventDefault();
-    $(this).siblings('.sub-tags').toggleClass('open');
+    $(this).siblings(".sub-tags").toggleClass("open");
   });
 });
 
 function submitCategoryForm() {
   console.log(123);
-  const form = document.getElementById('categoryForm');
+  const form = document.getElementById("categoryForm");
   const selectedCategoryId = form.filter_category.value;
   const url = `/admin/article/filter-category/${selectedCategoryId}`;
   form.action = url;
   form.submit();
 }
+
+const changeSpecial = (id, special) => {
+  let newLinkChangeSpecial = `change-special/${id}/${special}`;
+  $.ajax({
+    type: "get",
+    url: newLinkChangeSpecial,
+    dataType: "JSON",
+    success: function (response) {
+      // Change status
+      let newSpecial = response.newSpecial;
+      if (newSpecial != undefined && newSpecial != "") {
+        let specialClass =
+          newSpecial === "on"
+            ? "btn btn-block btn-info"
+            : "btn btn-block btn-danger";
+        $(`#${id}-special`).html(
+          `<a href="javascript:changeSpecial('${id}','${newSpecial}')" class="${specialClass}"><span>${newSpecial}</span></a>`
+        );
+        generateNotify("You have changed the special");
+      } else {
+        generateNotify("Failed to change the special");
+      }
+    },
+  });
+};

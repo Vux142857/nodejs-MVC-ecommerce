@@ -1,49 +1,20 @@
-<div class="container-fluid mt-5">
-  <div class="row">
-    <div class="col-md-6 mb-5">
-      <img
-        src="frontend/stylesheets/templates/store/images/others/travel.jpg"
-        alt="image"
-        class="mb-4"
-      />
-      <h4 class="mb-2">
-        <a href="#">Want to travel? Great Stuffs for Travel</a>
-      </h4>
-      <p class="mb-3">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo
-        doloremque eveniet dolorem, porro earum. Eius, corrupti provident iusto
-        modi sunt.
-      </p>
-      <a href="#" class="stretched-link btn p-0 fw-semibold"
-        ><u>View Details</u>
-        <i
-          class="icon-line-arrow-right position-relative ms-1"
-          style="top: 2px"
-        ></i
-      ></a>
-    </div>
-
-    <div class="col-md-6 mb-5">
-      <img src="frontend/stylesheets/templates/store/images/others/store.jpg" alt="image" class="mb-4" />
-      <h4 class="mb-2">Our Melbourne Store</h4>
-      <p class="mb-2">
-        Authoritatively deliver 2.0 niches vis-a-vis backward-compatible
-        infomediaries. Authoritatively actualize empowered e-tailers with just
-        in time.
-      </p>
-      <p class="mb-3">
-        <i class="icon-map-marker-alt"></i> <strong>Headquarters: </strong
-        ><a href="#" class="text-black-50 under btn-link">
-          795 Folsom Ave, Suite 600 San Francisco, CA 94107</a
-        >
-      </p>
-      <a href="#" class="btn p-0 fw-semibold"
-        ><u>Visit Our Store</u>
-        <i
-          class="icon-line-arrow-right position-relative ms-1"
-          style="top: 2px"
-        ></i
-      ></a>
-    </div>
-  </div>
+<% articleHelper = (itemSpecial) => { itemSpecial.forEach((item) => { %>
+<div class="col-md-6 mb-5">
+  <img
+    src="backend/upload/article/<%= item.thumb %>"
+    alt="image"
+    class="mb-4"
+  />
+  <h4 class="mb-2">
+    <a href="#"><%= item.name%></a>
+  </h4>
+  <p class="mb-3">
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo doloremque
+    eveniet dolorem, porro earum. Eius, corrupti provident iusto modi sunt.
+  </p>
+  <a href="#" class="stretched-link btn p-0 fw-semibold"
+    ><u>View Details</u>
+    <i class="icon-line-arrow-right position-relative ms-1" style="top: 2px"></i
+  ></a>
 </div>
+<% })} %>

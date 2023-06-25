@@ -10,6 +10,16 @@ exports.getAll = (params) => {
   }
 };
 
+exports.getSpecial = () => {
+  try {
+    return Item.find({ special: "on" }).limit(2).sort({
+      ordering: "asc",
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 exports.getOne = async (id) => {
   try {
     const item = await Item.findById(id);

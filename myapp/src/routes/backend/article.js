@@ -114,6 +114,14 @@ router.get("/change-status/:id/:status", async (req, res, next) => {
   res.send({ newStatus, recount });
 });
 
+// Change special single
+router.get("/change-special/:id/:special", async (req, res, next) => {
+  const { id, special } = req.params;
+  const newSpecial = special === "on" ? "off" : "on";
+  await mainService.updateOneById(id, { special: newSpecial });
+  res.send({ newSpecial });
+});
+
 // Delete single
 router.delete("/delete/:id/:status", async (req, res, next) => {
   const { id, status } = req.params;
@@ -139,23 +147,37 @@ router.post("/change-status/:status", async (req, res, next) => {
   res.redirect(`/admin/${currentModel.index}`);
 });
 
+// Change special multi
+router.post("/change-special/:special", async (req, res, next) => {
+  const currentSpecial = utilGetParam.getParam(req.params, "special", "on");
+  await mainService.updateMany(
+    { _id: { $in: req.body.cid } },
+    { special: currentSpecial }
+  );
+  res.redirect(`/admin/${currentModel.index}`);
+});
+
 // Delete multi
 router.post("/delete", async (req, res, next) => {
   const cids = req.body.cid;
   if (Array.isArray(cids)) {
     cids.forEach(async (element, index) => {
       let item = await mainService.getOne({ _id: element });
-      utilUpload.remove(currentModel.folderUpload, item.thumb);
+      if (item && item.thumb) {
+        utilUpload.remove(currentModel.folderUpload, item.thumb);
+      }
     });
   } else {
     let item = await mainService.getOne({ _id: element });
-    utilUpload.remove(currentModel.folderUpload, item.thumb);
+    if (item && item.thumb) {
+      utilUpload.remove(currentModel.folderUpload, item.thumb);
+    }
   }
   await mainService.deleteMany({ _id: { $in: cids } });
   res.redirect(`/admin/${currentModel.index}`);
 });
 
-// Change status multi
+// Change ordering multi
 router.post("/change-ordering", async (req, res, next) => {
   const cids = req.body.cid;
   const orderings = req.body.ordering;
@@ -208,7 +230,7 @@ router.post(
     } else {
       // Upload and Edit image
       if (typeof req.file == "undefined") {
-        item.thumb = item.thumb_old;
+        item.thumb = item.thumb_old == "" ? "no-img.jpg" : item.thumb_old;
       } else {
         item.thumb = req.file.filename;
         if (taskCurrent == "Edit") {
@@ -230,6 +252,7 @@ router.post(
         status: item.status,
         category: data,
         thumb: item.thumb,
+        special: item.special,
       };
       if (item.id && typeof item.id !== "undefined") {
         await mainService.updateOneById(item.id, articleData);

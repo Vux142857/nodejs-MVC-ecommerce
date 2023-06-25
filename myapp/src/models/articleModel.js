@@ -10,6 +10,7 @@ const articleSchema = mongoose.Schema(
     ordering: Number,
     status: String,
     thumb: String,
+    special: String,
     category: [String],
   },
   { timestamps: true }

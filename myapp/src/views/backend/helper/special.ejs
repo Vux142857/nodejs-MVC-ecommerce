@@ -1,0 +1,10 @@
+<% specialHelper=(collection, special, id)=> {
+    let specialClass = (special ==='on') ? "btn btn-block btn-info" : "btn btn-block btn-danger" ;
+    %>
+    
+    <a href="javascript:changeSpecial('<%= id %>','<%= special %>')" class="<%= specialClass %>">
+        <span class="label">
+            <%= special %>
+        </span>
+    </a>
+    <% } %>
