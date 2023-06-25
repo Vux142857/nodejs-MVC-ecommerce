@@ -1,12 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= (typeof title != "undefined" ? title : "") %></title>
+    <%- include('../elements/head') %>
   </head>
-  <body>
-    <%- body %>
+
+  <body class="stretched modal-subscribe-bottom">
+    <div id="wrapper" class="clearfix">
+      <!-- Modal -->
+      <div
+        class="modal animated fadeInUp fast pe-0"
+        id="modal-subscribe"
+        role="dialog"
+        displayed="false"
+        data-backdrop="static"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <button
+              type="button"
+              class="btn btn-close btn-sm ms-auto p-2"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+              aria-label="Close"
+            ></button>
+            <div class="modal-body">
+              <div
+                class="form-widget mx-auto"
+                data-loader="button"
+                style="padding: 30px"
+              >
+                <h2 class="fw-bold h1 mb-3" style="letter-spacing: -2px">
+                  Get Special Discount!
+                </h2>
+                <p>
+                  Subscribe to Our Newsletter to get Important News, Amazing
+                  Offers & Inside Scoops:
+                </p>
+
+                <div class="form-result"></div>
+
+                <form
+                  class="mb-0"
+                  id="modal-subscribe-form"
+                  action="include/form.php"
+                  method="post"
+                  enctype="multipart/form-data"
+                >
+                  <label for="modal-subscribe-form-email"
+                    >Email Address <span>*</span></label
+                  >
+                  <input
+                    type="email"
+                    name="modal-subscribe-form-email"
+                    id="modal-subscribe-form-email"
+                    class="form-control required rounded-0"
+                    placeholder="youremail@address.com"
+                  />
+
+                  <input
+                    class="d-none"
+                    type="text"
+                    id="modal-subscribe-form-botcheck"
+                    name="modal-subscribe-form-botcheck"
+                    value=""
+                  />
+                  <button
+                    name="modal-subscribe-form-submit"
+                    class="button w-100 btn-danger m-0 mt-2"
+                    type="submit"
+                  >
+                    Subscribe Now
+                  </button>
+
+                  <input
+                    type="hidden"
+                    name="prefix"
+                    value="modal-subscribe-form-"
+                  />
+                </form>
+                <div class="text-center">
+                  <small class="text-black-50 mt-1"
+                    ><em>We never send SPAM to your Email</em></small
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Header -->
+      <header
+        id="header"
+        class="dark transparent-header floating-header header-size-custom"
+        data-sticky-shrink="false"
+        data-sticky-class="not-dark"
+      >
+        <%- include('../elements/contentHeader') %>
+      </header>
+
+      <!-- Slider -->
+      <section
+        id="slider"
+        class="slider-element swiper_wrapper min-vh-100"
+        data-loop="true"
+        data-speed="1000"
+        data-autoplay="5000"
+      >
+        <%- include('../elements/slider') %>
+      </section>
+
+      <!-- Main content -->
+      <section id="content">><%- body %></section>
+
+      <!-- Main Footer -->
+      <footer id="footer" class="bg-color dark border-0">
+        <%- include('../elements/footer') %>
+      </footer>
+    </div>
+
+    <%- include('../elements/script') %>
   </body>
 </html>

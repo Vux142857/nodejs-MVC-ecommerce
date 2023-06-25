@@ -1,1 +1,95 @@
-<h1><%= (typeof title != "undefined" ? title : "") %></h1>
+<div class="content-wrap pb-0">
+
+    <!-- Login/Register Modal -->
+    <div class="modal-register mfp-hide" id="modal-register">
+        <%- include('../../elements/main/login-modal') %>
+    </div>
+
+    <div class="container-fluid">
+        <div class="mx-auto center bottommargin" style="max-width: 700px">
+            <h2>Fresh Collection of 2019</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto aspernatur repudiandae nobis earum voluptate id adipisci nostrum mollitia, ipsam, asperiores, soluta dolorem facere exercitationem laborum. Magni mollitia laudantium vel tempore.</p>
+        </div>
+    </div>
+
+    <!-- Feature -->
+    <%- include('../../elements/main/feature') %>
+    
+
+    <div class="clear"></div>
+
+    <!-- Contain items -->
+    <%- include('../../elements/main/contain-items') %>
+    
+    <!-- Articles -->
+    <%- include('../../elements/main/articles') %>
+
+    <div class="section mt-0 mb-0" style="padding: 80px 0">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3 col-sm-6">
+                    <h4 class="text-uppercase">Shipping Worldwide</h4>
+                    <p>Minimum $999 for free Shipping. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio sequi natus eveniet, dicta magni! Modi nihil quis quos at mollitia.</p>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <h4 class="text-uppercase">Free Returns</h4>
+                    <p class="h6 fw-bold">Within 30 days Guarantee</p>
+                    <p>Synergistically repurpose ethical value and backend paradigms. Holisticly architect effective expertise for installed base e-markets.</p>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <h4 class="text-uppercase">Customer Service</h4>
+                    <p>Odio sequi natus eveniet, dicta magni! Modi nihil quis quos at mollitia.</p>
+                    <abbr title="Phone Number"><strong>Phone:</strong></abbr> (+0) 9876 543211<br>
+                    <abbr title="Fax"><strong>Fax:</strong></abbr> (+0) 11 2222 3333<br>
+                    <abbr title="Email Address"><strong>Email:</strong></abbr> noreply@canvas.com<br>
+
+                    <a href="#" class="social-icon si-small si-light si-rounded si-facebook mt-4 me-2">
+                        <i class="icon-facebook"></i>
+                        <i class="icon-facebook"></i>
+                    </a>
+                    <a href="#" class="social-icon si-small si-light si-rounded si-instagram mt-4 me-2">
+                        <i class="icon-instagram"></i>
+                        <i class="icon-instagram"></i>
+                    </a>
+                    <a href="#" class="social-icon si-small si-light si-rounded si-youtube mt-4 me-2">
+                        <i class="icon-youtube"></i>
+                        <i class="icon-youtube"></i>
+                    </a>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <h4 class="text-uppercase">Our Stores</h4>
+                    <address>
+                        <strong>Melbourne Store:</strong><br>
+                        795 Folsom Ave, Suite 600<br>
+                        San Francisco, CA 94107<br>
+                    </address>
+
+                    <address class="mb-3">
+                        <strong>Sydney Store:</strong><br>
+                        795 Folsom Ave, Suite 600<br>
+                        San Francisco, CA 94107<br>
+                    </address>
+                    <abbr title="Time"><strong>Timing:</strong></abbr> Every day: 10am – 7pm<br>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section bg-transparent py-3">
+        <div class="container-fluid">
+            <div class="row justify-content-center m-auto" style="max-width: 1000px;">
+                <div class="col-md-7">
+                    <p class="h6 mb-0 text-muted">Conveniently network effective total linkage via intermandated opportunities. Distinctively <a href="mailto:noreply@canvas.com"><u>noreply@canvas.com</u></a> premium products.</p>
+                </div>
+                <div class="col-md-5 mt-3 mt-md-0">
+                    <h2 class="h1 fw-bold ls--1 color"><a href="tel:09876543211">(+0) 9876 543210</a></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="instagram-button position-relative">
+        <div id="instagram-photos" class="instagram-photos masonry-thumbs grid-8" data-user="5834720953" data-count="8" data-type="user" data-resolution="low_resolution"></div>
+    </div>
+
+</div>
