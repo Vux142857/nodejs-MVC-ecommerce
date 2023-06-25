@@ -12,8 +12,10 @@
     </div>
   </td>
   <td><%- highlightHelper(item.name, keyword) %></td>
+  <% if (collection == "article") { %>
+  <td><%- imageHelper("backend/upload/article/", item.thumb, item.name) %></td>
+  <%} %>
   <td id="<%= item.id %>"><%= statusHelper("items",item.status, item.id) %></td>
-  <td></td>
   <td class="<%= item.id %>">
     <input
       type="number"

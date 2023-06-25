@@ -117,6 +117,8 @@ router.get("/change-status/:id/:status", async (req, res, next) => {
 // Delete single
 router.delete("/delete/:id/:status", async (req, res, next) => {
   const { id, status } = req.params;
+  let item = await mainService.getOne(id);
+  utilUpload.remove(currentModel.folderUpload, item.thumb);
   await mainService.delete(id);
   const recount = await utilStatusFilter.createFilterStatus(
     status,
@@ -139,7 +141,17 @@ router.post("/change-status/:status", async (req, res, next) => {
 
 // Delete multi
 router.post("/delete", async (req, res, next) => {
-  await mainService.deleteMany({ _id: { $in: req.body.cid } });
+  const cids = req.body.cid;
+  if (Array.isArray(cids)) {
+    cids.forEach(async (element, index) => {
+      let item = await mainService.getOne({ _id: element });
+      utilUpload.remove(currentModel.folderUpload, item.thumb);
+    });
+  } else {
+    let item = await mainService.getOne({ _id: element });
+    utilUpload.remove(currentModel.folderUpload, item.thumb);
+  }
+  await mainService.deleteMany({ _id: { $in: cids } });
   res.redirect(`/admin/${currentModel.index}`);
 });
 
@@ -178,7 +190,7 @@ router.post(
   uploadFileMiddleware,
   validateItems.validateItemsQueries,
   async (req, res, next) => {
-    const errorsMsg = validateItems.validateItemsErros(req);
+    const errorsMsg = validateItems.validateItemsErros(req); // Handle errors
     const errorsNotify = Object.assign(errorsMsg.errors);
     const item = req.body;
     let taskCurrent =
@@ -194,8 +206,15 @@ router.post(
         errorsNotify,
       });
     } else {
-      item.thumb =
-        typeof req.file == "undefined" ? item.thumb_old : req.file.filename;
+      // Upload and Edit image
+      if (typeof req.file == "undefined") {
+        item.thumb = item.thumb_old;
+      } else {
+        item.thumb = req.file.filename;
+        if (taskCurrent == "Edit") {
+          utilUpload.remove(currentModel.folderUpload, item.thumb_old);
+        }
+      }
       let data = [];
       if (Array.isArray(item.categories)) {
         item.categories.forEach((id) => {
@@ -210,7 +229,7 @@ router.post(
         ordering: parseInt(item.ordering),
         status: item.status,
         category: data,
-        thumb: item.thumb
+        thumb: item.thumb,
       };
       if (item.id && typeof item.id !== "undefined") {
         await mainService.updateOneById(item.id, articleData);

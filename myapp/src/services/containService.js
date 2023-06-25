@@ -20,5 +20,6 @@ exports.modelControl = {
     name: "article",
     index: "article/list",
     save: "article/form",
+    folderUpload: "backend/upload/article"
   },
 };

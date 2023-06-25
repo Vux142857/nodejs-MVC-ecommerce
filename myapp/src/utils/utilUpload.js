@@ -1,7 +1,7 @@
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
-var appRoot = require('app-root-path');
+var appRoot = require("app-root-path");
 
 const uploadFile = (
   field,
@@ -43,7 +43,7 @@ const uploadFile = (
 
 const removeFile = (folder, fileName) => {
   if (fileName !== "" && typeof fileName !== "undefined") {
-    const filePath = path.join(folder, fileName);
+    const filePath = path.join(appRoot.path, "public", folder, fileName);
     if (fs.existsSync(filePath)) {
       fs.unlink(filePath, (err) => {
         if (err) throw err;

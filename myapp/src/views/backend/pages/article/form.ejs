@@ -1,4 +1,5 @@
 <% include ./../../helper/select-box %>
+<% include ./../../helper/image %>
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-8 mx-auto">
@@ -45,6 +46,12 @@
                 <label for="thumb">Thumb</label>
                 <input class="form-control" type="file" name="thumb">
               </div>
+              <% if(item.id !== undefined && item.id !== ''){ %>
+								<div class="form-group">
+									<label></label>
+									<%- imageHelper("backend/upload/article/", item.thumb, item.name, 'img-avatar-form'); %>
+								</div>
+							<%}%>
             </div>
 
             <div class="card-footer">
