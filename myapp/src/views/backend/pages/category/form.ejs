@@ -29,7 +29,7 @@
                 <input type="number" name="ordering" class="form-control" id="ordering" placeholder="Enter ordering"
                   value="<%= item.ordering %>" required />
               </div>
-              <div>
+              <div class="form-group">
                 <% if (item.slug !== '' && typeof item.slug !== 'undefined') { %>
                   <label for="name">Slug</label>
                   <input type="name" name="slug" class="form-control" id="slug" value="<%= item.slug %>"/>

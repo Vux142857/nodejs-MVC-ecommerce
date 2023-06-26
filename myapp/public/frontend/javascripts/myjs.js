@@ -1,106 +1,44 @@
-const changeStatus = (id, status) => {
-  let newLinkChangeStatus = `change-status/${id}/${status}`;
+const changeCategory = (id) => {
+  let newLinkChangeCategory = `category/${id}`;
   $.ajax({
     type: "get",
-    url: newLinkChangeStatus,
-    dataType: "JSON",
+    url: newLinkChangeCategory,
+    dataType: "json", // Updated to lowercase "json"
     success: function (response) {
-      // Change status
-      let newStatus = response.newStatus;
-      if (newStatus != undefined && newStatus != "") {
-        let statusClass =
-          newStatus === "active"
-            ? "btn btn-block btn-info"
-            : "btn btn-block btn-danger";
-        $(`#${id}`).html(
-          `<a href="javascript:changeStatus('${id}','${newStatus}')" class="${statusClass}"><span>${newStatus}</span></a>`
-        );
-
-        // Recount status
-        let statusFilter = response.recount;
-        if (statusFilter != undefined) {
-          statusFilter.forEach((filter) => {
-            $(`#${filter.value}`).html(`${filter.name} (${filter.count})`);
-          });
+      let item = response;
+      if (item) {
+        let html = "";
+        try {
+          if (Array.isArray(item)) {
+            item.forEach((element) => {
+              html += `<div class="col-md-6 mb-5">
+              <img
+                src="backend/upload/article/${element.thumb}"
+                alt="image"
+                class="mb-4"
+              />
+              <h4 class="mb-2">
+                <a href="#">${element.name}</a>
+              </h4>
+              <p class="mb-3">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo doloremque
+                eveniet dolorem, porro earum. Eius, corrupti provident iusto modi sunt.
+              </p>
+              <a href="#" class="stretched-link btn p-0 fw-semibold"
+                ><u>View Details</u>
+                <i class="icon-line-arrow-right position-relative ms-1" style="top: 2px"></i
+              ></a>
+            </div>`;
+            });
+          }
+        } catch (error) {
+          console.log(error);
         }
-        generateNotify("You have changed the status");
+        console.log(html);
+        $("#articleControl").html(html); // Removed unnecessary "${}" from the html variable
       } else {
-        generateNotify("Failed to change the status");
+        console.log("Error :((");
       }
     },
   });
 };
-
-const changeOrdering = (id, ordering) => {
-  let newLinkChangeStatus = `change-ordering/${id}`;
-  try {
-    $.ajax({
-      type: "post",
-      url: newLinkChangeStatus,
-      data: { ordering: ordering },
-      dataType: "JSON",
-      success: function (response) {},
-    });
-    generateNotify("You have changed the ordering");
-  } catch (error) {
-    generateNotify("Failed to change the ordering");
-  }
-};
-
-const generateNotify = (notify) => {
-  return Toastify({
-    text: notify,
-    duration: 3000,
-  }).showToast();
-};
-
-$("a.btn-delete").on("click", (event) => {
-  event.preventDefault();
-  return Swal.fire({
-    title: "Are you sure?",
-    text: "You won't be able to revert this!",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: "Yes, delete it!",
-  }).then((result) => {
-    if (result.isConfirmed) {
-      const deleteButton = $(event.target);
-      const itemId = deleteButton.data("id");
-      const itemStatus = deleteButton.data("status");
-      $.ajax({
-        type: "DELETE",
-        url: `delete/${itemId}/${itemStatus}`,
-        success: function (response) {
-          Swal.fire("Deleted!", "Your file has been deleted.", "success");
-          deleteButton.closest("tr").remove();
-          // Recount status
-          let statusFilter = response.recount;
-          if (statusFilter != undefined) {
-            statusFilter.forEach((filter) => {
-              $(`#${filter.value}`).html(`${filter.name} (${filter.count})`);
-            });
-          }
-        },
-        error: function (error) {
-          Swal.fire("Error", "Failed to delete the item.", "error");
-        },
-      });
-    }
-  });
-});
-
-$(document).ready(function() {
-  $('.tag-toggle').click(function(e) {
-    e.preventDefault();
-    $(this).siblings('.sub-tags').toggleClass('open');
-  });
-});
-
-function submitCategoryForm() {
-  console.log(123);
-  const form = document.getElementById('categoryForm');
-  const selectedCategoryId = form.filter_category.value;
-  const url = `/admin/article/filter-category/${selectedCategoryId}`;
-  form.action = url;
-  form.submit();
-}

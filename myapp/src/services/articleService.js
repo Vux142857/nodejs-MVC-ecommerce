@@ -12,7 +12,7 @@ exports.getAll = (params) => {
 
 exports.getSpecial = () => {
   try {
-    return Item.find({ special: "on" }).limit(2).sort({
+    return Item.find({ special: "on", status: "active" }).limit(2).sort({
       ordering: "asc",
     });
   } catch (error) {

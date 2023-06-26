@@ -1,5 +1,12 @@
 const mongoose = require("mongoose");
 
+const generateSlug = function (name) {
+  return name
+    .toLowerCase()
+    .replace(/ /g, "-")
+    .replace(/[^\w-]+/g, "");
+};
+
 const categorySchema = mongoose.Schema(
   {
     name: {
@@ -9,7 +16,12 @@ const categorySchema = mongoose.Schema(
     },
     ordering: Number,
     status: String,
-    slug: String
+    slug: {
+      type: String,
+      default: function () {
+        return generateSlug(this.name);
+      },
+    },
   },
   { timestamps: true }
 );

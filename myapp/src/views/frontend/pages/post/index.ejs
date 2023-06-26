@@ -1,0 +1,26 @@
+<!-- Page Title
+		============================================= -->
+<section
+  id="page-title"
+  class="page-title-parallax page-title-dark page-title-center"
+  style="
+    background-image: url('backend/upload/article/<%= item.thumb %>');
+    background-size: cover;
+    padding: 170px 0 100px;
+  "
+  data-bottom-top="background-position: 50% 200px;"
+  data-top-bottom="background-position: 50% -200px;"
+>
+  <div class="container clearfix">
+    <h1><%= item.name %></h1>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <!-- <li class="breadcrumb-item"><a href="#">Men</a></li>
+      <li class="breadcrumb-item"><a href="#">Acessories</a></li> -->
+      <li class="breadcrumb-item active" aria-current="page">
+        <%= item.name %>
+      </li>
+    </ol>
+  </div>
+</section>
+<!-- #page-title end -->

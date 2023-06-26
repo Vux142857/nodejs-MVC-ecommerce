@@ -11,6 +11,7 @@ const articleSchema = mongoose.Schema(
     status: String,
     thumb: String,
     special: String,
+    slug: String,
     category: [String],
   },
   { timestamps: true }

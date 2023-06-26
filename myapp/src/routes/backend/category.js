@@ -75,11 +75,6 @@ router.get("(/list)?(/:status)?", async (req, res, next) => {
   });
 });
 
-// router.get("/", async (req, res, next) => {
-//   let data = await mainService.getAll();
-//   res.send(data);
-// });
-
 // Change status single
 router.get("/change-status/:id/:status", async (req, res, next) => {
   const { id, status } = req.params;
@@ -158,10 +153,6 @@ router.post(
     const errorsMsg = validateItems.validateItemsErros(req);
     const errorsNotify = Object.assign(errorsMsg.errors);
     const item = req.body;
-    item.slug = item.name
-      .toLowerCase()
-      .replace(/ /g, "-")
-      .replace(/[^\w-]+/g, "");
     if (!errorsMsg.isEmpty()) {
       console.log(errorsNotify);
       res.render(`backend/pages/${currentModel.save}`, {

@@ -97,7 +97,6 @@ $(document).ready(function () {
 });
 
 function submitCategoryForm() {
-  console.log(123);
   const form = document.getElementById("categoryForm");
   const selectedCategoryId = form.filter_category.value;
   const url = `/admin/article/filter-category/${selectedCategoryId}`;
@@ -125,6 +124,45 @@ const changeSpecial = (id, special) => {
         generateNotify("You have changed the special");
       } else {
         generateNotify("Failed to change the special");
+      }
+    },
+  });
+};
+
+const changeCategory = (id) => {
+  let newLinkChangeCategory = `category/${id}`;
+  $.ajax({
+    type: "get",
+    url: newLinkChangeCategory,
+    dataType: "JSON",
+    success: function (response) {
+      // Change category
+      let item = response.item;
+      if (item != undefined && item != "") {
+        let html = "";
+        item.forEach((element) => {
+          html += `<div class="col-md-6 mb-5">
+          <img
+            src="backend/upload/article/${element.thumb}"
+            alt="image"
+            class="mb-4"
+          />
+          <h4 class="mb-2">
+            <a href="#">${element.name}</a>
+          </h4>
+          <p class="mb-3">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo doloremque
+            eveniet dolorem, porro earum. Eius, corrupti provident iusto modi sunt.
+          </p>
+          <a href="#" class="stretched-link btn p-0 fw-semibold"
+            ><u>View Details</u>
+            <i class="icon-line-arrow-right position-relative ms-1" style="top: 2px"></i
+          ></a>
+        </div>`;
+        });
+        $("#articleControl").html(`${html}`);
+      } else {
+        console.log("Error :((");
       }
     },
   });

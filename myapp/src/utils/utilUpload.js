@@ -7,7 +7,7 @@ const uploadFile = (
   field,
   folderDes = "users",
   fileSizeMb = 3,
-  fileExtension = "jpeg|jpg|png|gif"
+  fileExtension = "jpeg|jpg|png|gif|jfif"
 ) => {
   const storage = multer.diskStorage({
     destination: (req, file, cb) => {

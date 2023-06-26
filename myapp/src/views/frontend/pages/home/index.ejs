@@ -5,18 +5,6 @@
     <%- include('../../elements/main/login-modal') %>
   </div>
 
-  <div class="container-fluid">
-    <div class="mx-auto center bottommargin" style="max-width: 700px">
-      <h2>Fresh Collection of 2019</h2>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto
-        aspernatur repudiandae nobis earum voluptate id adipisci nostrum
-        mollitia, ipsam, asperiores, soluta dolorem facere exercitationem
-        laborum. Magni mollitia laudantium vel tempore.
-      </p>
-    </div>
-  </div>
-
   <!-- Feature -->
   <%- include('../../elements/main/feature') %>
 
@@ -27,7 +15,20 @@
 
   <!-- Articles -->
   <div class="container-fluid mt-5">
-    <div class="row"><%= articleHelper(itemSpecial) %></div>
+    <div class="row">
+      <div class="col-md-12">
+        <ul class="nav nav-pills mb-4">
+          <% category.forEach((cat) => { %>
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:changeCategory('<%= cat._id %>')"
+              ><%= cat.name %></a
+            >
+          </li>
+          <% }) %>
+        </ul>
+      </div>
+    </div>
+    <div class="row" id="articleControl"><%= articleHelper(itemSpecial) %></div>
   </div>
   <%- include('../../elements/main/promote') %>
 </div>

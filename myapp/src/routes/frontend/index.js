@@ -6,6 +6,7 @@ router.use((req, res, next) => {
   next();
 });
 
-router.get("/", require("./home"));
+router.use("/", require("./home"));
+router.use("/post", require("./post"));
 
 module.exports = router;

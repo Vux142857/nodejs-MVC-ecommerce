@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const Parser = require("rss-parser");
 
 // Model Control
 const containService = require("../../services/containService");
@@ -14,6 +15,7 @@ const utilGetParam = require("../../utils/utilParam");
 const validateItems = require("../../validates/article");
 const utilUpload = require("../../utils/utilUpload.js");
 const uploadFileMiddleware = utilUpload.upload("thumb", "article");
+const parser = new Parser();
 
 // ---------------------------------------------------------------GET
 
@@ -36,16 +38,6 @@ router.get("/form(/:id)?", async (req, res, next) => {
   });
 });
 
-// Filter category
-router.get("/filter-category(/:category_id)?", (req, res, next) => {
-  req.session.category_id = utilGetParam.getParam(
-    req.params,
-    "category_id",
-    ""
-  );
-  res.redirect(`/admin/${currentModel.index}`);
-});
-
 // Filter, show and find Items, Pagination
 router.get("(/list)?(/:status)?", async (req, res, next) => {
   const currentStatus = utilGetParam.getParam(req.params, "status", "all");
@@ -63,7 +55,7 @@ router.get("(/list)?(/:status)?", async (req, res, next) => {
   condition =
     category_id !== ""
       ? {
-          $and: [
+          $or: [
             { category: { $elemMatch: { $eq: category_id } } },
             { status: currentStatus },
           ],
@@ -215,6 +207,10 @@ router.post(
     const errorsMsg = validateItems.validateItemsErros(req); // Handle errors
     const errorsNotify = Object.assign(errorsMsg.errors);
     const item = req.body;
+    item.slug = item.name
+      .toLowerCase()
+      .replace(/ /g, "-")
+      .replace(/[^\w-]+/g, "");
     let taskCurrent =
       typeof item !== "undefined" && item.id !== "" ? "Edit" : "Add";
     if (!errorsMsg.isEmpty()) {
@@ -253,15 +249,28 @@ router.post(
         category: data,
         thumb: item.thumb,
         special: item.special,
+        slug: item.slug,
       };
       if (item.id && typeof item.id !== "undefined") {
         await mainService.updateOneById(item.id, articleData);
+        req.flash("successMessage", "Item updated successfully");
       } else {
         await mainService.create(articleData);
+        req.flash("successMessage", "Item created successfully");
       }
       res.redirect(`/admin/${currentModel.index}`);
     }
   }
 );
+
+// Filter category
+router.get("/filter-category(/:category_id)?", (req, res, next) => {
+  req.session.category_id = utilGetParam.getParam(
+    req.params,
+    "category_id",
+    ""
+  );
+  res.redirect(`/admin/${currentModel.index}`);
+});
 
 module.exports = router;
