@@ -2,7 +2,7 @@ const itemService = require("./itemService");
 const categoryService = require("./categoryService");
 const articleService = require("./articleService");
 const emailService = require("./emailService");
-
+const settingService = require("./settingService");
 exports.modelControl = {
   item: {
     itemService,
@@ -28,5 +28,11 @@ exports.modelControl = {
     name: "email",
     index: "email/list",
     save: "email/form",
+  },
+  setting: {
+    settingService,
+    name: "setting",
+    index: "setting",
+    save: "setting/form",
   },
 };

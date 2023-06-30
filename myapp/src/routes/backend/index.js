@@ -11,5 +11,6 @@ router.use("/items", require("./items"));
 router.use("/category", require("./category"));
 router.use("/article", require("./article"));
 router.use("/email", require("./email"));
+router.use("/setting", require("./setting"));
 
 module.exports = router;

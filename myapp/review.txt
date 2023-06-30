@@ -41,20 +41,21 @@ add category +
 add item-category +
 adjust FE category & article +
 
-Setting: 
-         + FE {
-            logo,
-            add product,
-            amount of product,
-            list's customer
-            image product,
-            contact {
-                email,
-                phone,
-                address
-                facebook link
+Setting: {
+         logo {
+            image,
+         },
+          contact {
+                email String,
+                phone Number,
+                facebook link,
+                address: []
+            },
+            privacy {
+                copyright: String
+                doc: String
             }
-         }
+        }
 
 Setting: {
     "setting": "[]"

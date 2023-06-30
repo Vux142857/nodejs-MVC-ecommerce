@@ -1,3 +1,4 @@
+<% promoComponent=(data)=> { %>
 <div class="section mt-0 mb-0" style="padding: 80px 0">
   <div class="container-fluid">
     <div class="row">
@@ -23,46 +24,24 @@
           Odio sequi natus eveniet, dicta magni! Modi nihil quis quos at
           mollitia.
         </p>
-        <abbr title="Phone Number"><strong>Phone:</strong></abbr> (+0) 9876
-        543211<br />
-        <abbr title="Fax"><strong>Fax:</strong></abbr> (+0) 11 2222 3333<br />
+        <abbr title="Phone Number"><strong>Phone:</strong></abbr> <%=
+        data.contact.phone %><br />
         <abbr title="Email Address"><strong>Email:</strong></abbr>
-        noreply@canvas.com<br />
+        <%= data.contact.email %><br />
 
         <a
-          href="#"
+          href="<%= data.contact.facebook %>"
           class="social-icon si-small si-light si-rounded si-facebook mt-4 me-2"
         >
           <i class="icon-facebook"></i>
           <i class="icon-facebook"></i>
         </a>
-        <a
-          href="#"
-          class="social-icon si-small si-light si-rounded si-instagram mt-4 me-2"
-        >
-          <i class="icon-instagram"></i>
-          <i class="icon-instagram"></i>
-        </a>
-        <a
-          href="#"
-          class="social-icon si-small si-light si-rounded si-youtube mt-4 me-2"
-        >
-          <i class="icon-youtube"></i>
-          <i class="icon-youtube"></i>
-        </a>
       </div>
       <div class="col-md-3 col-sm-6">
         <h4 class="text-uppercase">Our Stores</h4>
-        <address>
-          <strong>Melbourne Store:</strong><br />
-          795 Folsom Ave, Suite 600<br />
-          San Francisco, CA 94107<br />
-        </address>
-
         <address class="mb-3">
           <strong>Sydney Store:</strong><br />
-          795 Folsom Ave, Suite 600<br />
-          San Francisco, CA 94107<br />
+          <%= data.contact.address %><br />
         </address>
         <abbr title="Time"><strong>Timing:</strong></abbr> Every day: 10am –
         7pm<br />
@@ -78,16 +57,18 @@
         <p class="h6 mb-0 text-muted">
           Conveniently network effective total linkage via intermandated
           opportunities. Distinctively
-          <a href="mailto:noreply@canvas.com"><u>noreply@canvas.com</u></a> 
+          <a href="mailto:noreply@canvas.com"
+            ><u><%= data.contact.email %></u></a
+          >
           premium products.
         </p>
       </div>
       <div class="col-md-5 mt-3 mt-md-0">
         <h2 class="h1 fw-bold ls--1 color">
-          <a href="tel:09876543211">(+0) 9876 543210</a>
+          <a href="tel:09876543211"><%= data.contact.phone %></a>
         </h2>
       </div>
     </div>
   </div>
 </div>
-
+<% } %>

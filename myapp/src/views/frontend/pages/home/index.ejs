@@ -1,59 +1,89 @@
-<% include ../../elements/main/articles %>
-  <div class="content-wrap pb-0">
-    <!-- Login/Register Modal -->
-    <div class="modal-register mfp-hide" id="modal-register">
-      <%- include('../../elements/main/login-modal') %>
-    </div>
+<% include ../../elements/main/articles %> <% include ../../elements/main/promo %>
 
-    <!-- Feature -->
-    <%- include('../../elements/main/feature') %>
-
-      <div class="clear"></div>
-
-      <!-- Contain items -->
-      <%- include('../../elements/main/contain-items') %>
-
-        <!-- Articles -->
-        <div class="container-fluid mt-5">
-          <div class="row">
-            <div class="col-md-12">
-              <ul class="nav nav-pills mb-4">
-                <% category.forEach((cat)=> { %>
-                  <li class="nav-item">
-                    <a class="nav-link" href="javascript:changeCategory('<%= cat._id %>')">
-                      <%= cat.name %>
-                    </a>
-                  </li>
-                  <% }) %>
-              </ul>
-            </div>
-          </div>
-          <div class="row" id="articleControl">
-            <%= articleHelper(itemSpecial) %>
-          </div>
-        </div>
-        <div class="section m-0 border-0" style="padding: 120px 0;">
-          <div class="video-wrap" style="z-index: 0">
-            <video poster="one-page/images/page/portrait/video-poster.jpg" preload="auto" loop autoplay muted>
-              <source src='one-page/images/page/portrait/video.mp4' type='video/mp4' />
-            </video>
-            <div class="video-overlay" style="background: rgba(0,0,0,0.2)"></div>
-          </div>
-          <div class="emphasis-title widget subscribe-widget mx-auto center px-4" data-loader="button"
-            style="max-width: 650px">
-            <h2 class="fw-bold text-white">Subscribe Now</h2>
-            <p class="mb-5 text-white-50 lead" data-delay="100">Subscribe to Our Newsletter to get Important News,
-              Amazing Offers & Inside Scoops:</p>
-            <div class="widget-subscribe-form-result"></div>
-            <form id="widget-subscribe-form-2" action="/subscribe" method="post"
-              class="mt-1 input-group input-group-lg mb-0">
-              <input type="email" id="widget-subscribe-form-2-email" name="email"
-                class="form-control required email rounded-0 border-0" placeholder="Enter your Email Address">
-
-              <button class="btn btn-dark bg-color rounded-0 text-uppercase fw-bold" type="submit"
-                style="font-size: 16px">Subscribe Now</button>
-            </form>
-          </div>
-        </div>
-        <%- include('../../elements/main/promo') %>
+<div class="content-wrap pb-0">
+  <!-- Login/Register Modal -->
+  <div class="modal-register mfp-hide" id="modal-register">
+    <%- include('../../elements/main/login-modal') %>
   </div>
+
+  <!-- Feature -->
+  <%- include('../../elements/main/feature') %>
+
+  <div class="clear"></div>
+
+  <!-- Contain items -->
+  <%- include('../../elements/main/contain-items') %>
+
+  <!-- Articles -->
+  <div class="container-fluid mt-5">
+    <div class="row">
+      <div class="col-md-12">
+        <ul class="nav nav-pills mb-4">
+          <% category.forEach((cat)=> { %>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="javascript:changeCategory('<%= cat._id %>')"
+            >
+              <%= cat.name %>
+            </a>
+          </li>
+          <% }) %>
+        </ul>
+      </div>
+    </div>
+    <div class="row" id="articleControl"><%= articleHelper(itemSpecial) %></div>
+  </div>
+  <div class="section m-0 border-0" style="padding: 120px 0">
+    <div class="video-wrap" style="z-index: 0">
+      <video
+        poster="one-page/images/page/portrait/video-poster.jpg"
+        preload="auto"
+        loop
+        autoplay
+        muted
+      >
+        <source
+          src="one-page/images/page/portrait/video.mp4"
+          type="video/mp4"
+        />
+      </video>
+      <div class="video-overlay" style="background: rgba(0, 0, 0, 0.2)"></div>
+    </div>
+    <div
+      class="emphasis-title widget subscribe-widget mx-auto center px-4"
+      data-loader="button"
+      style="max-width: 650px"
+    >
+      <h2 class="fw-bold text-white">Subscribe Now</h2>
+      <p class="mb-5 text-white-50 lead" data-delay="100">
+        Subscribe to Our Newsletter to get Important News, Amazing Offers &
+        Inside Scoops:
+      </p>
+      <div class="widget-subscribe-form-result"></div>
+      <form
+        id="widget-subscribe-form-2"
+        action="/subscribe"
+        method="post"
+        class="mt-1 input-group input-group-lg mb-0"
+      >
+        <input
+          type="email"
+          id="widget-subscribe-form-2-email"
+          name="email"
+          class="form-control required email rounded-0 border-0"
+          placeholder="Enter your Email Address"
+        />
+
+        <button
+          class="btn btn-dark bg-color rounded-0 text-uppercase fw-bold"
+          type="submit"
+          style="font-size: 16px"
+        >
+          Subscribe Now
+        </button>
+      </form>
+    </div>
+  </div>
+  <%= promoComponent(data) %>
+</div>

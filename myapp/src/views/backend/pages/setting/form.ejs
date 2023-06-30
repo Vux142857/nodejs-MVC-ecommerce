@@ -1,0 +1,125 @@
+<% include ./../../helper/image %>
+  <% if (typeof item !='undefined' && item.length> 0) { %>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">
+                <%= title %>
+              </h3>
+            </div>
+            <form action="/admin/setting/save" method="post" enctype="multipart/form-data">
+              <div class="card-body">
+                <!-- Contact -->
+                <div class="form-group">
+                  <label for="contact-email">Contact Email:</label>
+                  <input class="form-control" type="email" id="contact-email" name="email"
+                    value="<%= data.contact.email %>" />
+
+                  <label for="contact-phone">Contact Phone:</label>
+                  <input class="form-control" type="tel" id="contact-phone" name="phone"
+                    value="<%= data.contact.phone %>" />
+
+                  <label for="contact-facebook">Contact Facebook Link:</label>
+                  <input class="form-control" type="text" id="contact-facebook" name="facebook"
+                    value="<%= data.contact.facebook %>" />
+
+                  <label for="contact-address">Contact Address:</label>
+                  <input class="form-control" id="contact-address" name="address"
+                    value="<%= data.contact.address %>"></input>
+                </div>
+
+                <!-- Privacy -->
+                <div class="form-group">
+                  <label for="privacy-copyright">Privacy Copyright:</label>
+                  <input class="form-control" type="text" id="privacy-copyright" name="copyright"
+                    value="<%= data.privacy.copyright %>" />
+
+                  <label for="privacy-doc">Privacy Document:</label>
+                  <textarea class="form-control" id="privacy-doc" name="doc" value="<%= data.privacy.doc %>"></textarea>
+                </div>
+                <!-- Logo -->
+                <div class="form-group">
+                  <label for="logo-image">Logo Image:</label>
+                  <input class="form-control" type="file" name="logo-image">
+                  <div class="form-group">
+                    <label></label>
+                    <%- imageHelper("backend/upload/logo/", data.logo, data.logo , 'img-avatar-form' ); %>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer">
+                <input name="id" class="form-control" value="<%= item[0]._id %>" hidden />
+							  <input name="logo_old" value="<%= item.logo %>" type="hidden"  />
+                <button type="submit">Submit</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% } else { %>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-8 mx-auto">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <%= title %>
+                </h3>
+              </div>
+              <form action="/admin/setting/save" method="post">
+                <div class="card-body">
+                  <!-- Contact -->
+                  <div class="form-group">
+                    <label for="contact-email">Contact Email:</label>
+                    <input class="form-control" type="email" id="contact-email" name="email" />
+
+                    <label for="contact-phone">Contact Phone:</label>
+                    <input class="form-control" type="tel" id="contact-phone" name="phone" />
+
+                    <label for="contact-facebook">Contact Facebook Link:</label>
+                    <input class="form-control" type="text" id="contact-facebook" name="facebook" />
+
+                    <label for="contact-address">Contact Address:</label>
+                    <input class="form-control" id="contact-address" name="address"></input>
+                  </div>
+
+                  <!-- Privacy -->
+                  <div class="form-group">
+                    <label for="privacy-copyright">Privacy Copyright:</label>
+                    <input class="form-control" type="text" id="privacy-copyright" name="copyright" />
+
+                    <label for="privacy-doc">Privacy Document:</label>
+                    <textarea class="form-control" id="privacy-doc" name="doc"></textarea>
+                  </div>
+                  <!-- Logo -->
+                  <div class="form-group">
+                    <label for="logo-image">Logo Image:</label>
+                    <input class="form-control" type="file" name="logo-img">
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <input name="id" class="form-control" value="" hidden />
+                  <button type="submit">Submit</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% } %>
+        <!-- Notify-catch errors -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <% if (typeof errorsNotify !=='undefined' && errorsNotify !=='' ) { errorsNotify.forEach(element=> { %>
+          <button class="notify" onclick="generateNotify('<%= element.msg %>')" hidden>
+            Click Me
+          </button>
+          <% });%>
+            <% } %>
+              <script>
+                $(function () {
+                  $(".notify").click();
+                });
+              </script>

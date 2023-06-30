@@ -15,19 +15,25 @@
     // let link = "admin" + '/' + collection + '/' + action.value;
     xhtmlAction += `<option value="${action.value}">${action.name}</option>`;
     });
-    let htmlMessage = '';
+
+    let formMessage = ''
+    if (collection == "email") {
+    formMessage = `<div class="card-body">
+        <div class="form-group">
+            <label for="exampleInputEmail1">Subject</label>
+            <input type="email" name="subject" class="form-control" id="subject" placeholder="Enter subject">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Message</label>
+            <input type="email" name="message" class="form-control" id="message" placeholder="Enter message">
+        </div>
+    </div>`;
+    } else {
+    formMessage = ''
+    }
     return `<div style="width: 100%;">
         <div class="zcontrols" style="display: inline-block;">
-            <div class="card-body">
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Subject</label>
-                    <input type="email" name="subject" class="form-control" id="subject" placeholder="Enter subject">
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Message</label>
-                    <input type="email" name="message" class="form-control" id="message" placeholder="Enter message">
-                </div>
-            </div>
+            ${formMessage}
             <select name="action" class="form-control slbAction" style="width: auto; display: inline-block;">
                 ${xhtmlAction}
             </select>

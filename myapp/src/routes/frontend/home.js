@@ -8,17 +8,23 @@ const subModel = containService.modelControl.category;
 const emailModel = containService.modelControl.email;
 const mainService = currentModel.articleService; // Service
 const subService = subModel.categoryService;
+const settingModel = containService.modelControl.setting;
+const settingService = settingModel.settingService;
 
 // Utility
 const utilGetParam = require("../../utils/utilParam");
 
 router.get("/", async (req, res, next) => {
   const itemSpecial = await mainService.getSpecial();
-  const category = await subService.getAll();
+  const category = await subService.getAll({ status: "active" });
+  const setting = await settingService.getAll({});
+  const contain = setting && setting.length > 0 ? setting[0].contain : "{}";
+  const data = contain ? JSON.parse(contain) : {};
   res.render("frontend/pages/home/index", {
     title: "Homepage",
     itemSpecial,
     category,
+    data,
   });
 });
 
@@ -47,6 +53,13 @@ router.post("/subscribe", async function (req, res) {
     console.error(error);
     res.status(500).send("An error occurred while subscribing.");
   }
+});
+
+router.get("/category", async (req, res, next) => {
+  let item = await mainService.getAll();
+  const objString = JSON.stringify(item);
+  const obj = JSON.parse(objString);
+  res.send(objString);
 });
 
 module.exports = router;

@@ -1,3 +1,4 @@
+<% include ../elements/header/logo %>
 <header
   id="header"
   class="dark transparent-header floating-header header-size-custom"
@@ -9,7 +10,7 @@
       <div class="header-row justify-content-lg-between">
         <!-- Logo
       ============================================= -->
-        <%- include('./header/logo') %>
+        <%= logoComponent() %>
         <!-- #logo end -->
 
         <div class="header-misc">
@@ -45,5 +46,3 @@
   </div>
   <div class="header-wrap-clone"></div>
 </header>
-
-
