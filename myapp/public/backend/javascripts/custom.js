@@ -64,7 +64,7 @@ $(document).ready(function () {
 
         var optValue;
         var isDelete = false;
-        var pattenCheckDelete = new RegExp("delete", "i");
+        var patternCheckDelete = new RegExp("delete", "i");
         
         $(slb_selector).on("change", function () {
             optValue = $(this).val();
@@ -79,7 +79,7 @@ $(document).ready(function () {
         });
 
         $(form_selector + " .btnAction").on("click", function () {
-            isDelete = pattenCheckDelete.test($(slb_selector).val());
+            isDelete = patternCheckDelete.test($(slb_selector).val());
             if(isDelete){
                 var confirmDelete = confirm('Are you really want to delete?');
                 if(confirmDelete === false){

@@ -1,6 +1,7 @@
 const itemService = require("./itemService");
 const categoryService = require("./categoryService");
 const articleService = require("./articleService");
+const emailService = require("./emailService");
 
 exports.modelControl = {
   item: {
@@ -20,6 +21,12 @@ exports.modelControl = {
     name: "article",
     index: "article/list",
     save: "article/form",
-    folderUpload: "backend/upload/article"
+    folderUpload: "backend/upload/article",
+  },
+  email: {
+    emailService,
+    name: "email",
+    index: "email/list",
+    save: "email/form",
   },
 };

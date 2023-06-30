@@ -1,0 +1,58 @@
+<% include ./../../helper/image %>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">
+            <%= title %>
+          </h3>
+        </div>
+        <form action="/admin/email/save" method="post">
+          <div class="card-body">
+            <div class="form-group">
+              <label for="name">Email</label>
+              <input type="email" name="name" class="form-control" id="name" placeholder="Enter email"
+                value="<%= item.name %>" required />
+            </div>
+
+            <div class="form-group">
+              <label>Status</label>
+              <select class="form-control" name="status" required>
+                <option disabled selected>Please select status</option>
+                <option value="active" <%=(item.status=="active" ? 'selected ="selected"' :'') %>>Active</option>
+                <option value="inactive" <%=(item.status=="inactive" ? 'selected ="selected"' :'') %>>Inactive
+                </option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="name">Ordering</label>
+              <input type="number" name="ordering" class="form-control" id="ordering" placeholder="Enter ordering"
+                value="<%= item.ordering %>" required />
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <!-- <button type="submit" class="btn btn-default">Cancel</button> -->
+            <input name="id" class="form-control" value="<%= item.id %>" hidden />
+            <button type="submit" class="btn btn-primary float-right">
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Notify-catch errors -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<% if (typeof errorsNotify !=='undefined' && errorsNotify !=='' ) { errorsNotify.forEach(element=> { %>
+  <button class="notify" onclick="generateNotify('<%= element.msg %>')" hidden>Click Me</button>
+  <% });%>
+    <% } %>
+      <script>
+        $(function () {
+          $('.notify').click();
+        });
+      </script>

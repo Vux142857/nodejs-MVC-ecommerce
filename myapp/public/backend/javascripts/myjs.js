@@ -167,3 +167,28 @@ const changeCategory = (id) => {
     },
   });
 };
+
+$("#widget-subscribe-form-2").on("submit", function (event) {
+  event.preventDefault();
+
+  var form = $(this);
+  var url = "submit";
+  var emailInput = $("#widget-subscribe-form-2-email");
+
+  var formData = {
+    email: emailInput.val(),
+  };
+
+  $.ajax({
+    type: "POST",
+    url: url,
+    data: formData,
+    dataType: "json",
+    success: function (response) {
+      console.log(response);
+    },
+    error: function (xhr, status, error) {
+      console.error(error);
+    },
+  });
+});

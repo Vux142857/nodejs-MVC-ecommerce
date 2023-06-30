@@ -10,7 +10,6 @@ router.use("/", require("./dashboard"));
 router.use("/items", require("./items"));
 router.use("/category", require("./category"));
 router.use("/article", require("./article"));
-
-
+router.use("/email", require("./email"));
 
 module.exports = router;

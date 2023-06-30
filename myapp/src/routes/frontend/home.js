@@ -5,6 +5,7 @@ const router = express.Router();
 const containService = require("../../services/containService");
 const currentModel = containService.modelControl.article;
 const subModel = containService.modelControl.category;
+const emailModel = containService.modelControl.email;
 const mainService = currentModel.articleService; // Service
 const subService = subModel.categoryService;
 
@@ -33,6 +34,19 @@ router.get("/category/:category_id", async (req, res, next) => {
   }
   let item = await mainService.getAll(condition).limit(2);
   res.send(item);
+});
+
+router.post("/subscribe", async function (req, res) {
+  const item = req.body;
+  try {
+    // Save the subscribed email to the database or perform any desired action
+    const email = await emailModel.emailService.create(item);
+    res.send(email);
+  } catch (error) {
+    // Handle any errors that occur during the process
+    console.error(error);
+    res.status(500).send("An error occurred while subscribing.");
+  }
 });
 
 module.exports = router;
