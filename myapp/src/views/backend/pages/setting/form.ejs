@@ -42,9 +42,11 @@
                 <!-- Logo -->
                 <div class="form-group">
                   <label for="logo-image">Logo Image:</label>
-                  <input class="form-control" type="file" name="logo-image">
+                  <input class="form-control" type="file" name="logo">
                   <div class="form-group">
                     <label></label>
+                    <% console.log(data.logo);
+                     %>
                     <%- imageHelper("backend/upload/logo/", data.logo, data.logo , 'img-avatar-form' ); %>
                   </div>
                 </div>

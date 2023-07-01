@@ -11,7 +11,7 @@ const mainService = currentModel.settingService; // Service
 const utilGetParam = require("../../utils/utilParam");
 const validateItems = require("../../validates/article");
 const utilUpload = require("../../utils/utilUpload.js");
-const uploadFileMiddleware = utilUpload.upload("logo-img", "logo");
+const uploadFileMiddleware = utilUpload.upload("logo", "logo");
 const parser = new Parser();
 
 // ---------------------------------------------------------------GET
@@ -23,7 +23,6 @@ router.get("/", async (req, res, next) => {
   const contain = item && item.length > 0 ? item[0].contain : "{}";
   const data = contain ? JSON.parse(contain) : {};
   const errorsNotify = [];
-  console.log(data);
 
   res.render(`backend/pages/${currentModel.save}`, {
     title,
@@ -39,6 +38,8 @@ router.post("/save", uploadFileMiddleware, async (req, res, next) => {
     const item = req.body;
     let taskCurrent =
       typeof item !== "undefined" && item.id !== "" ? "Edit" : "Add";
+      console.log(item.file);
+      
     // Upload and Edit image
     if (typeof req.file == "undefined") {
       item.logo = item.logo_old == "" ? "no-img.jpg" : item.logo_old;

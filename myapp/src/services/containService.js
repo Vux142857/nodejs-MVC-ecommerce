@@ -34,5 +34,6 @@ exports.modelControl = {
     name: "setting",
     index: "setting",
     save: "setting/form",
+    folderUpload: "backend/upload/logo",
   },
 };
