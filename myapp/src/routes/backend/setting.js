@@ -36,20 +36,16 @@ router.get("/", async (req, res, next) => {
 router.post("/save", uploadFileMiddleware, async (req, res, next) => {
   try {
     const item = req.body;
-    let taskCurrent =
-      typeof item !== "undefined" && item.id !== "" ? "Edit" : "Add";
-      console.log(item.file);
-      
+    
     // Upload and Edit image
     if (typeof req.file == "undefined") {
       item.logo = item.logo_old == "" ? "no-img.jpg" : item.logo_old;
     } else {
       item.logo = req.file.filename;
-      if (taskCurrent == "Edit") {
+      if (item.logo !== item.logo_old) {
         utilUpload.remove(currentModel.folderUpload, item.logo_old);
       }
     }
-
     console.log(item.logo);
     
     let data = {
@@ -67,6 +63,7 @@ router.post("/save", uploadFileMiddleware, async (req, res, next) => {
         },
       }),
     };
+
     let existedItem = await mainService.getAll();
     if (existedItem && typeof existedItem !== "undefined") {
       await mainService.updateOneById(item.id, data);

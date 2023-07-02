@@ -1,10 +1,10 @@
-<% logoComponent=()=> { %>
+<% logoComponent=(data)=> { %>
 <div id="logo" class="me-lg-0">
   <a
     href="/"
     class="standard-logo"
     data-dark-logo="backend/upload/logo/logo.png"
-    ><img src="backend/upload/logo/logo.png" alt="Canvas Logo"
+    ><img src="backend/upload/logo/<%= data.logo %>" alt="Canvas Logo"
   /></a>
   <a
     href="/"

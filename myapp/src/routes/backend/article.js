@@ -229,7 +229,7 @@ router.post(
         item.thumb = item.thumb_old == "" ? "no-img.jpg" : item.thumb_old;
       } else {
         item.thumb = req.file.filename;
-        if (taskCurrent == "Edit") {
+        if (item.thumb !== item.thumb_old) {
           utilUpload.remove(currentModel.folderUpload, item.thumb_old);
         }
       }

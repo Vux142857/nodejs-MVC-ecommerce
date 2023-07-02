@@ -192,3 +192,15 @@ $("#widget-subscribe-form-2").on("submit", function (event) {
     },
   });
 });
+
+readURL = (input) => {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+      $("#blah").attr("src", e.target.result).width(auto).height(100);
+    };
+
+    reader.readAsDataURL(input.files[0]);
+  }
+};

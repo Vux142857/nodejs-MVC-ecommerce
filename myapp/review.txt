@@ -86,3 +86,15 @@ product {
 // setting -
 // menu -
 // article -
+
+// catchAsync {
+
+}
+
+product: {
+    display
+}
+
+dashboard: {
+    display
+}
