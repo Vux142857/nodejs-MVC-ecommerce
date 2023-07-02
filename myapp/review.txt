@@ -61,40 +61,16 @@ Setting: {
     "setting": "[]"
 }
 
-product {
-    name: "Nike sneaker",
-    category: ['shoes', 'man'],
-    slug: "nike-sneaker"
-    brand: 'Nike',
-    img: [{img, alt}],
-    detail: 
-        {
-            introduce: "Holisticly leverage other's resource sucking information before sticky supply chains."
-            description: {
-                "Water resistance": 'yes '
-                "Color": 'black'
-            }
-        },
-    feature: {size: [X, L, M],color: [b, w]}
-    price: 10000,
-    amount: 50,
-    sold: 10000,
-    review: 5, // 1-5
-}
-
-// send multi mail +
-// setting -
+// send multi mail + (70%)
+// setting + (70%)
 // menu -
 // article -
 
 // catchAsync {
-
-}
+} -
 
 product: {
-    display
-}
-
-dashboard: {
-    display
+    color + (70%)
+    size +
+    display -
 }

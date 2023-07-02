@@ -20,12 +20,13 @@ router.get("/", async (req, res, next) => {
   const setting = await settingService.getAll({});
   const contain = setting && setting.length > 0 ? setting[0].contain : "{}";
   const data = contain ? JSON.parse(contain) : {};
-  res.render("frontend/pages/home/index", {
-    title: "Homepage",
-    itemSpecial,
-    category,
-    data,
-  });
+  // res.render("frontend/pages/home/index", {
+  //   title: "Homepage",
+  //   itemSpecial,
+  //   category,
+  //   data,
+  // });
+  res.send({data});
 });
 
 router.get("/category/:category_id", async (req, res, next) => {
@@ -44,6 +45,7 @@ router.get("/category/:category_id", async (req, res, next) => {
 
 router.post("/subscribe", async function (req, res) {
   const item = req.body;
+  console.log(item);
   try {
     // Save the subscribed email to the database or perform any desired action
     const email = await emailModel.emailService.create(item);

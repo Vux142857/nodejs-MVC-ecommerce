@@ -12,6 +12,7 @@ const utilGetParam = require("../../utils/utilParam");
 const validateItems = require("../../validates/article");
 const utilUpload = require("../../utils/utilUpload.js");
 const uploadFileMiddleware = utilUpload.upload("logo", "logo");
+
 const parser = new Parser();
 
 // ---------------------------------------------------------------GET
@@ -33,49 +34,52 @@ router.get("/", async (req, res, next) => {
   });
 });
 
-router.post("/save", uploadFileMiddleware, async (req, res, next) => {
-  try {
-    const item = req.body;
-    
-    // Upload and Edit image
-    if (typeof req.file == "undefined") {
-      item.logo = item.logo_old == "" ? "no-img.jpg" : item.logo_old;
-    } else {
-      item.logo = req.file.filename;
-      if (item.logo !== item.logo_old) {
-        utilUpload.remove(currentModel.folderUpload, item.logo_old);
+router.post(
+  "/save",
+  uploadFileMiddleware,
+  async (req, res, next) => {
+    try {
+      const item = req.body;
+      
+      // Upload and Edit image
+      if (typeof req.file == "undefined") {
+        item.logo = item.logo_old == "" ? "no-img.jpg" : item.logo_old;
+      } else {
+        item.logo = req.file.filename;
+        if (item.logo !== item.logo_old) {
+          utilUpload.remove(currentModel.folderUpload, item.logo_old);
+        }
       }
-    }
-    console.log(item.logo);
-    
-    let data = {
-      contain: JSON.stringify({
-        logo: item.logo,
-        contact: {
-          email: item.email,
-          phone: item.phone,
-          facebook: item.facebook,
-          address: item.address,
-        },
-        privacy: {
-          copyright: item.copyright,
-          doc: item.doc,
-        },
-      }),
-    };
 
-    let existedItem = await mainService.getAll();
-    if (existedItem && typeof existedItem !== "undefined") {
-      await mainService.updateOneById(item.id, data);
-      req.flash("successMessage", "Item updated successfully");
-    } else {
-      await mainService.create(data);
-      req.flash("successMessage", "Item created successfully");
+      let data = {
+        contain: JSON.stringify({
+          logo: item.logo,
+          contact: {
+            email: item.email,
+            phone: item.phone,
+            facebook: item.facebook,
+            address: item.address,
+          },
+          privacy: {
+            copyright: item.copyright,
+            doc: item.doc,
+          },
+        }),
+      };
+
+      let existedItem = await mainService.getAll();
+      if (existedItem && typeof existedItem !== "undefined") {
+        await mainService.updateOneById(item.id, data);
+        req.flash("successMessage", "Item updated successfully");
+      } else {
+        await mainService.create(data);
+        req.flash("successMessage", "Item created successfully");
+      }
+      res.redirect(`/admin/${currentModel.index}`);
+    } catch (error) {
+      next(error);
     }
-    res.redirect(`/admin/${currentModel.index}`);
-  } catch (error) {
-    next(error);
   }
-});
+);
 
 module.exports = router;

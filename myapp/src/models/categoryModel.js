@@ -22,6 +22,7 @@ const categorySchema = mongoose.Schema(
         return generateSlug(this.name);
       },
     },
+    child: [String],
   },
   { timestamps: true }
 );
