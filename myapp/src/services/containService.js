@@ -5,6 +5,8 @@ const emailService = require("./emailService");
 const settingService = require("./settingService");
 const colorService = require("./colorService");
 const sizeService = require("./sizeService");
+const productService = require("./productService");
+
 
 exports.modelControl = {
   item: {
@@ -50,5 +52,11 @@ exports.modelControl = {
     name: "size",
     index: "size/list",
     save: "size/form",
+  },
+  product: {
+    productService,
+    name: "product",
+    index: "product/list",
+    save: "product/form",
   },
 };

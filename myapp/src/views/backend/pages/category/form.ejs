@@ -7,44 +7,66 @@
             <%= title %>
           </h3>
         </div>
-          <form action="/admin/<%= collection %>/save" method="post">
-            <div class="card-body">
-              <div class="form-group">
-                <label for="name">Name</label>
-                <input type="name" name="name" class="form-control" id="name" placeholder="Enter name"
-                  value="<%= item.name %>" required />
-              </div>
-
-              <div class="form-group">
-                <label>Status</label>
-                <select class="form-control" name="status" required>
-                  <option disabled selected>Please select status</option>
-                  <option value="active" <%=(item.status=="active" ? 'selected ="selected"' :'') %>>Active</option>
-                  <option value="inactive" <%=(item.status=="inactive" ? 'selected ="selected"' :'') %>>Inactive
-                  </option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="name">Ordering</label>
-                <input type="number" name="ordering" class="form-control" id="ordering" placeholder="Enter ordering"
-                  value="<%= item.ordering %>" required />
-              </div>
-              <div class="form-group">
-                <% if (item.slug !== '' && typeof item.slug !== 'undefined') { %>
-                  <label for="name">Slug</label>
-                  <input type="name" name="slug" class="form-control" id="slug" value="<%= item.slug %>"/>
+        <form action="/admin/<%= collection %>/save" method="post">
+          <div class="card-body">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="name" name="name" class="form-control" id="name" placeholder="Enter name"
+                value="<%= item.name %>" required />
+            </div>
+            <div class="form-group">
+              <label for="child-category">Select child category:</label>
+              <select name="childs" id="childs" multiple onchange="displaySelectedOptions()">
+                <% category.forEach((element)=> { %>
+                  <% let currentID=(item._id) ? item._id : '' ; %>
+                    <% if (element._id.toString() !==currentID.toString()) { %>
+                      <% let selected=(item.childs && item.childs.includes(element._id)) ? "selected" : "" ; %>
+                        <option value="<%= element._id %>" <%=selected %>>
+                          <%= element.name %>
+                        </option>
+                        <% } %>
+                          <% }) %>
+              </select>
+              <br><br>
+              <p>Selected childs: <span id="selectedOptions"></span></p>
+            </div>
+            <div class="form-group">
+              <label>Status</label>
+              <select class="form-control" name="status" required>
+                <option disabled selected>Please select status</option>
+                <option value="active" <%=(item.status=="active" ? 'selected ="selected"' :'') %>>Active</option>
+                <option value="inactive" <%=(item.status=="inactive" ? 'selected ="selected"' :'') %>>Inactive
+                </option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="name">Ordering</label>
+              <input type="number" name="ordering" class="form-control" id="ordering" placeholder="Enter ordering"
+                value="<%= item.ordering %>" required />
+            </div>
+            <div class="form-group">
+              <% if (item.slug !=='' && typeof item.slug !=='undefined' ) { %>
+                <label for="name">Slug</label>
+                <input type="name" name="slug" class="form-control" id="slug" value="<%= item.slug %>" />
                 <% } %>
-              </div>
             </div>
 
-            <div class="card-footer">
-              <!-- <button type="submit" class="btn btn-default">Cancel</button> -->
-              <input name="id" class="form-control" value="<%= item.id %>" hidden />
-              <button type="submit" class="btn btn-primary float-right">
-                Submit
-              </button>
+            <div class="form-group">
+              <label for="name">Href</label>
+              <input type="href" name="href" class="form-control" id="href" placeholder="Enter href"
+                value="<%= item.href %>" required />
             </div>
-          </form>
+
+          </div>
+
+          <div class="card-footer">
+            <!-- <button type="submit" class="btn btn-default">Cancel</button> -->
+            <input name="id" class="form-control" value="<%= item.id %>" hidden />
+            <button type="submit" class="btn btn-primary float-right">
+              Submit
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -52,13 +74,19 @@
 
 <!-- Notify-catch errors -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<% if (typeof errorsNotify !== 'undefined' && errorsNotify !== '') {
-  errorsNotify.forEach(element => { %>
+<% if (typeof errorsNotify !=='undefined' && errorsNotify !=='' ) { errorsNotify.forEach(element=> { %>
   <button class="notify" onclick="generateNotify('<%= element.msg %>')" hidden>Click Me</button>
- <% });%>
-<% } %>
-<script>
-  $(function(){
-     $('.notify').click();
-  });
-  </script>
+  <% });%>
+    <% } %>
+      <script>
+        $(function () {
+          $('.notify').click();
+        });
+        function displaySelectedOptions() {
+          const selectElement = document.getElementById("childs");
+          const selectedOptionsElement = document.getElementById("selectedOptions");
+          const selectedOptions = Array.from(selectElement.selectedOptions).map(option => option.textContent);
+          selectedOptionsElement.textContent = selectedOptions.join(", ");
+        }
+
+      </script>

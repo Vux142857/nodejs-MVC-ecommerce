@@ -2,22 +2,22 @@ const express = require("express");
 const router = express.Router();
 
 // Model Control
-const containService = require("../../services/containService");
-const currentModel = containService.modelControl.article;
+const containService = require("../../../services/containService");
+const currentModel = containService.modelControl.product;
 const subModel = containService.modelControl.category;
-const mainService = currentModel.articleService; // Service
+const mainService = currentModel.productService; // Service
 const subService = subModel.categoryService;
 
 // Utility
-const utilStatusFilter = require("../../utils/utilCreateStatus");
-const utilGetParam = require("../../utils/utilParam");
-const validateItems = require("../../validates/article");
-const utilUpload = require("../../utils/utilUpload.js");
+const utilStatusFilter = require("../../../utils/utilCreateStatus");
+const utilGetParam = require("../../../utils/utilParam");
+const validateItems = require("../../../validates/article");
+const utilUpload = require("../../../utils/utilUpload.js");
 const uploadFileMiddleware = utilUpload.upload("thumb", "article");
 
 // ---------------------------------------------------------------GET
 
-// Get form edit or add
+// Get form edit or add ${currentModel.save}
 router.get("/form(/:id)?", async (req, res, next) => {
   const currentId = utilGetParam.getParam(req.params, "id", "");
   const title = currentId
@@ -26,7 +26,7 @@ router.get("/form(/:id)?", async (req, res, next) => {
   const category = await subService.getAll();
   const item = currentId ? await mainService.getOne({ _id: currentId }) : {};
   const errorsNotify = [];
-  res.render(`backend/pages/${currentModel.save}`, {
+  res.render(`backend/pages/product/test`, {
     title,
     item,
     currentId,
@@ -224,29 +224,29 @@ router.post(
         });
       } else {
         // Upload and Edit image
-        if (typeof req.file == "undefined") {
-          item.thumb = item.thumb_old == "" ? "no-img.jpg" : item.thumb_old;
-        } else {
-          item.thumb = req.file.filename;
-          if (item.thumb !== item.thumb_old) {
-            utilUpload.remove(currentModel.folderUpload, item.thumb_old);
-          }
-        }
-        let data = [];
-        if (Array.isArray(item.categories)) {
-          item.categories.forEach((id) => {
-            data.push(id);
-          });
-        } else {
-          let id = item.categories;
-          data.push(id);
-        }
+        // if (typeof req.file == "undefined") {
+        //   item.thumb = item.thumb_old == "" ? "no-img.jpg" : item.thumb_old;
+        // } else {
+        //   item.thumb = req.file.filename;
+        //   if (item.thumb !== item.thumb_old) {
+        //     utilUpload.remove(currentModel.folderUpload, item.thumb_old);
+        //   }
+        // }
+        // let data = [];
+        // if (Array.isArray(item.categories)) {
+        //   item.categories.forEach((id) => {
+        //     data.push(id);
+        //   });
+        // } else {
+        //   let id = item.categories;
+        //   data.push(id);
+        // }
         const articleData = {
           name: item.name,
           ordering: parseInt(item.ordering),
           status: item.status,
           category: data,
-          thumb: item.thumb,
+          // thumb: item.thumb,
           special: item.special,
           slug: item.slug,
         };

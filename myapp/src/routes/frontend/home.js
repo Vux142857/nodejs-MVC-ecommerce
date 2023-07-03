@@ -16,17 +16,24 @@ const utilGetParam = require("../../utils/utilParam");
 
 router.get("/", async (req, res, next) => {
   const itemSpecial = await mainService.getSpecial();
-  const category = await subService.getAll({ status: "active" });
+  const categoryParent = await subService.getAll({
+    status: "active",
+    ordering: { $lt: 4 },
+  });
+  const categoryArticle = await subService.getAll({
+    status: "active",
+    ordering: { $gt: 4 },
+  });
   const setting = await settingService.getAll({});
   const contain = setting && setting.length > 0 ? setting[0].contain : "{}";
   const data = contain ? JSON.parse(contain) : {};
-  // res.render("frontend/pages/home/index", {
-  //   title: "Homepage",
-  //   itemSpecial,
-  //   category,
-  //   data,
-  // });
-  res.send({data});
+  res.render("frontend/pages/home/index", {
+    title: "Homepage",
+    itemSpecial,
+    categoryParent,
+    categoryArticle,
+    data,
+  });
 });
 
 router.get("/category/:category_id", async (req, res, next) => {

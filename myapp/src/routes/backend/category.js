@@ -15,13 +15,14 @@ const validateItems = require("../../validates/category");
 
 // ---------------------------------------------------------------GET
 
-// Get form edit or add
+// Get form edit or add ${currentModel.save}
 router.get("/form(/:id)?", async (req, res, next) => {
   const currentId = utilGetParam.getParam(req.params, "id", "");
   const title = currentId
     ? `Edit ${currentModel.name}`
     : `Add ${currentModel.name}`;
   const item = currentId ? await mainService.getOne({ _id: currentId }) : {};
+  const category = await mainService.getAll();
   const errorsNotify = [];
   res.render(`backend/pages/${currentModel.save}`, {
     title,
@@ -29,6 +30,7 @@ router.get("/form(/:id)?", async (req, res, next) => {
     currentId,
     errorsNotify,
     collection: currentModel.name,
+    category,
   });
 });
 
@@ -153,6 +155,8 @@ router.post(
     const errorsMsg = validateItems.validateItemsErros(req);
     const errorsNotify = Object.assign(errorsMsg.errors);
     const item = req.body;
+    console.log(item);
+
     if (!errorsMsg.isEmpty()) {
       console.log(errorsNotify);
       res.render(`backend/pages/${currentModel.save}`, {
@@ -162,12 +166,21 @@ router.post(
         errorsNotify,
       });
     } else {
+      let data = [];
+      if (Array.isArray(item.childs)) {
+        data = item.childs;
+      } else {
+        data.push(item.childs);
+      }
+
       if (item.id != "" && typeof item.id != "undefined") {
         await mainService.updateOneById(item.id, {
           name: item.name,
           ordering: parseInt(item.ordering),
           status: item.status,
           imgURL: item.imgURL,
+          childs: data,
+          href: item.href,
         });
         req.flash("successMessage", "Item updated successfully");
       } else {

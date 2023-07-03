@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 const emailSchema = mongoose.Schema(
   {
     name: String,

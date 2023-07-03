@@ -1,8 +1,18 @@
-const Item = require("../models/categoryModel");
+const Item = require("../models/productModel");
 
 exports.getAll = (params) => {
   try {
     return Item.find(params).sort({
+      createdAt: -1,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.getSpecial = () => {
+  try {
+    return Item.find({ special: "on", status: "active" }).limit(2).sort({
       ordering: "asc",
     });
   } catch (error) {
