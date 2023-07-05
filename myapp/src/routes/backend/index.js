@@ -15,6 +15,7 @@ router.use("/setting", require("./setting"));
 router.use("/color", require("./product/color"));
 router.use("/size", require("./product/size"));
 router.use("/product", require("./product/product"));
+router.use("/user", require("./user"));
 
 
 module.exports = router;

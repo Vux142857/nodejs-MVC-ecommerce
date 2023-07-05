@@ -78,3 +78,63 @@ product: {
 
 // hỏi về unique name
 // (argument)
+
+// API 
+user {
+    
+    name: {
+        type: String,
+        required: true,
+        trim: true
+    },
+
+    password: {
+        type: String,
+        required: true,
+        minLength: 7
+    },
+    tokens: [{
+        token: {
+            type: String,
+            required: true
+        }
+    }]
+    admin: Boolean
+}
+
+user {
+    
+    name: {                 "ttvu01"
+        type: String,
+        required: true,
+        trim: true
+    },
+
+    password: {             "sdv3234"
+        type: String,
+        required: true,
+        minLength: 7
+    },
+
+    admin: {
+        isActive: Boolean, true
+        isAll: {
+            Boolean, true
+        }
+        role_id: String
+    }, 
+
+    status: "Active"
+}
+
+role {
+    name: read
+    permision: [String] ["permision_id"]
+}
+
+
+
+permision {
+    name: String             // 1
+    source: String          // (/admin/item/list)
+}

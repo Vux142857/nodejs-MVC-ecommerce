@@ -1,6 +1,9 @@
 <% include ./../../helper/image %>
+<% include ./form-element/feature-form %>
+<% include ./form-element/main-form %>
+
   <div class="card card-primary card-tabs">
-    <form action="/admin/product/save" method="post" enctype="multipart/form-data">
+    <form action="/admin/product/save" method="post">
       <div class="card-header p-0 pt-1">
         <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
           <li class="nav-item">
@@ -11,109 +14,26 @@
             <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile"
               role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Feature</a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" id="custom-tabs-one-messages-tab" data-toggle="pill" href="#custom-tabs-one-messages"
               role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false">Image</a>
-          </li>
+          </li> -->
         </ul>
       </div>
       <div class="card-body">
         <div class="tab-content" id="custom-tabs-one-tabContent">
           <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel"
             aria-labelledby="custom-tabs-one-home-tab">
-            <div class="form-group">
-              <label for="name">Name</label>
-              <input type="name" name="name" class="form-control" id="name" placeholder="Enter name"
-                value="<%= item.name %>" required />
-            </div>
-            <div class="form-group">
-              <label>Status</label>
-              <select class="form-control" name="status" required>
-                <option disabled selected>Please select status</option>
-                <option value="active" <%=(item.status=="active" ? 'selected ="selected"' :'') %>>Active</option>
-                <option value="inactive" <%=(item.status=="inactive" ? 'selected ="selected"' :'') %>>Inactive
-                </option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Special</label>
-              <select class="form-control" name="special" required>
-                <option disabled selected>Please select special</option>
-                <option value="on" <%=(item.special=="on" ? 'selected ="selected"' :'') %>>On</option>
-                <option value="off" <%=(item.special=="off" ? 'selected ="selected"' :'') %>>Off
-                </option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="name">Ordering</label>
-              <input type="number" name="ordering" class="form-control" id="ordering" placeholder="Enter ordering"
-                value="<%= item.ordering %>" required />
-            </div>
-            <div class="form-group">
-              <label for="categories">Categories</label>
-              <select class="form-control" name="special" required>
-                <option disabled selected>Please select special</option>
-                <% category.forEach((element)=> { %>
-                  <% let checked=(Array.isArray(item.category) && item.category.includes(element._id)) ? "checked" : ""
-                    ; %>
-                    <option value="<%=element._id %>" <%=checked %> ><%=element.name %>
-                    </option>
-                    <% }) %>
-              </select>
-            </div>
-            <div class="form-group">
-              <% if (item.slug !=='' && typeof item.slug !=='undefined' ) { %>
-                <label for="name">Slug</label>
-                <input type="name" name="slug" class="form-control" id="slug" value="<%= item.slug %>" />
-                <% } %>
-            </div>
+            <%= mainForm() %>
           </div>
           <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel"
             aria-labelledby="custom-tabs-one-profile-tab">
-            <div class="form-group">
-              <label for="sizes">Sizes:</label>
-              <div id="sizes">
-                <div>
-                  <input type="text" name="size[0].name" class="form-control" placeholder="Size Name">
-                  <input type="number" name="size[0].amount" class="form-control" placeholder="Size Amount">
-                </div>
-                <!-- Add more size inputs dynamically using JavaScript if needed -->
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="colors">Colors:</label>
-              <input class="form-control" type="text" id="colors" name="color" multiple>
-            </div>
-            <div class="form-group">
-              <label for="price">Price:</label>
-              <input class="form-control" type="number" id="price" name="price" step="0.01" required>
-            </div>
-            <div class="form-group">
-              <label for="description">Description:</label>
-              <textarea class="form-control" id="description" name="description"></textarea>
-            </div>
-            <div class="form-group">
-              <label for="remain">Remain:</label>
-              <input class="form-control" type="number" id="remain" name="remain" required>
-            </div>
+            <%= featureForm() %>
           </div>
-          <div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel"
+          <!-- <div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel"
             aria-labelledby="custom-tabs-one-messages-tab">
-            <div class="form-group">
-              <label for="thumb">Thumb</label>
-              <input class="form-control" type="file" name="thumb">
-            </div>
-            <% if(item.id !==undefined && item.id !=='' ){ %>
-              <div class="form-group">
-                <label>Chosen image</label>
-                <%- imageHelper("backend/upload/article/", item.thumb, item.name, 'img-avatar-form' ); %>
-                  <label>
-                    Selected image</label>
-                  <img id="blah" style="width: 10rem;" src="/backend/upload/no-img.jpg" alt="Choose your image"
-                    class="img-avatar-form" />
-              </div>
-              <%}%>
-          </div>
+            
+          </div> -->
         </div>
       </div>
       <div class="card-footer">

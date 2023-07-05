@@ -4,9 +4,14 @@ const router = express.Router();
 // Model Control
 const containService = require("../../../services/containService");
 const currentModel = containService.modelControl.product;
-const subModel = containService.modelControl.category;
+const sizeModel = containService.modelControl.size;
+const colorModel = containService.modelControl.color;
+const categoryModel = containService.modelControl.category;
+
 const mainService = currentModel.productService; // Service
-const subService = subModel.categoryService;
+const sizeService = sizeModel.sizeService;
+const colorService = colorModel.colorService;
+const categoryService = categoryModel.categoryService;
 
 // Utility
 const utilStatusFilter = require("../../../utils/utilCreateStatus");
@@ -23,7 +28,10 @@ router.get("/form(/:id)?", async (req, res, next) => {
   const title = currentId
     ? `Edit ${currentModel.name}`
     : `Add ${currentModel.name}`;
-  const category = await subService.getAll();
+  const category = await categoryService.getAll();
+  const size = await sizeService.getAll();
+  const color = await colorService.getAll();
+
   const item = currentId ? await mainService.getOne({ _id: currentId }) : {};
   const errorsNotify = [];
   res.render(`backend/pages/product/test`, {
@@ -33,13 +41,15 @@ router.get("/form(/:id)?", async (req, res, next) => {
     errorsNotify,
     collection: currentModel.name,
     category,
+    size,
+    color,
   });
 });
 
 // Filter, show and find Items, Pagination
 router.get("(/list)?(/:status)?", async (req, res, next) => {
   const currentStatus = utilGetParam.getParam(req.params, "status", "all");
-  const category = await subService.getAll();
+  const category = await categoryService.getAll();
   const category_id = utilGetParam.getParam(req.session, "category_id", "");
   // Find
   const keyword = utilGetParam.getParam(req.query, "search", "");
@@ -199,66 +209,102 @@ router.post("/change-ordering/:id", async (req, res, next) => {
 // Create and Update items
 router.post(
   "/save",
-  uploadFileMiddleware,
-  validateItems.validateItemsQueries,
+  // uploadFileMiddleware,
+  // validateItems.validateItemsQueries,
   async (req, res, next) => {
+    // try {
+    //   const errorsMsg = validateItems.validateItemsErros(req); // Handle errors
+    //   const errorsNotify = Object.assign(errorsMsg.errors);
+    //   const item = req.body;
+    //   item.slug = item.name
+    //     .toLowerCase()
+    //     .replace(/ /g, "-")
+    //     .replace(/[^\w-]+/g, "");
+    //   let taskCurrent =
+    //     typeof item !== "undefined" && item.id !== "" ? "Edit" : "Add";
+    //   if (!errorsMsg.isEmpty()) {
+    //     console.log(errorsNotify);
+    //     if (typeof req.file != "undefined")
+    //       utilUpload.remove(currentModel.folderUpload, req.file.filename);
+    //     res.render(`backend/pages/${currentModel.save}`, {
+    //       title: `${taskCurrent} ${currentModel.name}`,
+    //       item,
+    //       currentId: utilGetParam.getParam(req.params, "id", ""),
+    //       errorsNotify,
+    //     });
+    //   } else {
+    //     // Upload and Edit image
+    //     // if (typeof req.file == "undefined") {
+    //     //   item.thumb = item.thumb_old == "" ? "no-img.jpg" : item.thumb_old;
+    //     // } else {
+    //     //   item.thumb = req.file.filename;
+    //     //   if (item.thumb !== item.thumb_old) {
+    //     //     utilUpload.remove(currentModel.folderUpload, item.thumb_old);
+    //     //   }
+    //     // }
+    //     // let data = [];
+    //     // if (Array.isArray(item.categories)) {
+    //     //   item.categories.forEach((id) => {
+    //     //     data.push(id);
+    //     //   });
+    //     // } else {
+    //     //   let id = item.categories;
+    //     //   data.push(id);
+    //     // }
+    //     const articleData = {
+    //       name: item.name,
+    //       ordering: parseInt(item.ordering),
+    //       status: item.status,
+    //       category: data,
+    //       // thumb: item.thumb,
+    //       special: item.special,
+    //       slug: item.slug,
+    //     };
+    //     if (item.id && typeof item.id !== "undefined") {
+    //       await mainService.updateOneById(item.id, articleData);
+    //       req.flash("successMessage", "Item updated successfully");
+    //     } else {
+    //       await mainService.create(articleData);
+    //       req.flash("successMessage", "Item created successfully");
+    //     }
+    //     res.redirect(`/admin/${currentModel.index}`);
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
     try {
-      const errorsMsg = validateItems.validateItemsErros(req); // Handle errors
-      const errorsNotify = Object.assign(errorsMsg.errors);
-      const item = req.body;
-      item.slug = item.name
-        .toLowerCase()
-        .replace(/ /g, "-")
-        .replace(/[^\w-]+/g, "");
-      let taskCurrent =
-        typeof item !== "undefined" && item.id !== "" ? "Edit" : "Add";
-      if (!errorsMsg.isEmpty()) {
-        console.log(errorsNotify);
-        if (typeof req.file != "undefined")
-          utilUpload.remove(currentModel.folderUpload, req.file.filename);
-        res.render(`backend/pages/${currentModel.save}`, {
-          title: `${taskCurrent} ${currentModel.name}`,
-          item,
-          currentId: utilGetParam.getParam(req.params, "id", ""),
-          errorsNotify,
+      const data = req.body;
+      let size = [];
+      console.log(data);
+
+      console.log(data.amount);
+
+      if (Array.isArray(data.sizes)) {
+        data.sizes.forEach((element, index) => {
+          let sizeObj = {
+            name: element,
+            amount: parseInt(data.amount[index]),
+          };
+          size.push(sizeObj);
         });
       } else {
-        // Upload and Edit image
-        // if (typeof req.file == "undefined") {
-        //   item.thumb = item.thumb_old == "" ? "no-img.jpg" : item.thumb_old;
-        // } else {
-        //   item.thumb = req.file.filename;
-        //   if (item.thumb !== item.thumb_old) {
-        //     utilUpload.remove(currentModel.folderUpload, item.thumb_old);
-        //   }
-        // }
-        // let data = [];
-        // if (Array.isArray(item.categories)) {
-        //   item.categories.forEach((id) => {
-        //     data.push(id);
-        //   });
-        // } else {
-        //   let id = item.categories;
-        //   data.push(id);
-        // }
-        const articleData = {
-          name: item.name,
-          ordering: parseInt(item.ordering),
-          status: item.status,
-          category: data,
-          // thumb: item.thumb,
-          special: item.special,
-          slug: item.slug,
+        let sizeObj = {
+          name: data.sizes,
+          amount: parseInt(data.amount),
         };
-        if (item.id && typeof item.id !== "undefined") {
-          await mainService.updateOneById(item.id, articleData);
-          req.flash("successMessage", "Item updated successfully");
-        } else {
-          await mainService.create(articleData);
-          req.flash("successMessage", "Item created successfully");
-        }
-        res.redirect(`/admin/${currentModel.index}`);
+        size.push(sizeObj);
       }
+
+      const item = {
+        name: data.name,
+        category: data.category,
+        color: data.color,
+        price: parseInt(data.price),
+        desciption: data.desciption,
+        status: data.status,
+        size,
+      };
+      res.send(item);
     } catch (error) {
       console.log(error);
     }

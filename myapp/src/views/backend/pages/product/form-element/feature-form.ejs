@@ -1,0 +1,89 @@
+<% featureForm = () => { %>
+<div class="form-group">
+  <div id="sizeFields">
+    <!-- Size input fields will be dynamically added here -->
+    <% size.forEach((item) => { %>
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        id="size_<%= item._id %>"
+        name="sizes"
+        value="<%= item._id %>"
+        onclick="generateSizeFields()"
+      />
+      <label class="form-check-label" for="size_<%= item._id %>">
+        <%= item.name %>
+      </label>
+    </div>
+    <% }) %>
+    <div id="inputFields"></div>
+  </div>
+</div>
+<div class="form-group">
+  <label for="colors">Colors:</label>
+  <input class="form-control" type="text" id="colors" name="color" multiple />
+</div>
+<div class="form-group">
+  <label for="price">Price:</label>
+  <input
+    class="form-control"
+    type="number"
+    id="price"
+    name="price"
+    step="0.01"
+    required
+  />
+</div>
+<div class="form-group">
+  <label for="remain">Remain:</label>
+  <input
+    class="form-control"
+    type="number"
+    id="remain"
+    name="remain"
+    required
+  />
+</div>
+<div class="form-group">
+  <label for="description">Description:</label>
+  <textarea class="form-control" id="description" name="description"></textarea>
+</div>
+
+<script>
+  function generateSizeFields() {
+    const sizeFieldsDiv = document.getElementById("sizeFields");
+    const inputFieldsDiv = document.getElementById("inputFields");
+
+    const selectedSizes = Array.from(
+      document.querySelectorAll('input[name="sizes"]:checked')
+    ).map((input) => input.value);
+
+    // Remove existing size fields
+    while (inputFieldsDiv.firstChild) {
+      inputFieldsDiv.removeChild(inputFieldsDiv.firstChild);
+    }
+
+    selectedSizes.forEach((size, index) => {
+      const sizeField = document.createElement("div");
+      sizeField.classList.add("form-group");
+
+      const sizeLabel = document.createElement("label");
+      sizeLabel.setAttribute("for", `size_${size}`);
+      sizeLabel.textContent = `Size ${index + 1}:`;
+
+      const sizeInput = document.createElement("input");
+      sizeInput.classList.add("form-control");
+      sizeInput.setAttribute("type", "number");
+      sizeInput.setAttribute("id", `size_${size}`);
+      sizeInput.setAttribute("name", `amount`);
+      sizeInput.setAttribute("required", "");
+
+      sizeField.appendChild(sizeLabel);
+      sizeField.appendChild(sizeInput);
+
+      inputFieldsDiv.appendChild(sizeField);
+    });
+  }
+</script>
+<% } %>

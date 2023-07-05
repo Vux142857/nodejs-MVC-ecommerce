@@ -1,0 +1,38 @@
+<% mainForm = () => { %>
+<div class="form-group">
+  <label for="name">Name</label>
+  <input type="name" name="name" class="form-control" id="name" placeholder="Enter name" value="<%= item.name %>"
+    required />
+</div>
+<div class="form-group">
+  <label>Status</label>
+  <select class="form-control" name="status" required>
+    <option disabled selected>Please select status</option>
+    <option value="active" <%=(item.status=="active" ? 'selected ="selected"' :'') %>>Active</option>
+    <option value="inactive" <%=(item.status=="inactive" ? 'selected ="selected"' :'') %>>Inactive
+    </option>
+  </select>
+</div>
+<div class="form-group">
+  <label for="name">Ordering</label>
+  <input type="number" name="ordering" class="form-control" id="ordering" placeholder="Enter ordering"
+    value="<%= item.ordering %>" required />
+</div>
+<div class="form-group">
+  <label for="categories">Categories</label>
+  <select class="form-control" name="special" required>
+    <option disabled selected>Please select special</option>
+    <% category.forEach((element)=> { %>
+      <% let checked=(Array.isArray(item.category) && item.category.includes(element._id)) ? "checked" : "" ; %>
+        <option value="<%=element._id %>" <%=checked %> ><%=element.name %>
+        </option>
+        <% }) %>
+  </select>
+</div>
+<div class="form-group">
+  <% if (item.slug !=='' && typeof item.slug !=='undefined' ) { %>
+    <label for="name">Slug</label>
+    <input type="name" name="slug" class="form-control" id="slug" value="<%= item.slug %>" />
+    <% } %>
+</div>
+<% } %>

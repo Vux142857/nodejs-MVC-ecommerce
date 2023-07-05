@@ -1,0 +1,20 @@
+<% imageForm = () => { %>
+<div class="form-group">
+  <label for="thumb">Thumb</label>
+  <input class="form-control" type="file" name="thumb" />
+</div>
+<% if(item.id !==undefined && item.id !=='' ){ %>
+<div class="form-group">
+  <label>Chosen image</label>
+  <%- imageHelper("backend/upload/article/", item.thumb, item.name,
+  'img-avatar-form' ); %>
+  <label> Selected image</label>
+  <img
+    id="blah"
+    style="width: 10rem"
+    src="/backend/upload/no-img.jpg"
+    alt="Choose your image"
+    class="img-avatar-form"
+  />
+</div>
+<%}%> <% } %>
