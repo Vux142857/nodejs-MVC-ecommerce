@@ -9,10 +9,7 @@ const productSchema = mongoose.Schema(
     },
     category: String,
     slug: String,
-    img: {
-      main: String,
-      sub: [String],
-    },
+    img: [String],
     size: [
       {
         name: String,

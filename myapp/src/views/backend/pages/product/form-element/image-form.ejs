@@ -1,20 +1,31 @@
-<% imageForm = () => { %>
+<% imageForm=()=> { %>
 <div class="form-group">
-  <label for="thumb">Thumb</label>
-  <input class="form-control" type="file" name="thumb" />
-</div>
-<% if(item.id !==undefined && item.id !=='' ){ %>
-<div class="form-group">
-  <label>Chosen image</label>
-  <%- imageHelper("backend/upload/article/", item.thumb, item.name,
-  'img-avatar-form' ); %>
-  <label> Selected image</label>
-  <img
-    id="blah"
-    style="width: 10rem"
-    src="/backend/upload/no-img.jpg"
-    alt="Choose your image"
-    class="img-avatar-form"
+  <input
+    type="file"
+    class="filepond"
+    name="imgs"
+    multiple
   />
+  <% if (item.id !== undefined && item.id !== '') { %>
+    <label>Chosen image</label>
+    <% if (Array.isArray(item.img)) { item.image.forEach((element) => { %> <%-
+    imageHelper("backend/upload/product/", element, item.name,
+    'img-avatar-form'); %> <% }); } else { %> <%-
+    imageHelper("backend/upload/product/", item.img, item.name,
+    'img-avatar-form'); %> <% } %>
+  <% } %>
 </div>
-<%}%> <% } %>
+
+<script>
+  FilePond.registerPlugin(
+    // corrects mobile image orientation
+    FilePondPluginImageExifOrientation,
+
+    // previews dropped images
+    FilePondPluginImagePreview
+  );
+
+  // Select the file input and use create() to turn it into a pond
+  FilePond.create(document.querySelector(".filepond"));
+</script>
+<% } %>

@@ -17,8 +17,8 @@ const categoryService = categoryModel.categoryService;
 const utilStatusFilter = require("../../../utils/utilCreateStatus");
 const utilGetParam = require("../../../utils/utilParam");
 const validateItems = require("../../../validates/article");
-const utilUpload = require("../../../utils/utilUpload.js");
-const uploadFileMiddleware = utilUpload.upload("thumb", "article");
+const utilUpload = require("../../../utils/utilUploadMulti");
+const uploadFileMiddleware = utilUpload.upload("imgs", "product");
 
 // ---------------------------------------------------------------GET
 
@@ -34,7 +34,7 @@ router.get("/form(/:id)?", async (req, res, next) => {
 
   const item = currentId ? await mainService.getOne({ _id: currentId }) : {};
   const errorsNotify = [];
-  res.render(`backend/pages/product/test`, {
+  res.render(`backend/pages/product/form`, {
     title,
     item,
     currentId,
@@ -209,102 +209,45 @@ router.post("/change-ordering/:id", async (req, res, next) => {
 // Create and Update items
 router.post(
   "/save",
-  // uploadFileMiddleware,
+  uploadFileMiddleware,
   // validateItems.validateItemsQueries,
   async (req, res, next) => {
-    // try {
-    //   const errorsMsg = validateItems.validateItemsErros(req); // Handle errors
-    //   const errorsNotify = Object.assign(errorsMsg.errors);
-    //   const item = req.body;
-    //   item.slug = item.name
-    //     .toLowerCase()
-    //     .replace(/ /g, "-")
-    //     .replace(/[^\w-]+/g, "");
-    //   let taskCurrent =
-    //     typeof item !== "undefined" && item.id !== "" ? "Edit" : "Add";
-    //   if (!errorsMsg.isEmpty()) {
-    //     console.log(errorsNotify);
-    //     if (typeof req.file != "undefined")
-    //       utilUpload.remove(currentModel.folderUpload, req.file.filename);
-    //     res.render(`backend/pages/${currentModel.save}`, {
-    //       title: `${taskCurrent} ${currentModel.name}`,
-    //       item,
-    //       currentId: utilGetParam.getParam(req.params, "id", ""),
-    //       errorsNotify,
-    //     });
-    //   } else {
-    //     // Upload and Edit image
-    //     // if (typeof req.file == "undefined") {
-    //     //   item.thumb = item.thumb_old == "" ? "no-img.jpg" : item.thumb_old;
-    //     // } else {
-    //     //   item.thumb = req.file.filename;
-    //     //   if (item.thumb !== item.thumb_old) {
-    //     //     utilUpload.remove(currentModel.folderUpload, item.thumb_old);
-    //     //   }
-    //     // }
-    //     // let data = [];
-    //     // if (Array.isArray(item.categories)) {
-    //     //   item.categories.forEach((id) => {
-    //     //     data.push(id);
-    //     //   });
-    //     // } else {
-    //     //   let id = item.categories;
-    //     //   data.push(id);
-    //     // }
-    //     const articleData = {
-    //       name: item.name,
-    //       ordering: parseInt(item.ordering),
-    //       status: item.status,
-    //       category: data,
-    //       // thumb: item.thumb,
-    //       special: item.special,
-    //       slug: item.slug,
-    //     };
-    //     if (item.id && typeof item.id !== "undefined") {
-    //       await mainService.updateOneById(item.id, articleData);
-    //       req.flash("successMessage", "Item updated successfully");
-    //     } else {
-    //       await mainService.create(articleData);
-    //       req.flash("successMessage", "Item created successfully");
-    //     }
-    //     res.redirect(`/admin/${currentModel.index}`);
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
     try {
-      const data = req.body;
+      const item = req.body;
       let size = [];
-      console.log(data);
+      console.log(req.files);
+      console.log(item.imgs);
 
-      console.log(data.amount);
+      // Upload and Edit image
 
-      if (Array.isArray(data.sizes)) {
-        data.sizes.forEach((element, index) => {
+      
+      if (Array.isArray(item.sizes)) {
+        item.sizes.forEach((element, index) => {
           let sizeObj = {
             name: element,
-            amount: parseInt(data.amount[index]),
+            amount: parseInt(item.amount[index]),
           };
           size.push(sizeObj);
         });
       } else {
         let sizeObj = {
-          name: data.sizes,
-          amount: parseInt(data.amount),
+          name: item.sizes,
+          amount: parseInt(item.amount),
         };
         size.push(sizeObj);
       }
 
-      const item = {
-        name: data.name,
-        category: data.category,
-        color: data.color,
-        price: parseInt(data.price),
-        desciption: data.desciption,
-        status: data.status,
+      const data = {
+        name: item.name,
+        category: item.category,
+        color: item.color,
+        price: parseInt(item.price),
+        desciption: item.desciption,
+        status: item.status,
         size,
+        img: item.image,
       };
-      res.send(item);
+      res.send(data);
     } catch (error) {
       console.log(error);
     }
