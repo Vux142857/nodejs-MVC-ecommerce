@@ -14,19 +14,25 @@
   </select>
 </div>
 <div class="form-group">
-  <label for="name">Ordering</label>
-  <input type="number" name="ordering" class="form-control" id="ordering" placeholder="Enter ordering"
-    value="<%= item.ordering %>" required />
-</div>
-<div class="form-group">
   <label for="categories">Categories</label>
-  <select class="form-control" name="special" required>
-    <option disabled selected>Please select special</option>
+  <select class="form-control" name="category" required>
+    <option disabled selected>Please select category</option>
     <% category.forEach((element)=> { %>
-      <% let checked=(Array.isArray(item.category) && item.category.includes(element._id)) ? "checked" : "" ; %>
+      
+      <% let checked=(item.category == element._id.toString()) ? 'selected ="selected"' : "" ;
+       %>
         <option value="<%=element._id %>" <%=checked %> ><%=element.name %>
         </option>
         <% }) %>
+  </select>
+</div>
+<div class="form-group">
+  <label>Special</label>
+  <select class="form-control" name="special" required>
+    <option disabled selected>Please select special</option>
+    <option value="on" <%=(item.special=="on" ? 'selected ="selected"' :'') %>>On</option>
+    <option value="off" <%=(item.special=="off" ? 'selected ="selected"' :'') %>>Off
+    </option>
   </select>
 </div>
 <div class="form-group">

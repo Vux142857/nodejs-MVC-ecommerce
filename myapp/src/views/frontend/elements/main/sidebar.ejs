@@ -6,7 +6,7 @@
     </li>
     <li><hr /></li>
     <% categoryArticle.forEach((item)=>{%>
-    <li><a href="<%= item.href %>"> <%=item.name %></a></li>
+    <li><a href="javascript:changeCategoryProduct('<%= item._id %>')"> <%=item.name %></a></li>
     <%}) %>
   </ul>
 </div>

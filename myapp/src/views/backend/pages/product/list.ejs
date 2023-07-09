@@ -23,8 +23,8 @@ include ./../../helper/special %>
                 </div>
                 <div class="form-group">
                   <label>Categories</label>
-                  <%- selectboxHelper('filter_category', category, category_id, collection)
-                  %>
+                  <%- selectboxHelper('filter_category', category, category_id,
+                  collection) %>
                 </div>
                 <%= formSearch(currentStatus) %>
               </div>
@@ -50,7 +50,6 @@ include ./../../helper/special %>
                     <th>Name</th>
                     <th>Image</th>
                     <th>Status</th>
-                    <th>Ordering</th>
                     <th>Special</th>
                     <th>Action</th>
                   </tr>

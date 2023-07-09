@@ -35,7 +35,78 @@ const changeCategory = (id) => {
           console.log(error);
         }
         console.log(html);
-        $("#articleControl").html(html); // Removed unnecessary "${}" from the html variable
+        $("#articleControl").html(html);
+      } else {
+        console.log("Error :((");
+      }
+    },
+  });
+};
+
+const changeCategoryProduct = (id) => {
+  let newLinkChangeCategory = `category-product/${id}`;
+  $.ajax({
+    type: "get",
+    url: newLinkChangeCategory,
+    dataType: "json",
+    success: function (response) {
+      let products = response;
+      if (products) {
+        let html = "";
+        try {
+          if (Array.isArray(products)) {
+            let url;
+            console.log(123);
+            products.forEach((product) => {
+              url = product.slug + "-id-" + product._id.toString();
+              html += `<div class="col-lg-4 col-md-6 mb-4">
+              <div class="product">
+                <div class="product-image position-relative">
+                  <div
+                    class="fslider"
+                    data-pagi="false"
+                    data-speed="400"
+                    data-pause="200000"
+                  >
+                    <div class="flexslider">
+                      <div class="slider-wrap" >
+                        <div class="slide" style ="display: block;">
+                          <a href="${url}"
+                            ><img
+                              src="backend/upload/product/${product.img[0]}"
+                              alt="${product.name}"/></a>
+                        </div>
+                        <div class="slide">
+                          <a href="${url}"
+                            ><img
+                              src="backend/upload/product/${product.img[1]}"
+                              alt="${product.name}"/></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <a href="#" class="cart-btn button button-white button-light"
+                    ><i class="icon-line-plus"></i>Add to Cart</a
+                  >
+                </div>
+                <div class="product-desc">
+                  <div class="product-title">
+                    <h3>
+                      <a href="${url}">${product.name}</a>
+                    </h3>
+                  </div>
+                  <div class="product-price"><ins>${product.price}</ins></div>
+                </div>
+              </div>
+            </div>`;
+            
+            });
+          }
+        } catch (error) {
+          console.log(error);
+        }
+        console.log(html);
+        $("#contain-products").html(html);
       } else {
         console.log("Error :((");
       }

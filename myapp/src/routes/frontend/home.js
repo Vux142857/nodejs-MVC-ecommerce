@@ -6,25 +6,31 @@ const containService = require("../../services/containService");
 const currentModel = containService.modelControl.article;
 const subModel = containService.modelControl.category;
 const emailModel = containService.modelControl.email;
+const settingModel = containService.modelControl.setting;
+const productModel = containService.modelControl.product;
 const mainService = currentModel.articleService; // Service
 const subService = subModel.categoryService;
-const settingModel = containService.modelControl.setting;
 const settingService = settingModel.settingService;
+const productService = productModel.productService;
 
 // Utility
 const utilGetParam = require("../../utils/utilParam");
 
 router.get("/", async (req, res, next) => {
-  const itemSpecial = await mainService.getSpecial();
-  const categoryParent = await subService.getAll({
-    status: "active",
-    ordering: { $lt: 4 },
-  });
-  const categoryArticle = await subService.getAll({
-    status: "active",
-    ordering: { $gt: 4 },
-  });
-  const setting = await settingService.getAll({});
+  const [itemSpecial, categoryParent, categoryArticle, setting, products] =
+    await Promise.all([
+      mainService.getSpecial(),
+      subService.getAll({
+        status: "active",
+        special: "on",
+      }),
+      subService.getAll({
+        status: "active",
+        special: "off",
+      }),
+      settingService.getAll({}),
+      productService.getAll({}),
+    ]);
   const contain = setting && setting.length > 0 ? setting[0].contain : "{}";
   const data = contain ? JSON.parse(contain) : {};
   res.render("frontend/pages/home/index", {
@@ -33,6 +39,7 @@ router.get("/", async (req, res, next) => {
     categoryParent,
     categoryArticle,
     data,
+    products,
   });
 });
 
@@ -69,6 +76,13 @@ router.get("/category", async (req, res, next) => {
   const objString = JSON.stringify(item);
   const obj = JSON.parse(objString);
   res.send(objString);
+});
+
+// bottoms-id-64a28b4fe68d25ef4924c6e0
+router.get("/category-product/:id", async (req, res, next) => {
+  const id = req.params.id;
+  const products = await productService.getAll({ category: id });
+  res.send(products);
 });
 
 module.exports = router;

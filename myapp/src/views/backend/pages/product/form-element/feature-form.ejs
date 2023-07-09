@@ -1,7 +1,7 @@
 <% featureForm=()=> { %>
 <div class="form-group">
   <div id="sizeFields">
-    <% if (typeof item._id==="undefined"){ size.forEach((item)=> { %>
+    <% if (typeof item.id==="undefined"){ size.forEach((item)=> { %>
     <div class="form-check">
       <input
         class="form-check-input"
@@ -17,25 +17,41 @@
     </div>
     <% })} else { %>
     <div class="form-group">
-      <% item.size.forEach((item, index) => { %> <% let sizeItem =
-      size.find((size) => size._id === item.name); %>
+      <%size.forEach((item)=> { %>
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          id="size_<%= item._id %>"
+          name="sizes"
+          value="<%= item._id %>"
+          onclick="generateSizeFields()"
+        />
+        <label class="form-check-label" for="size_<%= item._id %>">
+          <%= item.name %>
+        </label>
+      </div>
+      <% }) %>
+      <label>
+        Chosen sizes: 
+      </label>
+      <br>
+       <% item.size.forEach((item, index) => { let sizeItem =
+      size.find((size) => size._id.toString() == item.name); %>
       <input
         class="form-check-input"
         type="checkbox"
         id="size_<%= item.name %>"
-        name="sizes"
         value="<%= item.name %>"
         checked
       />
       <label class="form-check-label" for="size_<%= item.name %>">
-        <%= sizeItem.name %>
+        <%= sizeItem.name %> :
       </label>
-      <label for="size_<%= item.name %>"><%= sizeItem.name %> :</label>
       <input
         class="form-control"
         type="number"
         id="size_<%= item.name %>"
-        name="amount"
         value="<%= item.amount %>"
         required
       />
@@ -50,7 +66,7 @@
   <select class="form-control" name="color" required>
     <option disabled selected>Please select Color</option>
     <% color.forEach((element)=> { %> <% let checked=(item.color &&
-    item.color===element._id) ? 'selected ="selected"' : "" ; %>
+    item.color==element._id.toString()) ? 'selected ="selected"' : "" ; %>
     <option value="<%=element._id %>" <%="checked" %>
       ><%=element.name %>
     </option>
@@ -64,6 +80,7 @@
     type="number"
     id="price"
     name="price"
+    value="<%= item.price %>"
     step="0.01"
     required
   />
@@ -80,7 +97,9 @@
 </div> -->
 <div class="form-group">
   <label for="description">Description:</label>
-  <textarea class="form-control" id="description" name="description"></textarea>
+  <textarea class="form-control" id="description" name="description">
+<%= item.description %></textarea
+  >
 </div>
 
 <script>

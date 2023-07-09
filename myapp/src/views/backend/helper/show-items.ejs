@@ -11,28 +11,34 @@
         <% if (collection=="article" ) { %>
           <td><%- imageHelper("backend/upload/article/", item.thumb, item.name) %></td>
           <%} %>
-            <td id="<%= item.id %>">
-              <%= statusHelper("items",item.status, item.id) %>
-            </td>
-            <% if (collection == "color" ) { %>
-              <td><%= item.hex %></td>
-              <%} else if (collection == "size"){%>
-
-              <%} else{%>
-                <td class="<%= item.id %>">
-                  <input type="number" value="<%= item.ordering %>" class="text-center ordering"
-                    onchange="changeOrdering('<%= item.id %>', this.value)" />
+            <% if (collection=="product" ) { %>
+              <td>
+                <%- imageHelper("backend/upload/product/", item.img[0], item.name) %>
+              </td>
+              <%} %>
+                <td id="<%= item.id %>">
+                  <%= statusHelper("items",item.status, item.id) %>
                 </td>
-                <%} %>
-                  <% if (collection=="article" ) { %>
-                    <td id="<%= item.id %>-special">
-                      <%= specialHelper("items",item.special, item.id) %>
-                    </td>
-                    <%} %>
-                      <td>
-                        <a href="form/<%= item.id %>" type="button" class="btn btn-warning btn-sm">Edit</a>
-                        <a data-id="<%=item.id %>" data-status="<%=currentStatus %>" type="button"
-                          class="btn btn-danger btn-sm btn-delete">Delete</a>
+                <% if (collection=="color" ) { %>
+                  <td>
+                    <%= item.hex %>
+                  </td>
+                  <%} else if (collection=="size" || collection =="product" ){%>
+                    <%} else{%>
+                      <td class="<%= item.id %>">
+                        <input type="number" value="<%= item.ordering %>" class="text-center ordering"
+                          onchange="changeOrdering('<%= item.id %>', this.value)" />
                       </td>
+                      <%} %>
+                        <% if (collection=="article" || collection =="product" || collection =="category" ) { %>
+                          <td id="<%= item.id %>-special">
+                            <%= specialHelper("items",item.special, item.id) %>
+                          </td>
+                          <%} %>
+                            <td>
+                              <a href="form/<%= item.id %>" type="button" class="btn btn-warning btn-sm">Edit</a>
+                              <a data-id="<%=item.id %>" data-status="<%=currentStatus %>" type="button"
+                                class="btn btn-danger btn-sm btn-delete">Delete</a>
+                            </td>
       </tr>
       <%})} %>

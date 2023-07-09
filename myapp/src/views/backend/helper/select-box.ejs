@@ -1,5 +1,5 @@
 <% 
-    selectboxHelper = (name, items, optionSelected = '') => {
+    selectboxHelper = (name, items, optionSelected = '', collection) => {
         let xhtml = '<option value="" selected disabled hidden>Choose here</option>';
         items.forEach((item) => {
         let selected = (item.id == optionSelected) ? `selected="selected"` : '';
@@ -7,8 +7,8 @@
         xhtml += `<option value="${id}" ${selected}>${item.name}</option>`;
     });
 
-        return `<form id="categoryForm" method="GET" action="/admin/article/filter-category">
-            <select name="${name}" class="form-control" onchange="submitCategoryForm()">
+        return `<form id="categoryForm" method="GET" action="admin/${collection}/filter-category">
+            <select name="${name}" class="form-control" onchange="submitCategoryForm('${collection}')">
               ${xhtml}
             </select>
           </form>`;

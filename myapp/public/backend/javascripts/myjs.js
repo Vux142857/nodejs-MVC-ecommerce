@@ -96,10 +96,10 @@ $(document).ready(function () {
   });
 });
 
-function submitCategoryForm() {
+function submitCategoryForm(collection) {
   const form = document.getElementById("categoryForm");
   const selectedCategoryId = form.filter_category.value;
-  const url = `/admin/article/filter-category/${selectedCategoryId}`;
+  const url = `/admin/${collection}/filter-category/${selectedCategoryId}`;
   form.action = url;
   form.submit();
 }

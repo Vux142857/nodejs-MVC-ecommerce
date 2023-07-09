@@ -2,7 +2,7 @@
 <div class="form-group">
   <% if (item.id !== undefined && item.id !== '') { %>
   <label>Chosen image</label>
-  <% if (Array.isArray(item.img)) { item.image.forEach((element) => { %> <%-
+  <% if (Array.isArray(item.img)) { item.img.forEach((element) => { %> <%-
   imageHelper("backend/upload/product/", element, item.name, 'img-avatar-form');
   %> <% }); } else { %> <%- imageHelper("backend/upload/product/", item.img,
   item.name, 'img-avatar-form'); %> <% } %> <% } %>

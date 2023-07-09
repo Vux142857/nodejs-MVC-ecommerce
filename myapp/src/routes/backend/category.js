@@ -181,6 +181,7 @@ router.post(
           imgURL: item.imgURL,
           childs: data,
           href: item.href,
+          special: item.special,
         });
         req.flash("successMessage", "Item updated successfully");
       } else {

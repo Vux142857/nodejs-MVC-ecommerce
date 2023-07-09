@@ -45,6 +45,15 @@
                 value="<%= item.ordering %>" required />
             </div>
             <div class="form-group">
+              <label>Is menu: </label>
+              <select class="form-control" name="special" required>
+                <option disabled selected>Please select display menu</option>
+                <option value="on" <%=(item.special=="on" ? 'selected ="selected"' :'') %>>On</option>
+                <option value="off" <%=(item.special=="off" ? 'selected ="selected"' :'') %>>Off
+                </option>
+              </select>
+            </div>
+            <div class="form-group">
               <% if (item.slug !=='' && typeof item.slug !=='undefined' ) { %>
                 <label for="name">Slug</label>
                 <input type="name" name="slug" class="form-control" id="slug" value="<%= item.slug %>" />

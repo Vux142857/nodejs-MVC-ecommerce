@@ -140,7 +140,29 @@ permision {
 }
 
 
---product
---login
+--product {
+    add field isSpecial +
+    add list: {
+        main:
+        main-img: img[0]
+        category: []
+    } +
+    add product +
+    review image +
+    review Chosen image +
+    display product -
+    display single product - slug-id:1212321
+}
+-- category {
+    add field isMenu - (special)
+}
+
+-- article {
+    review image -
+    display single article
+}
+
 --slider
 --feature
+--login
+

@@ -24,6 +24,7 @@ const categorySchema = mongoose.Schema(
     },
     href: String,
     childs: [String],
+    special: String,
   },
   { timestamps: true }
 );
