@@ -7,8 +7,9 @@ const saltRounds = 10;
 const containService = require("../../services/containService");
 const currentModel = containService.modelControl.user;
 const mainService = currentModel.userService; // Service
-const userModel = require("../../models/userModel");
-
+const User = require("../../models/userModel");
+const auth = require("../../validates/jwt");
+const jwt = require("jsonwebtoken");
 
 // // Utility
 // const utilGetParam = require("../../utils/utilParam");
@@ -37,46 +38,79 @@ const userModel = require("../../models/userModel");
 
 router.post("/login", async (req, res, next) => {
   try {
-    const item = req.body;
-    console.log(item);
-    
-    let itemExisted= userModel.findOne({username: item.username});
-    console.log(itemExisted);
-    
-    let validate = await bcrypt.compare(item.password, itemExisted.password);
-    // let newPass01 = await bcrypt
-    //   .hash(item.password, saltRounds)
-    //   .then((hash) => {
-    //     console.log(hash);
-    //   })
-    //   .catch((err) => console.error(err.message));
+    // Get user input
+    const { email, password } = req.body;
 
-    // let data = {
-    //   username: item.username,
-    //   password: await bcrypt.hash(item.password, saltRounds),
-    // };
-    let data = (validate) ? itemExisted: {};
+    // Validate user input
+    if (!(email && password)) {
+      res.status(400).send("All input is required");
+    }
+    // Validate if user exist in our database
+    const user = await User.findOne({ email });
+    console.log(user);
 
-    res.send(data);
-  } catch (error) {
-    next(error);
+    if (user && (await bcrypt.compare(password, user.password))) {
+      // Create token
+      console.log(123);
+
+      // const token = jwt.sign({ _id: user._id, email }, "sdasds", {
+      //   expiresIn: "2h",
+      // });
+
+      // // save user token
+      // user.token = token;
+
+      // user
+      res.status(201).json(user);
+    }
+    res.status(400).send("Invalid Credentials");
+  } catch (err) {
+    console.log(err);
   }
 });
 
-router.post("/register", async (req, res, next) => {
+router.post("/register", auth, async (req, res, next) => {
+  // Our register logic starts here
   try {
-    const item = req.body;
+    // Get user input
+    const { username, email, password } = req.body;
 
-    // let data = {
-    //   username: item.username,
-    //   email: item.email,
-    //   password: await bcrypt.hash(item.password, saltRounds),
-    // };
+    // Validate user input
+    if (!(email && password && username)) {
+      res.status(400).send("All input is required");
+    }
 
-    let data = await mainService.create(item);
-    res.send(data);
-  } catch (error) {
-    next(error);
+    // check if user already exist
+    // Validate if user exist in our database
+    const oldUser = await User.findOne({ email });
+
+    if (oldUser) {
+      return res.status(409).send("User Already Exist. Please Login");
+    }
+
+    // //Encrypt user password
+    // encryptedPassword = await bcrypt.hash(password, 10);
+
+    // Create user in our database
+    const user = await User.create({
+      username,
+      email: email.toLowerCase(), // sanitize: convert email to lowercase
+      password,
+    });
+
+    // Create token
+    const token = jwt.sign({ user_id: user._id, email }, "sdasds", {
+      expiresIn: "2h",
+    });
+
+    // Save user token
+    user.token = token;
+
+    // return new user
+    // res.status(201).json(user);
+    res.send(user);
+  } catch (err) {
+    console.log(err);
   }
 });
 

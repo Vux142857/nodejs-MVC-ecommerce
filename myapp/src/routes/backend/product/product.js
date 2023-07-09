@@ -18,7 +18,7 @@ const utilStatusFilter = require("../../../utils/utilCreateStatus");
 const utilGetParam = require("../../../utils/utilParam");
 const validateItems = require("../../../validates/article");
 const utilUpload = require("../../../utils/utilUploadMulti");
-const uploadFileMiddleware = utilUpload.upload("imgs", "product");
+const uploadFileMiddleware = utilUpload.upload("images", "product");
 
 // ---------------------------------------------------------------GET
 
@@ -28,11 +28,14 @@ router.get("/form(/:id)?", async (req, res, next) => {
   const title = currentId
     ? `Edit ${currentModel.name}`
     : `Add ${currentModel.name}`;
-  const category = await categoryService.getAll();
-  const size = await sizeService.getAll();
-  const color = await colorService.getAll();
 
-  const item = currentId ? await mainService.getOne({ _id: currentId }) : {};
+  const [category, size, color, item] = await Promise.all([
+    categoryService.getAll(),
+    sizeService.getAll(),
+    colorService.getAll(),
+    currentId ? mainService.getOne({ _id: currentId }) : {},
+  ]);
+
   const errorsNotify = [];
   res.render(`backend/pages/product/form`, {
     title,
@@ -48,59 +51,64 @@ router.get("/form(/:id)?", async (req, res, next) => {
 
 // Filter, show and find Items, Pagination
 router.get("(/list)?(/:status)?", async (req, res, next) => {
-  const currentStatus = utilGetParam.getParam(req.params, "status", "all");
-  const category = await categoryService.getAll();
-  const category_id = utilGetParam.getParam(req.session, "category_id", "");
-  // Find
+  try {
+    const currentStatus = utilGetParam.getParam(req.params, "status", "all");
+
+    // Execute the Promises concurrently using Promise.all()
+    const [category, statusFilter, items] = await Promise.all([
+      categoryService.getAll(),
+      utilStatusFilter.createFilterStatus(currentStatus, mainService),
+      mainService
+        .getAll(getCondition(req, currentStatus))
+        .skip((pagination.currentPage - 1) * pagination.itemsPerPage)
+        .limit(pagination.itemsPerPage),
+    ]);
+
+    const category_id = utilGetParam.getParam(req.session, "category_id", "");
+    const keyword = utilGetParam.getParam(req.query, "search", "");
+    const pagination = {
+      currentPage: parseInt(utilGetParam.getParam(req.query, "page", 1)),
+      itemsPerPage: 4,
+    };
+
+    res.render(`backend/pages/${currentModel.index}`, {
+      title: `List ${currentModel.name}`,
+      items,
+      statusFilter,
+      currentStatus,
+      keyword,
+      itemsPerPage: pagination.itemsPerPage,
+      currentPage: pagination.currentPage,
+      collection: currentModel.name,
+      category,
+      category_id,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Function to build the condition object based on the request parameters
+function getCondition(req, currentStatus) {
   const keyword = utilGetParam.getParam(req.query, "search", "");
   let condition = currentStatus === "all" ? {} : { status: currentStatus };
+
   if (keyword) {
     condition.name = new RegExp(keyword, "ig");
   } else {
     delete condition.name;
   }
 
-  condition =
-    category_id !== ""
-      ? {
-          $or: [
-            { category: { $elemMatch: { $eq: category_id } } },
-            { status: currentStatus },
-          ],
-        }
-      : condition;
+  const category_id = utilGetParam.getParam(req.session, "category_id", "");
+  if (category_id !== "") {
+    condition.$or = [
+      { category: { $elemMatch: { $eq: category_id } } },
+      { status: currentStatus },
+    ];
+  }
 
-  // Filter
-  const statusFilter = await utilStatusFilter.createFilterStatus(
-    currentStatus,
-    mainService
-  );
-
-  // Pagination
-  const pagination = {
-    currentPage: parseInt(utilGetParam.getParam(req.query, "page", 1)),
-    itemsPerPage: 4,
-  };
-
-  let items = await mainService
-    .getAll(condition)
-    .skip((pagination.currentPage - 1) * pagination.itemsPerPage)
-    .limit(pagination.itemsPerPage);
-
-  // Render
-  res.render(`backend/pages/${currentModel.index}`, {
-    title: `List ${currentModel.name}`,
-    items,
-    statusFilter,
-    currentStatus,
-    keyword,
-    itemsPerPage: pagination.itemsPerPage,
-    currentPage: pagination.currentPage,
-    collection: currentModel.name,
-    category,
-    category_id,
-  });
-});
+  return condition;
+}
 
 // Change status single
 router.get("/change-status/:id/:status", async (req, res, next) => {
@@ -215,12 +223,40 @@ router.post(
     try {
       const item = req.body;
       let size = [];
+      let images = [];
       console.log(req.files);
-      console.log(item.imgs);
+      item.images_old = item.images_old ? JSON.parse(item.images_old) : [];
+      console.log(item.images_old);
 
       // Upload and Edit image
+      if (typeof req.files === "undefined" || req.files.length === 0) {
+        // No files were uploaded
+        if (Array.isArray(item.images)) {
+          // Remove any existing images that were previously uploaded
+          item.images.forEach((imageName) => {
+            utilUpload.remove(currentModel.folderUpload, imageName);
+          });
+        }
+        item.images = item.images_old || ["no-img.jpg"];
+      } else {
+        // New files were uploaded
+        item.images = req.files.map((file) => file.filename);
 
-      
+        if (Array.isArray(item.images_old)) {
+          // Remove any existing images that were previously uploaded and not replaced
+          item.images_old.forEach((imageName) => {
+            if (!item.images.includes(imageName)) {
+              utilUpload.remove(currentModel.folderUpload, imageName);
+            }
+          });
+        } else {
+          // Single existing image was replaced with multiple new images
+          if (!item.images.includes(item.images_old)) {
+            utilUpload.remove(currentModel.folderUpload, item.images_old);
+          }
+        }
+      }
+
       if (Array.isArray(item.sizes)) {
         item.sizes.forEach((element, index) => {
           let sizeObj = {
@@ -241,12 +277,12 @@ router.post(
         name: item.name,
         category: item.category,
         color: item.color,
-        price: parseInt(item.price),
         desciption: item.desciption,
         status: item.status,
         size,
-        img: item.image,
+        img: item.images,
       };
+      const product = await mainService.create(data);
       res.send(data);
     } catch (error) {
       console.log(error);

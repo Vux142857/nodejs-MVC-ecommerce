@@ -1,31 +1,39 @@
 <% imageForm=()=> { %>
 <div class="form-group">
+  <% if (item.id !== undefined && item.id !== '') { %>
+  <label>Chosen image</label>
+  <% if (Array.isArray(item.img)) { item.image.forEach((element) => { %> <%-
+  imageHelper("backend/upload/product/", element, item.name, 'img-avatar-form');
+  %> <% }); } else { %> <%- imageHelper("backend/upload/product/", item.img,
+  item.name, 'img-avatar-form'); %> <% } %> <% } %>
+</div>
+<div
+  class="w-[400px] relative border-2 border-gray-300 border-dashed rounded-lg p-6"
+  id="dropzone"
+>
   <input
     type="file"
-    class="filepond"
-    name="imgs"
+    class="absolute inset-0 w-full h-full opacity-0 z-50"
+    id="file-upload"
     multiple
+    name="images"
   />
-  <% if (item.id !== undefined && item.id !== '') { %>
-    <label>Chosen image</label>
-    <% if (Array.isArray(item.img)) { item.image.forEach((element) => { %> <%-
-    imageHelper("backend/upload/product/", element, item.name,
-    'img-avatar-form'); %> <% }); } else { %> <%-
-    imageHelper("backend/upload/product/", item.img, item.name,
-    'img-avatar-form'); %> <% } %>
-  <% } %>
+  <div class="text-center">
+    <img
+      class="mx-auto h-12 w-12"
+      src="https://www.svgrepo.com/show/357902/image-upload.svg"
+      alt=""
+    />
+    <h3 class="mt-2 text-sm font-medium text-gray-900">
+      <label for="file-upload" class="relative cursor-pointer">
+        <span>Drag and drop</span>
+        <span class="text-indigo-600"> or browse</span>
+        <span>to upload</span>
+      </label>
+    </h3>
+    <p class="mt-1 text-xs text-gray-500">Images up to 3MB</p>
+  </div>
+
+  <div id="preview-container" class="mt-4 mx-auto hidden"></div>
 </div>
-
-<script>
-  FilePond.registerPlugin(
-    // corrects mobile image orientation
-    FilePondPluginImageExifOrientation,
-
-    // previews dropped images
-    FilePondPluginImagePreview
-  );
-
-  // Select the file input and use create() to turn it into a pond
-  FilePond.create(document.querySelector(".filepond"));
-</script>
 <% } %>

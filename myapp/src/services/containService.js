@@ -58,6 +58,7 @@ exports.modelControl = {
     name: "product",
     index: "product/list",
     save: "product/form",
+    folderUpload: "backend/upload/product",
   },
   user: {
     userService,

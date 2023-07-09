@@ -8,7 +8,10 @@ const productSchema = mongoose.Schema(
       unique: true,
     },
     category: String,
-    slug: String,
+    slug: {
+      type: String,
+      unique: true,
+    },
     img: [String],
     size: [
       {
@@ -16,14 +19,41 @@ const productSchema = mongoose.Schema(
         amount: Number,
       },
     ],
-    color: [String],
+    remain: Number,
+    color: String,
     price: Number,
     description: String,
-    remain: Number,
     status: String,
     sale: Number,
   },
   { timestamps: true }
 );
+
+productSchema.pre("save", function (next) {
+  if (!this.slug) {
+    this.slug = generateSlug(this.name);
+  }
+  this.remain = generateRemain(this.size);
+  next();
+});
+
+function generateRemain(size) {
+  let remain = 0;
+  if (size && size.length > 0) {
+    size.forEach((element) => {
+      remain += element.amount;
+    });
+  }
+  return remain;
+}
+
+function generateSlug(name) {
+  let slug = name
+    .toLowerCase()
+    .replace(/ /g, "-")
+    .replace(/[^\w-]+/g, "");
+
+  return slug;
+}
 
 module.exports = mongoose.model("Product", productSchema);

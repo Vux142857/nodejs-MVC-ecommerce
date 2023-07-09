@@ -138,3 +138,9 @@ permision {
     name: String             // 1
     source: String          // (/admin/item/list)
 }
+
+
+--product
+--login
+--slider
+--feature
