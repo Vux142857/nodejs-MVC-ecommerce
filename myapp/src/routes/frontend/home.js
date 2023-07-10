@@ -131,11 +131,12 @@ router.get("/:id", async (req, res, next) => {
     productRelated = await productService
       .getAll({ category: product.category })
       .limit(4);
-  } else {
-    productRelated = await productService
-      .getAll({ category: { $in: article.category } })
-      .limit(4);
   }
+  // } else {
+  //   productRelated = await productService
+  //     .getAll({ category: { $in: article.category } })
+  //     .limit(4);
+  // }
 
   const contain = setting && setting.length > 0 ? setting[0].contain : "{}";
   const data = contain ? JSON.parse(contain) : {};
