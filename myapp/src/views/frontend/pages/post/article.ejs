@@ -1,0 +1,179 @@
+<!-- Page Title
+		============================================= -->
+<section
+  id="page-title"
+  class="page-title-parallax page-title-dark page-title-center"
+  style="
+    background-image: url('backend/upload/article/<%= article.thumb %>');
+    background-size: cover;
+    padding: 170px 0 100px;
+  "
+  data-bottom-top="background-position: 50% 200px;"
+  data-top-bottom="background-position: 50% -200px;"
+>
+  <div class="container clearfix">
+    <h1 class="h1 fw-bold mb-4"><%= article.name %></h1>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item h1 fw-bold mb-4"><a href="/">Home</a></li>
+    </ol>
+  </div>
+</section>
+<!-- #page-title end -->
+<div class="content-wrap pb-0">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <% console.log(article); %>
+        <h2 class="h1 fw-bold mb-4"><%= article.name %></h2>
+        <%- article.content %>
+        <abbr title="Phone Number"><strong>Phone:</strong></abbr
+        ><%= data.contact.phone %><br />
+        <abbr title="Fax"><strong>Fax:</strong></abbr> (1) 11 4752 1433<br />
+        <abbr title="Email Address"><strong>Email:</strong></abbr>
+        <%= data.contact.email %><br />
+        <div class="mt-4">
+          <a
+            href="#"
+            class="social-icon si-small si-colored rounded-0 si-facebook"
+            title="Facebook"
+          >
+            <i class="icon-facebook"></i>
+            <i class="icon-facebook"></i>
+          </a>
+
+          <a
+            href="#"
+            class="social-icon si-small si-colored rounded-0 si-instagram"
+            title="instagram"
+          >
+            <i class="icon-instagram"></i>
+            <i class="icon-instagram"></i>
+          </a>
+
+          <a
+            href="#"
+            class="social-icon si-small si-colored rounded-0 si-google"
+            title="google"
+          >
+            <i class="icon-google"></i>
+            <i class="icon-google"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- <div class="col-lg-7 col-md-6 mt-4 mt-md-0">
+        <img src="demos/store/images/contact/1.jpg" alt="image" />
+      </div> -->
+    </div>
+    <div class="clear my-5"></div>
+  </div>
+  <div class="clear"></div>
+  <div class="section mb-0">
+    <div class="container mw-md text-center">
+      <h4>Similar Products</h4>
+
+      <div class="row justify-content-center gutter-1">
+        <!-- Shop Item 1
+            ============================================= -->
+        <% if(Array.isArray(productRelated)){ productRelated.forEach(item => {%>
+        <div class="col-md-3 col-6 h-translate-y-sm all-ts">
+          <div class="product bg-white">
+            <div class="product-image position-relative">
+              <div
+                class="fslider"
+                data-pagi="false"
+                data-speed="400"
+                data-pause="200000"
+              >
+                <div class="flexslider">
+                  <div class="slider-wrap">
+                    <div class="slide">
+                      <a href="<%= item.slug %>-idp=<%= item._id.toString() %>"
+                        ><img
+                          src="backend/upload/product/<%=item.img[0] %>"
+                          alt="<%=item.name %>"
+                      /></a>
+                    </div>
+                    <div class="slide">
+                      <a href="<%= item.slug %>-idp=<%= item._id.toString() %>"
+                        ><img
+                          src="backend/upload/product/<%=item.img[1] %>"
+                          alt="<%=item.name %>"
+                      /></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <a href="#" class="cart-btn button button-white button-light"
+                ><i class="icon-line-plus"></i>Add to Cart</a
+              >
+            </div>
+            <div class="product-desc flex-column px-4">
+              <div class="product-title">
+                <h3>
+                  <a href="demo-store-product-single.html"><%=item.name %></a>
+                </h3>
+                <% let categoryOfProductRelated=categoryArticle.find(element=>
+                element._id.toString() == item.category) %>
+                <span><a href="#"><%=categoryOfProductRelated.name %></a></span>
+              </div>
+              <div class="product-price"><ins><%=item.price %></ins></div>
+            </div>
+          </div>
+        </div>
+        <% })} %>
+      </div>
+    </div>
+  </div>
+  <div class="section mb-0 border-0" style="padding: 80px 0">
+    <div class="video-wrap" style="z-index: 0">
+      <video
+        poster="one-page/images/page/portrait/video-poster.jpg"
+        preload="auto"
+        loop
+        autoplay
+        muted
+      >
+        <source
+          src="one-page/images/page/portrait/video.mp4"
+          type="video/mp4"
+        />
+      </video>
+      <div class="video-overlay" style="background: rgba(0, 0, 0, 0.2)"></div>
+    </div>
+    <div
+      class="emphasis-title widget subscribe-widget mx-auto center px-4"
+      data-loader="button"
+      style="max-width: 650px"
+    >
+      <h2 class="fw-bold text-white">Subscribe Now</h2>
+      <p class="mb-5 text-white-50 lead" data-delay="100">
+        Subscribe to Our Newsletter to get Important News, Amazing Offers &
+        Inside Scoops:
+      </p>
+      <div class="widget-subscribe-form-result"></div>
+      <form
+        id="widget-subscribe-form-2"
+        action="include/subscribe.php"
+        method="post"
+        class="mt-1 input-group input-group-lg mb-0"
+      >
+        <input
+          type="email"
+          id="widget-subscribe-form-2-email"
+          name="widget-subscribe-form-email"
+          class="form-control required email rounded-0 border-0"
+          placeholder="Enter your Email Address"
+        />
+
+        <button
+          class="btn btn-dark bg-color rounded-0 text-uppercase fw-bold"
+          type="submit"
+          style="font-size: 16px"
+        >
+          Subscribe Now
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

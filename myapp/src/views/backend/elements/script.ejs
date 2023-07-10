@@ -62,3 +62,10 @@
     previewContainer.classList.remove("hidden");
   }
 </script>
+<script>
+	ClassicEditor
+		.create( document.querySelector( '#content_ckeditor' ) )
+		.catch( error => {
+			console.error( error );
+		} );
+</script>

@@ -11,14 +11,14 @@
         <div class="flexslider">
           <div class="slider-wrap">
             <div class="slide">
-              <a href="<%= item.slug %>-id-<%= item._id.toString() %>"
+              <a href="<%= item.slug %>-idp=<%= item._id.toString() %>"
                 ><img
                   src="backend/upload/product/<%= item.img[0] %>"
                   alt="<%= item.name %>"
               /></a>
             </div>
             <div class="slide">
-              <a href="<%= item.slug %>-id-<%= item._id.toString() %>"
+              <a href="<%= item.slug %>-idp=<%= item._id.toString() %>"
                 ><img
                   src="backend/upload/product/<%= item.img[1] %>"
                   alt="<%= item.name %>"
@@ -34,7 +34,7 @@
     <div class="product-desc">
       <div class="product-title">
         <h3>
-          <a href="<%= item.slug %>-id-<%= item._id.toString() %>"
+          <a href="<%= item.slug %>-idp=<%= item._id.toString() %>"
             ><%= item.name %></a
           >
         </h3>

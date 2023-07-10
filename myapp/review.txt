@@ -150,19 +150,35 @@ permision {
     add product +
     review image +
     review Chosen image +
-    display product -
+    display product +
     display single product - slug-id:1212321
 }
 -- category {
-    add field isMenu - (special)
+    add field isMenu + (special)
 }
 
 -- article {
-    review image -
-    display single article
+    review image +
+    display single article -
 }
 
---slider
---feature
---login
+--slider {
+    database {
+        content: String
+        img: 
+        status:
+        special:
+    }
+    display
+}
+
+--feature {
+    database
+    display
+}
+
+ot {
+    sort by price
+    --login
+}
 

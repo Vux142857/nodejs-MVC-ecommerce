@@ -7,6 +7,7 @@ const colorService = require("./colorService");
 const sizeService = require("./sizeService");
 const productService = require("./productService");
 const userService = require("./userService");
+const sliderService = require("./sliderService");
 
 exports.modelControl = {
   item: {
@@ -65,5 +66,12 @@ exports.modelControl = {
     name: "user",
     index: "user/list",
     save: "user/form",
+  },
+  slider: {
+    sliderService,
+    name: "slider",
+    index: "slider/list",
+    save: "slider/form",
+    folderUpload: "backend/upload/slider",
   },
 };

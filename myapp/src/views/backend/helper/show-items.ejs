@@ -8,8 +8,11 @@
           </div>
         </td>
         <td><%- highlightHelper(item.name, keyword) %></td>
-        <% if (collection=="article" ) { %>
+        <% if (collection=="article") { %>
           <td><%- imageHelper("backend/upload/article/", item.thumb, item.name) %></td>
+          <%} %>
+          <% if (collection=="slider" ) { %>
+          <td><%- imageHelper("backend/upload/slider/", item.thumb, item.name) %></td>
           <%} %>
             <% if (collection=="product" ) { %>
               <td>
@@ -30,7 +33,7 @@
                           onchange="changeOrdering('<%= item.id %>', this.value)" />
                       </td>
                       <%} %>
-                        <% if (collection=="article" || collection =="product" || collection =="category" ) { %>
+                        <% if (collection=="article" || collection =="product" || collection =="category" || collection=="slider" ) { %>
                           <td id="<%= item.id %>-special">
                             <%= specialHelper("items",item.special, item.id) %>
                           </td>

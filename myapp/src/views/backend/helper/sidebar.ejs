@@ -102,7 +102,28 @@
         name: 'Size',
       },
     ]
-  }
+  },
+  {
+    class: '',
+    href: '#',
+    icon: 'nav-icon fa-solid fa-layer-group',
+    name: 'Management Slider',
+    class_childItems: 'nav nav-treeview',
+    childItems: [
+      {
+        class: '',
+        href: '/admin/category/list',
+        icon: 'far fa-circle nav-icon',
+        name: 'Categories',
+      },
+      {
+        class: '',
+        href: '/admin/slider/list',
+        icon: 'far fa-circle nav-icon',
+        name: 'Slider',
+      }
+    ]
+  }, 
 ]; %>
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <% data.forEach(item => { 

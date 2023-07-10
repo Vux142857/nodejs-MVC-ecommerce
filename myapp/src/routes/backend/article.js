@@ -23,8 +23,12 @@ router.get("/form(/:id)?", async (req, res, next) => {
   const title = currentId
     ? `Edit ${currentModel.name}`
     : `Add ${currentModel.name}`;
-  const category = await subService.getAll();
-  const item = currentId ? await mainService.getOne({ _id: currentId }) : {};
+  // const category = await subService.getAll();
+  // const item = currentId ? await mainService.getOne({ _id: currentId }) : {};
+  const [category, item] = await Promise.all([
+    subService.getAll({ special: "off" }),
+    currentId ? await mainService.getOne({ _id: currentId }) : {},
+  ]);
   const errorsNotify = [];
   res.render(`backend/pages/${currentModel.save}`, {
     title,
@@ -39,8 +43,8 @@ router.get("/form(/:id)?", async (req, res, next) => {
 // Filter, show and find Items, Pagination
 router.get("(/list)?(/:status)?", async (req, res, next) => {
   const currentStatus = utilGetParam.getParam(req.params, "status", "all");
-  const category = await subService.getAll();
   const category_id = utilGetParam.getParam(req.session, "category_id", "");
+
   // Find
   const keyword = utilGetParam.getParam(req.query, "search", "");
   let condition = currentStatus === "all" ? {} : { status: currentStatus };
@@ -60,22 +64,21 @@ router.get("(/list)?(/:status)?", async (req, res, next) => {
         }
       : condition;
 
-  // Filter
-  const statusFilter = await utilStatusFilter.createFilterStatus(
-    currentStatus,
-    mainService
-  );
-
   // Pagination
   const pagination = {
     currentPage: parseInt(utilGetParam.getParam(req.query, "page", 1)),
     itemsPerPage: 4,
   };
 
-  let items = await mainService
-    .getAll(condition)
-    .skip((pagination.currentPage - 1) * pagination.itemsPerPage)
-    .limit(pagination.itemsPerPage);
+  const [category, statusFilter, items] = await Promise.all([
+    subService.getAll(),
+    // Filter
+    utilStatusFilter.createFilterStatus(currentStatus, mainService),
+    mainService
+      .getAll(condition)
+      .skip((pagination.currentPage - 1) * pagination.itemsPerPage)
+      .limit(pagination.itemsPerPage),
+  ]);
 
   // Render
   res.render(`backend/pages/${currentModel.index}`, {
@@ -96,11 +99,15 @@ router.get("(/list)?(/:status)?", async (req, res, next) => {
 router.get("/change-status/:id/:status", async (req, res, next) => {
   const { id, status } = req.params;
   const newStatus = status === "active" ? "inactive" : "active";
-  await mainService.updateOneById(id, { status: newStatus });
-  const recount = await utilStatusFilter.createFilterStatus(
-    status,
-    mainService
-  );
+  // await mainService.updateOneById(id, { status: newStatus });
+  // const recount = await utilStatusFilter.createFilterStatus(
+  //   status,
+  //   mainService
+  // );
+  const [recount] = await Promise.all([
+    utilStatusFilter.createFilterStatus(status, mainService),
+    mainService.updateOneById(id, { status: newStatus }),
+  ]);
   res.send({ newStatus, recount });
 });
 
@@ -117,11 +124,10 @@ router.delete("/delete/:id/:status", async (req, res, next) => {
   const { id, status } = req.params;
   let item = await mainService.getOne(id);
   utilUpload.remove(currentModel.folderUpload, item.thumb);
-  await mainService.delete(id);
-  const recount = await utilStatusFilter.createFilterStatus(
-    status,
-    mainService
-  );
+  const [recount] = await Promise.all([
+    utilStatusFilter.createFilterStatus(status, mainService),
+    mainService.delete(id),
+  ]);
   res.send({ recount });
 });
 
@@ -249,6 +255,7 @@ router.post(
           thumb: item.thumb,
           special: item.special,
           slug: item.slug,
+          content: item.content,
         };
         if (item.id && typeof item.id !== "undefined") {
           await mainService.updateOneById(item.id, articleData);

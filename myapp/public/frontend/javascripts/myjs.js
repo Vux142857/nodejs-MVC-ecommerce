@@ -18,13 +18,13 @@ const changeCategory = (id) => {
                 class="mb-4"
               />
               <h4 class="mb-2">
-                <a href="#">${element.name}</a>
+                <a href="${element.slug}-id${element._id}">${element.name}</a>
               </h4>
               <p class="mb-3">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo doloremque
                 eveniet dolorem, porro earum. Eius, corrupti provident iusto modi sunt.
               </p>
-              <a href="#" class="stretched-link btn p-0 fw-semibold"
+              <a href="${element.slug}-id${element._id}" class="stretched-link btn p-0 fw-semibold"
                 ><u>View Details</u>
                 <i class="icon-line-arrow-right position-relative ms-1" style="top: 2px"></i
               ></a>

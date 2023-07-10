@@ -13,6 +13,7 @@ const articleSchema = mongoose.Schema(
     special: String,
     slug: String,
     category: [String],
+    content: String
   },
   { timestamps: true }
 );
