@@ -173,12 +173,26 @@ permision {
 }
 
 --feature {
-    database
-    display
+    database -
+    display -
 }
 
+-/////////////////
 ot {
     sort by price
     --login
 }
 
+cart {
+    add to cart
+    page for cart
+}
+
+display list products in category page {
+    display
+    sort
+}
+
+login {
+
+}

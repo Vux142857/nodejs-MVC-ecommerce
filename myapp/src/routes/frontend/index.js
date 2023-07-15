@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
-
-router.use((req, res, next) => {
+const setting = require("../../middleware/settingMiddleware");
+router.use(async (req, res, next) => {
   req.app.set("layout", "frontend/layouts/index");
   next();
 });
 
-router.use("/", require("./home"));
+router.use("/", setting, require("./home"));
 
 module.exports = router;

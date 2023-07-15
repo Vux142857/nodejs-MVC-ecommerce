@@ -30,8 +30,8 @@ app.use(function (req, res, next) {
 });
 
 // view engine setup
-app.set("views", path.join(__dirname, "src", "views"));
 app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "src", "views"));
 
 app.use(expressLayouts);
 mongoose

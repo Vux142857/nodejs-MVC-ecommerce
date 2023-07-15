@@ -1,3 +1,120 @@
 <div id="top-account" class="px-4">
-    <a href="#modal-register" data-lightbox="inline">Sign up/Login</a>
+  <a href="#modal-login" data-lightbox="inline">Sign up/Login</a>
+</div>
+<div class="modal-register mfp-hide" id="modal-login">
+  <div class="card mx-auto" style="max-width: 540px">
+    <div class="card-header py-3 bg-transparent center">
+      <h3 class="mb-0 fw-normal">Login</h3>
+    </div>
+    <div class="card-body mx-auto py-5" style="max-width: 70%">
+      <!-- <a
+        href="#"
+        class="button button-large w-100 si-colored si-facebook nott fw-normal ls0 center m-0"
+        ><i class="icon-facebook-sign"></i> Log in with Facebook</a
+      >
+
+      <div class="divider divider-center">
+        <span class="position-relative" style="top: -2px">OR</span>
+      </div> -->
+
+      <form
+        id="login-form"
+        name="login-form"
+        class="mb-0 row"
+        action="#"
+        method="post"
+      >
+        <div class="col-12">
+          <input
+            type="text"
+            id="login-form-username"
+            name="login-form-username"
+            value=""
+            class="form-control not-dark"
+            placeholder="Username"
+          />
+        </div>
+
+        <div class="col-12 mt-4">
+          <input
+            type="password"
+            id="login-form-password"
+            name="login-form-password"
+            value=""
+            class="form-control not-dark"
+            placeholder="Password"
+          />
+        </div>
+
+        <div class="col-12 text-end">
+          <a href="#" class="text-dark fw-light mt-2">Forgot Password?</a>
+        </div>
+
+        <div class="col-12 mt-4">
+          <button
+            class="button w-100 m-0"
+            id="login-form-submit"
+            name="login-form-submit"
+            value="login"
+          >
+            Login
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="card-footer py-4 center">
+      <p class="mb-0">
+        Don't have an account? <a href="#modal-register" data-lightbox="inline"><u>Sign up</u></a>
+      </p>
+    </div>
   </div>
+</div>
+<div class="modal-register mfp-hide" id="modal-register">
+  <div class="card mx-auto" style="max-width: 540px">
+    <div class="card-header py-3 bg-transparent center">
+      <h3 class="mb-0 fw-normal">Hello, Welcome</h3>
+    </div>
+    <div class="card-body mx-auto py-5" style="max-width: 70%">
+      <form
+        id="login-form"
+        name="login-form"
+        class="mb-0 row"
+        action="#"
+        method="post"
+      >
+        <div class="col-12">
+          <input
+            type="text"
+            id="login-form-username"
+            name="username"
+            value=""
+            class="form-control not-dark"
+            placeholder="Username"
+          />
+        </div>
+
+        <div class="col-12 mt-4">
+          <input
+            type="password"
+            id="login-form-password"
+            name="login-form-password"
+            value=""
+            class="form-control not-dark"
+            placeholder="Password"
+          />
+        </div>
+
+        <div class="col-12 mt-4">
+          <button
+            class="button w-100 m-0"
+            id="login-form-submit"
+            name="login-form-submit"
+            value="register"
+          >
+            Register
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
