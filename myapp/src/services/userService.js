@@ -10,29 +10,18 @@ exports.getAll = (params) => {
   }
 };
 
-exports.findOne = (params) => {
-  try {
-    return Item.findOne(params).sort({
-      createdAt: -1,
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-exports.getSpecial = () => {
-  try {
-    return Item.find({ special: "on", status: "active" }).limit(2).sort({
-      ordering: "asc",
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 exports.getOne = async (id) => {
   try {
     const item = await Item.findById(id);
+    return item;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.findOne = async (param) => {
+  try {
+    const item = await Item.findOne(param);
     return item;
   } catch (error) {
     console.log(error);

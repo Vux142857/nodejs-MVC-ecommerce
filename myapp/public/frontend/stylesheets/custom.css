@@ -1,90 +1,90 @@
-* {
-    box-sizing: border-box;
-}
+  * {
+      box-sizing: border-box;
+  }
 
-div.zcontrols {
-    margin-bottom: 20px;
-}
+  div.zcontrols {
+      margin-bottom: 20px;
+  }
 
-.tag-list {
-    list-style-type: none;
-    padding: 0;
-}
+  .tag-list {
+      list-style-type: none;
+      padding: 0;
+  }
 
-.tag-list li {
-    margin-bottom: 5px;
-}
+  .tag-list li {
+      margin-bottom: 5px;
+  }
 
-.tag-toggle {
-    display: inline-block;
-    padding: 5px 10px;
-    background-color: #eee;
-    color: #333;
-    text-decoration: none;
-}
+  .tag-toggle {
+      display: inline-block;
+      padding: 5px 10px;
+      background-color: #eee;
+      color: #333;
+      text-decoration: none;
+  }
 
-.sub-tags {
-    display: none;
-    padding-left: 20px;
-}
+  .sub-tags {
+      display: none;
+      padding-left: 20px;
+  }
 
-.sub-tags li {
-    margin-bottom: 2px;
-}
+  .sub-tags li {
+      margin-bottom: 2px;
+  }
 
-.sub-tags.open {
-    display: block;
-}
+  .sub-tags.open {
+      display: block;
+  }
 
-.disabled {
-    pointer-events: none;
-    cursor: default;
-}
+  .disabled {
+      pointer-events: none;
+      cursor: default;
+  }
 
-div.zcontrols select {
-    width: 200px;
-    display: inline-block;
-}
+  div.zcontrols select {
+      width: 200px;
+      display: inline-block;
+  }
 
-li.active>a:first-child {
-    color: #000;
-}
+  li.active>a:first-child {
+      color: #000;
+  }
 
-.status-list {
-    margin-bottom: 15px;
-}
+  .status-list {
+      margin-bottom: 15px;
+  }
 
-#icon-reload {
-    float: right;
-}
+  #icon-reload {
+      float: right;
+  }
 
-.input-group-btn a {
-    color: white;
-}
+  .input-group-btn a {
+      color: white;
+  }
 
-/* #pagination .panel-body{
+  /* #pagination .panel-body{
     display: flex;
     justify-content: space-between;
 } */
-#pagination .panel-heading span {
-    float: right;
-    margin-right: 10px;
-    line-height: 15px;
-}
+  #pagination .panel-heading span {
+      float: right;
+      margin-right: 10px;
+      line-height: 15px;
+  }
 
-.infor-pagination span {
-    color: blue;
-    font-weight: bold;
-}
+  .infor-pagination span {
+      color: blue;
+      font-weight: bold;
+  }
 
-.infor-pagination {
-    float: left;
-}
+  .infor-pagination {
+      float: left;
+  }
 
-.ad-pagination {
-    float: right;
-}
+  .ad-pagination {
+      float: right;
+  }
 
-img.error-page-img {
-    width: 800px;
-}
+  img.error-page-img {
+      width: 800px;
+  }

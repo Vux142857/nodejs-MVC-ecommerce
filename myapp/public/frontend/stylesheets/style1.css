@@ -16800,4 +16800,7 @@ label.checkbox { padding-left: 20px; }
 	animation-name: fadeOutUpSmall;
 }
 
-
+#top-cart-trigger:hover {
+    /* Add other hover styles as desired */
+    cursor: pointer;
+}

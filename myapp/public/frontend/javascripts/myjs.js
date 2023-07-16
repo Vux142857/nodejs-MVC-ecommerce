@@ -18,13 +18,13 @@ const changeCategory = (id) => {
                 class="mb-4"
               />
               <h4 class="mb-2">
-                <a href="${element.slug}-id${element._id}">${element.name}</a>
+                <a href="${element.slug}-ida=${element._id}">${element.name}</a>
               </h4>
               <p class="mb-3">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo doloremque
                 eveniet dolorem, porro earum. Eius, corrupti provident iusto modi sunt.
               </p>
-              <a href="${element.slug}-id${element._id}" class="stretched-link btn p-0 fw-semibold"
+              <a href="${element.slug}-ida=${element._id}" class="stretched-link btn p-0 fw-semibold"
                 ><u>View Details</u>
                 <i class="icon-line-arrow-right position-relative ms-1" style="top: 2px"></i
               ></a>
@@ -99,7 +99,6 @@ const changeCategoryProduct = (id) => {
                 </div>
               </div>
             </div>`;
-            
             });
           }
         } catch (error) {
@@ -113,3 +112,57 @@ const changeCategoryProduct = (id) => {
     },
   });
 };
+
+const addToCart = (id) => {
+  let addToCartLink = `/add-to-cart/${id}`;
+  $.ajax({
+    type: "get",
+    url: addToCartLink,
+    dataType: "json",
+    success: function (response) {
+      let listCart = response;
+      if (listCart) {
+        let innerHTML = ``;
+        let total = 0;
+        if (Array.isArray(listCart)) {
+          listCart.forEach((cartItem) => {
+            innerHTML += `<div class="top-cart-item" >
+      <div class="top-cart-item-image">
+        <a href=""
+          ><img
+            src="backend/upload/product/${cartItem.img[0]}"
+            alt="${cartItem.name}"
+        /></a>
+      </div>
+      <div class="top-cart-item-desc ">
+        <div class="top-cart-item-desc-title">
+          <a href="#" class="fw-normal">${cartItem.name}</a>
+          <span class="top-cart-item-price d-block">$${cartItem.price}</span>
+        </div>
+        <div class="top-cart-item-quantity fw-semibold">x 1</div>
+      </div>
+    </div>`;
+            total += cartItem.price;
+          });
+        }
+        let outerHTML = `<a id="top-cart-trigger" class="position-relative"
+><i class="icon-line-bag"></i><span class="top-cart-number">${listCart.length}</span></a
+><div class="top-cart-content">
+<div class="top-cart-title">
+<h4>Shopping Cart</h4>
+</div><div class="top-cart-items">${innerHTML}</div><div class="top-cart-action">
+<span class="top-checkout-price fw-semibold text-dark">$${total}</span>
+<a class="button button-dark button-small m-0"> View Cart </a>
+</div>
+</div>`;
+        $("#top-cart").html(outerHTML);
+      } else {
+        console.log("Error :((");
+      }
+    },
+  });
+};
+
+function toggleCart() {
+  $("#top-cart").toggleClass("top-cart-open");
+}

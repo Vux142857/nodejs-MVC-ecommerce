@@ -3,19 +3,27 @@ const jwt = require("jsonwebtoken");
 const config = process.env;
 
 const verifyToken = (req, res, next) => {
-  const token =
-    req.body.token || req.query.token || req.headers["x-access-token"];
+  const token = req.session.token;
 
   if (!token) {
     return res.status(403).send("A token is required for authentication");
   }
+
   try {
     const decoded = jwt.verify(token, config.TOKEN_KEY);
     req.user = decoded;
+    console.log(req.user);
+
+    if (req.user.isAdmin == "on") {
+      return next();
+    } else {
+      return res.redirect("/");
+    }
   } catch (err) {
-    return res.status(401).send("Invalid Token");
+    // Handle the error or redirect the user to a different route
+    // For example:
+    return res.status(404);
   }
-  return next();
 };
 
 module.exports = verifyToken;

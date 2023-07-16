@@ -66,6 +66,7 @@ exports.modelControl = {
     name: "user",
     index: "user/list",
     save: "user/form",
+    folderUpload: "backend/upload/user",
   },
   slider: {
     sliderService,

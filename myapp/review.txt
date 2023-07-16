@@ -178,21 +178,17 @@ permision {
 }
 
 -/////////////////
-ot {
-    sort by price
-    --login
-}
 
 cart {
-    add to cart
-    page for cart
+    add to cart 40%
+    page for cart 40%
 }
 
 display list products in category page {
-    display
-    sort
+    display -
+    sort -
 }
 
-login {
+login & register & admin +
 
-}
+display profile user -

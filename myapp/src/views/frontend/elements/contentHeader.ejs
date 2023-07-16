@@ -1,4 +1,4 @@
-<% include ../elements/header/logo %>
+<% include ../elements/header/logo %> <% include ../elements/header/top-cart %>
 <header
   id="header"
   class="dark transparent-header floating-header header-size-custom"
@@ -21,7 +21,9 @@
 
           <!-- Top Cart
         ============================================= -->
-          <%- include('./header/top-cart') %>
+          <div id="top-cart" onclick="toggleCart()">
+            <%- cartElement(listCart) %>
+          </div>
           <!-- #top-cart end -->
         </div>
 

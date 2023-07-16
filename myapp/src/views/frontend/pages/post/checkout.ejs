@@ -1,79 +1,4 @@
-<style>
-  .col-25 {
-    -ms-flex: 25%; /* IE10 */
-    flex: 25%;
-  }
-
-  .col-50 {
-    -ms-flex: 50%; /* IE10 */
-    flex: 50%;
-  }
-
-  .col-75 {
-    -ms-flex: 75%; /* IE10 */
-    flex: 75%;
-  }
-
-  .col-25,
-  .col-50,
-  .col-75 {
-    padding: 0 1rem;
-  }
-
-  .container {
-    background-color: #f2f2f2;
-    padding: 0.2rem 0.5rem 1rem 1.2rem;
-    border: 1px solid lightgrey;
-    border-radius: 3px;
-  }
-
-  input[type="text"] {
-    width: 100%;
-    margin-bottom: 1rem;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-  }
-
-  label {
-    display: block;
-  }
-
-  .icon-container {
-    margin-bottom: 20px;
-    padding: 0.4rem 0;
-    font-size: 24px;
-  }
-
-  .btn {
-    background-color: #04aa6d;
-    color: white;
-    padding: 12px;
-    margin: 10px 0;
-    border: none;
-    width: 100%;
-    border-radius: 3px;
-    cursor: pointer;
-    font-size: 17px;
-  }
-
-  .btn:hover {
-    background-color: #45a049;
-  }
-
-  a {
-    color: #2196f3;
-  }
-
-  hr {
-    border: 1px solid lightgrey;
-  }
-
-  span.price {
-    float: right;
-    color: grey;
-  }
-</style>
+<link rel="stylesheet" href="./frontend/stylesheets/checkout.css" />
 <div class="content-wrap pb-0">
   <div class="container">
     <h2>Checkout Form</h2>
@@ -117,7 +42,86 @@
               </div>
 
               <div class="col-50">
-                <h3>Payment</h3>
+                <div id="section-payment-method" class="section">
+                  <div class="section-header">
+                    <h2 class="section-title">Payment methods</h2>
+                  </div>
+                  <div class="section-content">
+                    <div class="content-box">
+                      <div class="radio-wrapper content-box-row">
+                        <label
+                          class="radio-label"
+                          for="payment_method_id_941686"
+                        >
+                          <div class="radio-input payment-method-checkbox">
+                            <input
+                              type="radio"
+                              id="payment_method_id_941686"
+                              class="input-radio"
+                              name="payment_method_id"
+                              value="941686"
+                              checked=""
+                            />
+                          </div>
+                          <div class="radio-content-input">
+                            <img
+                              class="main-img"
+                              src="https://hstatic.net/0/0/global/design/seller/image/payment/cod.svg?v=4"
+                            />
+                            <div>
+                              <span class="radio-label-primary">
+                                Cash on delivery (COD)</span
+                              >
+                              <span class="quick-tagline hidden"></span>
+                            </div>
+                          </div>
+                        </label>
+                      </div>
+                      <div class="radio-wrapper content-box-row">
+                        <label
+                          class="radio-label"
+                          for="payment_method_id_1003608618"
+                        >
+                          <div class="radio-input payment-method-checkbox">
+                            <input
+                              type="radio"
+                              id="payment_method_id_1003608618"
+                              class="input-radio"
+                              name="payment_method_id"
+                              value="1003608618"
+                            />
+                          </div>
+                          <div class="radio-content-input">
+                            <img
+                              class="main-img"
+                              src="https://hstatic.net/0/0/global/design/seller/image/payment/other.svg?v=4"
+                            />
+                            <div>
+                              <span class="radio-label-primary"
+                                >Payment by cards</span
+                              >
+                              <span class="quick-tagline hidden"></span>
+                            </div>
+                          </div>
+                        </label>
+                      </div>
+                      <div
+                        class="radio-wrapper content-box-row content-box-row-secondary"
+                        for="payment_method_id_1003608618"
+                      >
+                        <div class="blank-slate">
+                          Tên Chủ Thẻ: Nguyễn Ngọc Hoàng Vy<br />
+                          STK: 263470052<br />
+                          Ngân hàng: VPBank chi nhánh Bà Chiểu<br />
+                          Nội dung : Tên của bạn<br />
+                          Sau khi chuyển khoản, vui lòng chụp lại thông tin và
+                          gửi chúng mình qua Facebook hoặc Instagram để được xử
+                          lý nhanh hơn ạ.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             <label>
@@ -136,10 +140,22 @@
               ><i class="fa fa-shopping-cart"></i> <b>4</b></span
             >
           </h4>
-          <p><a href="#">Product 1</a> <span class="price">$15</span></p>
-          <p><a href="#">Product 2</a> <span class="price">$5</span></p>
-          <p><a href="#">Product 3</a> <span class="price">$8</span></p>
-          <p><a href="#">Product 4</a> <span class="price">$2</span></p>
+          <div class="top-cart-item">
+            <div class="top-cart-item-image">
+              <a href="#"
+                ><img
+                  src="frontend/stylesheets/templates/shop/images/items/featured/5.jpg"
+                  alt="Blue Shoulder Bag"
+              /></a>
+            </div>
+            <div class="top-cart-item-desc">
+              <div class="top-cart-item-desc-title">
+                <a href="#" class="fw-normal">White athletic shoe</a>
+                <span class="top-cart-item-price d-block">$35.00</span>
+              </div>
+              <div class="top-cart-item-quantity fw-semibold">x 1</div>
+            </div>
+          </div>
           <hr />
           <p>
             Total <span class="price" style="color: black"><b>$30</b></span>

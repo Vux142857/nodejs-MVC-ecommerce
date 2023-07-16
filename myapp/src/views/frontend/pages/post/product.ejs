@@ -93,6 +93,7 @@
                 </div>
                 <button
                   type="submit"
+                  onclick="addToCart('<%= product._id %>')"
                   class="add-to-cart button button-large m-0"
                 >
                   Add to cart
@@ -238,7 +239,7 @@
                     ><a href="#"><%=categoryOfProductRelated.name %></a></span
                   >
                 </div>
-                <div class="product-price"><ins><%=item.price %></ins></div>
+                <div class="product-price"><ins>$<%=item.price %></ins></div>
               </div>
             </div>
           </div>

@@ -17,6 +17,7 @@ const productSchema = mongoose.Schema(
       {
         name: String,
         amount: Number,
+        sold: { type: Number, default: 0 },
       },
     ],
     remain: Number,

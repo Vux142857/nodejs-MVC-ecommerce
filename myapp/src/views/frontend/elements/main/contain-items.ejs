@@ -27,9 +27,12 @@
           </div>
         </div>
       </div>
-      <a href="#" class="cart-btn button button-white button-light"
-        ><i class="icon-line-plus"></i>Add to Cart</a
+      <button
+        onclick="addToCart('<%= item._id %>')"
+        class="cart-btn button button-white button-light add-cart"
       >
+        <i class="icon-line-plus"></i>Add to Cart
+      </button>
     </div>
     <div class="product-desc">
       <div class="product-title">
@@ -39,7 +42,7 @@
           >
         </h3>
       </div>
-      <div class="product-price"><ins><%= item.price %></ins></div>
+      <div class="product-price"><ins>$<%= item.price %></ins></div>
     </div>
   </div>
 </div>

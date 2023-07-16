@@ -7,16 +7,17 @@ const userSchema = mongoose.Schema({
     required: [true, "A user must have a name"],
     unique: true,
   },
-  email: String,
-  password: {
+  email: {
     type: String,
     required: true,
     unique: true,
   },
+  password: {
+    type: String,
+    required: true,
+  },
   name: String,
-  email: String,
   address: String,
-  phone: String,
   phone: String,
   isAdmin: {
     type: String,

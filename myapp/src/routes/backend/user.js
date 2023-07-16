@@ -8,7 +8,7 @@ const containService = require("../../services/containService");
 const currentModel = containService.modelControl.user;
 const mainService = currentModel.userService; // Service
 const User = require("../../models/userModel");
-const authToken = require("../../validates/verifyToken");
+const authToken = require("../../middleware/verifyToken");
 const jwt = require("jsonwebtoken");
 
 // // Utility
@@ -28,7 +28,6 @@ router.post("/register", async (req, res) => {
     }
 
     // check if user already exist
-    // Validate if user exist in our database
     const oldUser = await User.findOne({ email });
 
     if (oldUser) {
