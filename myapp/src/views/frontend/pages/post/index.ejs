@@ -1,5 +1,7 @@
 <% if(collection == "product"){ %>
   <%- include('./product') %>
-  <% } else {%>
+  <% } else if (collection == "article") {%>
     <%- include('./article') %>
-    <%} %>
+    <%} else if (collection == "productsByCategory") {%>
+      <%- include('./products') %>
+      <%}%>

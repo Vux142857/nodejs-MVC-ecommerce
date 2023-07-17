@@ -1,0 +1,87 @@
+<% include ./../../helper/select-box %>
+  <% include ./../../helper/image %>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">
+                <%= title %>
+              </h3>
+            </div>
+            <form action="/admin/<%= collection %>/save" method="post" enctype="multipart/form-data">
+              <div class="card-body">
+                <div class="form-group">
+                  <label for="name">Username</label>
+                  <input type="text" username="username" class="form-control" id="username" placeholder="Enter username"
+                    value="<%= item.username %>" required />
+                </div>
+                <div class="form-group">
+                  <label for="name">Password</label>
+                  <input type="password" password="password" class="form-control" id="password" placeholder="Enter password"
+                    value="<%= item.password %>" required />
+                </div>
+                <div class="form-group">
+                  <label for="name">Name</label>
+                  <input type="text" name="name" class="form-control" id="name" placeholder="Enter name"
+                    value="<%= item.name %>" required />
+                </div>
+
+                <div class="form-group">
+                  <label>Status</label>
+                  <select class="form-control" name="status" required>
+                    <option disabled selected>Please select status</option>
+                    <option value="active" <%=(item.status=="active" ? 'selected ="selected"' :'') %>>Active</option>
+                    <option value="inactive" <%=(item.status=="inactive" ? 'selected ="selected"' :'') %>>Inactive
+                    </option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>isAdmin</label>
+                  <select class="form-control" name="isAdmin" required>
+                    <option disabled selected>Please select isAdmin</option>
+                    <option value="on" <%=(item.isAdmin=="on" ? 'selected ="selected"' :'') %>>On</option>
+                    <option value="off" <%=(item.isAdmin=="off" ? 'selected ="selected"' :'') %>>Off
+                    </option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="name">Email</label>
+                  <input type="email" name="email" class="form-control" id="email" placeholder="Enter email"
+                    value="<%= item.email %>" required />
+                </div>
+                <div class="form-group">
+                  <label for="name">Phone</label>
+                  <input type="number" name="phone" class="form-control" id="phone" placeholder="Enter phone"
+                    value="<%= item.phone %>" required />
+                </div>
+                <div class="form-group">
+                  <label for="name">Address</label>
+                  <input type="text" name="address" class="form-control" id="address" placeholder="Enter address"
+                    value="<%= item.address %>" required />
+                </div>
+              </div>
+
+              <div class="card-footer">
+                <input name="id" class="form-control" value="<%= item.id %>" hidden />
+                <button type="submit" class="btn btn-primary float-right">
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notify-catch errors -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <% if (typeof errorsNotify !=='undefined' && errorsNotify !=='' ) { errorsNotify.forEach(element=> { %>
+      <button class="notify" onclick="generateNotify('<%= element.msg %>')" hidden>Click Me</button>
+      <% });%>
+        <% } %>
+          <script>
+            $(function () {
+              $('.notify').click();
+            });
+          </script>

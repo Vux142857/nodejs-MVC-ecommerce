@@ -1,10 +1,11 @@
 <% statusHelper=(collection, status, id)=> {
     let statusClass = (status ==='active') ? "btn btn-block btn-info" : "btn btn-block btn-danger" ;
+    let statusOrder = status === "active" ? "incompleted" : "completed";
     %>
     
-    <a href="javascript:changeStatus('<%= id %>','<%= status %>')" class="<%= statusClass %>">
+    <a href="javascript:changeStatus('<%= id %>','<%= status %>','<%= collection %>')" class="<%= statusClass %>">
         <span class="label">
-            <%= status %>
+            <%= (collection === "order") ? statusOrder : status %>
         </span>
     </a>
     <% } %>

@@ -1,11 +1,19 @@
 <link rel="stylesheet" href="./frontend/stylesheets/checkout.css" />
+<% const generateID=()=> { const length = 6; const characters =
+"ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"; let id = ""; for (let i = 0; i < length;
+i++) { const randomIndex=Math.floor(Math.random() * characters.length); id
++=characters.charAt(randomIndex); } return id; }; let randomID=generateID(); %>
+<% function calculateTotal(list) { let total=0; list.forEach((item)=> {
+if(item.amount > 1){ total += item.price*amount; } total += item.price; });
+return total; } %> <% let total=(typeof listCart !=="undefined" && listCart
+!==[]) ? calculateTotal(listCart) : 0 %>
 <div class="content-wrap pb-0">
   <div class="container">
     <h2>Checkout Form</h2>
     <div class="row">
       <div class="col-75">
         <div class="container">
-          <form action="">
+          <form action="/create-order" method="post">
             <div class="row">
               <div class="col-50">
                 <h3>Billing Address</h3>
@@ -13,15 +21,22 @@
                 <input
                   type="text"
                   id="fname"
-                  name="firstname"
-                  placeholder="John M. Doe"
+                  name="name"
+                  value="<%= userInfo.name  %>"
                 />
                 <label for="email"><i class="fa fa-envelope"></i> Email</label>
                 <input
                   type="text"
                   id="email"
                   name="email"
-                  placeholder="john@example.com"
+                  value="<%= userInfo.email  %>"
+                />
+                <label for="phone"><i class="fa fa-envelope"></i> Phone</label>
+                <input
+                  type="text"
+                  id="phone"
+                  name="phone"
+                  value="<%= userInfo.phone  %>"
                 />
                 <label for="adr"
                   ><i class="fa fa-address-card-o"></i> Address</label
@@ -30,15 +45,19 @@
                   type="text"
                   id="adr"
                   name="address"
-                  placeholder="542 W. 15th Street"
+                  value="<%= userInfo.address  %>"
                 />
-                <label for="city"><i class="fa fa-institution"></i> City</label>
-                <input
-                  type="text"
-                  id="city"
-                  name="city"
-                  placeholder="New York"
-                />
+                <div class="form-group">
+                  <label for="name">Ship fee: </label>
+                  <select name="shipFee" id="province">
+                    <option value="">Chọn tỉnh/thành phố</option>
+                    <option value="3">Hà Nội</option>
+                    <option value="0">TP Hồ Chí Minh</option>
+                    <option value="2">Đà Nẵng</option>
+                    <option value="3">Hải Phòng</option>
+                    <option value="1">Cần Thơ</option>
+                  </select>
+                </div>
               </div>
 
               <div class="col-50">
@@ -105,29 +124,22 @@
                           </div>
                         </label>
                       </div>
-                      <div
-                        class="radio-wrapper content-box-row content-box-row-secondary"
-                        for="payment_method_id_1003608618"
-                      >
-                        <div class="blank-slate">
-                          Tên Chủ Thẻ: Nguyễn Ngọc Hoàng Vy<br />
-                          STK: 263470052<br />
-                          Ngân hàng: VPBank chi nhánh Bà Chiểu<br />
-                          Nội dung : Tên của bạn<br />
-                          Sau khi chuyển khoản, vui lòng chụp lại thông tin và
-                          gửi chúng mình qua Facebook hoặc Instagram để được xử
-                          lý nhanh hơn ạ.
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <label>
-              <input type="checkbox" checked="checked" name="sameadr" />
-              Shipping address same as billing
-            </label>
+            <% let username=(Object.keys(userInfo).length !==0) ?
+            userInfo.username : '' %> <% let
+            userID=(Object.keys(userInfo).length !==0) ? userInfo.id : '' %>
+            <input type="text" value="<%= userID %>" name="user_id" hidden />
+            <input
+              type="text"
+              value="<%= randomID %>_<%= username %>"
+              name="orderID"
+              hidden
+            />
+            <input type="text" value="<%= total %>" name="total" hidden />
             <input type="submit" value="Continue to checkout" class="btn" />
           </form>
         </div>
@@ -137,28 +149,37 @@
           <h4>
             Cart
             <span class="price" style="color: black"
-              ><i class="fa fa-shopping-cart"></i> <b>4</b></span
-            >
+              ><i class="fa fa-shopping-cart"></i> <b></b
+            ></span>
           </h4>
+          <% if(typeof listCart !=='undefined' && listCart !==[]){%> <%
+          listCart.forEach(item=>{%>
           <div class="top-cart-item">
             <div class="top-cart-item-image">
               <a href="#"
                 ><img
-                  src="frontend/stylesheets/templates/shop/images/items/featured/5.jpg"
-                  alt="Blue Shoulder Bag"
+                  src="backend/upload/product/<%= item.img[0] %>"
+                  alt="<%= item.name %>"
               /></a>
             </div>
+
             <div class="top-cart-item-desc">
               <div class="top-cart-item-desc-title">
-                <a href="#" class="fw-normal">White athletic shoe</a>
-                <span class="top-cart-item-price d-block">$35.00</span>
+                <a href="#" class="fw-normal"> <%= item.name %> </a>
+                <span class="top-cart-item-price d-block">
+                  <%= item.price %>
+                </span>
               </div>
-              <div class="top-cart-item-quantity fw-semibold">x 1</div>
+              <div class="top-cart-item-quantity fw-semibold">
+                x <%= item.amount %>
+              </div>
             </div>
           </div>
+          <% }) %> <% } %>
           <hr />
           <p>
-            Total <span class="price" style="color: black"><b>$30</b></span>
+            Total
+            <span class="price" style="color: black"><b>$<%= total %></b></span>
           </p>
         </div>
       </div>

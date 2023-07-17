@@ -1,0 +1,116 @@
+<% include ./../../helper/filter-status %> <% include ./../../helper/search-form
+%> <% include ./../../helper/action %> <% include ./../../helper/status %> <%
+include ./../../helper/show-items %> <% include ./../../helper/pagination %><%
+include ./../../helper/select-box %> <% include ./../../helper/image %> <%
+include ./../../helper/isAdmin %> <% include ./../../helper/highlightHelper %>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header bg-dark">
+                <h3 class="card-title">Filter</h3>
+              </div>
+              <div class="card-body">
+                <div
+                  class="btn-group"
+                  role="group"
+                  aria-label="Basic outlined example"
+                >
+                  <%= filterStatusHelper(statusFilter, keyword) %>
+                </div>
+                <%= formSearch(currentStatus) %>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <form
+              role="form"
+              class="form-inline zt-form"
+              id="zt-form"
+              action=""
+              method="post"
+            >
+              <%- actionHelper(collection) %>
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>
+                      <div class="form-check">
+                        <input type="checkbox" class="cbAll" />
+                      </div>
+                    </th>
+                    <th>Username</th>
+                    <!-- <th>Image</th> -->
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>isAdmin</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="article-list">
+                  <% items.forEach((item,index)=> { %>
+                  <tr>
+                    <td>
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          name="cid"
+                          value="<%= item.id %>"
+                        />
+                      </div>
+                    </td>
+                    <td><%- highlightHelper(item.username, keyword) %></td>
+                    <td><%= item.email %></td>
+                    <td><%= item.phone %></td>
+                    <td id="<%= item.id %>-role">
+                      <%= isAdminHelper("items",item.isAdmin, item.id) %>
+                    </td>
+                    <td id="<%= item.id %>">
+                      <%= statusHelper("items",item.status, item.id) %>
+                    </td>
+                    <td>
+                      <a
+                        href="form/<%= item.id %>"
+                        type="button"
+                        class="btn btn-warning btn-sm"
+                        >Edit</a
+                      >
+                      <a
+                        data-id="<%=item.id %>"
+                        data-status="<%=currentStatus %>"
+                        type="button"
+                        class="btn btn-danger btn-sm btn-delete"
+                        >Delete</a
+                      >
+                    </td>
+                  </tr>
+                  <%}) %>
+                </tbody>
+              </table>
+            </form>
+          </div>
+          <%- paginationHelper(statusFilter, itemsPerPage, currentPage,
+          currentStatus) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Notify-catch errors -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<% if (typeof messages.successMessage !== 'undefined' && messages.successMessage
+!== '') { messages.successMessage.forEach(element => { %>
+<button class="notify" onclick="generateNotify('<%= element%>')" hidden>
+  Click Me
+</button>
+<% });%> <% } %>
+<script>
+  $(function () {
+    $(".notify").click();
+  });
+</script>

@@ -1,6 +1,7 @@
 const settingService = require("../services/settingService");
 const categoryService = require("../services/categoryService");
 const userService = require("../services/userService");
+const sizeService = require("../services/sizeService");
 // Utility
 const utilGetParam = require("../utils/utilParam");
 

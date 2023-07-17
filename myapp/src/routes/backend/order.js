@@ -3,8 +3,8 @@ const router = express.Router();
 
 // Model Control
 const containService = require("../../services/containService");
-const currentModel = containService.modelControl.user;
-const mainService = currentModel.userService; // Service
+const currentModel = containService.modelControl.order;
+const mainService = currentModel.orderService; // Service
 
 // Utility
 const utilStatusFilter = require("../../utils/utilCreateStatus");
@@ -147,40 +147,22 @@ router.post("/change-ordering/:id", async (req, res, next) => {
 });
 
 // Create and Update items
-router.post(
-  "/save",
-  validateItems.validateItemsQueries,
-  async (req, res, next) => {
-    const errorsMsg = validateItems.validateItemsErros(req);
-    const errorsNotify = Object.assign(errorsMsg.errors);
-    const item = req.body;
-    item.slug = item.name
-      .toLowerCase()
-      .replace(/ /g, "-")
-      .replace(/[^\w-]+/g, "");
-    if (!errorsMsg.isEmpty()) {
-      console.log(errorsNotify);
-      res.render(`backend/pages/${currentModel.save}`, {
-        title: "Invalid input",
-        item,
-        currentId: utilGetParam.getParam(req.params, "id", ""),
-        errorsNotify,
-      });
-    } else {
-      if (item.id != "" && typeof item.id != "undefined") {
-        await mainService.updateOneById(item.id, {
-          name: item.name,
-          ordering: parseInt(item.ordering),
-          status: item.status,
-        });
-        req.flash("successMessage", "Item updated successfully");
-      } else {
-        await mainService.create(item);
-        req.flash("successMessage", "Item created successfully");
-      }
-      res.redirect(`/admin/${currentModel.index}`);
-    }
-  }
-);
+router.post("/save", async (req, res, next) => {
+  const data = req.body;
+  await mainService.updateOneById(data.id, {
+    orderID: data.orderID,
+    customer: {
+      user_id: data.user_id,
+      address: data.address,
+      email: data.email,
+      phone: data.phone,
+    },
+    total: data.total,
+    status: data.status,
+    shipFee: data.shipFee,
+  });
+  req.flash("successMessage", "Item updated successfully");
+  res.redirect(`/admin/${currentModel.index}`);
+});
 
 module.exports = router;

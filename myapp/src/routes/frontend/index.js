@@ -7,6 +7,5 @@ router.use(async (req, res, next) => {
 });
 
 router.use("/", setting, require("./home"));
-router.use("/user", setting, require("./user"));
 
 module.exports = router;

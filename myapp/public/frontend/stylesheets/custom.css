@@ -88,3 +88,69 @@
   img.error-page-img {
       width: 800px;
   }
+
+  /* size css */
+  
+  /* Swatch Container */
+  .swatch {
+      margin-bottom: 1.25em;
+  }
+
+  /* Swatch Header */
+  .header.lang {
+      margin-right: 0.3125em;
+      width: 50%;
+  }
+
+  /* Swatch Close Button */
+  .clickClose {
+      width: 50%;
+      display: flex;
+      justify-content: flex-end;
+  }
+
+  /* Swatch Close Button Label */
+  .clickClose .lang {
+      font-size: 0.625em;
+      cursor: pointer;
+      font-weight: 400;
+      color: #909090;
+      text-decoration: underline;
+  }
+
+  /* Swatch Close Button Icon */
+  .clickClose i {
+      margin-left: 0.3125em;
+  }
+
+  /* Swatch Options Container */
+  .select-swap {
+      display: flex;
+  }
+
+  /* Swatch Option */
+  .n-sd {
+      margin-right: 0.625em;
+  }
+
+  /* Swatch Option Input */
+  .n-sd input {
+      display: none;
+  }
+
+  /* Swatch Option Label */
+  .n-sd label {
+      border: 1px solid #ddd;
+      padding: 0.3125em 0.625em;
+      cursor: pointer;
+  }
+
+  /* Swatch Option Label (selected) */
+  .n-sd input:checked+label {
+      border-color: #000;
+  }
+
+  /* Swatch Option Label Text */
+  .n-sd span {
+      font-size: 0.875em;
+  }

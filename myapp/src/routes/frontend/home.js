@@ -10,11 +10,14 @@ const emailModel = containService.modelControl.email;
 const productModel = containService.modelControl.product;
 const sliderModel = containService.modelControl.slider;
 const userModel = containService.modelControl.user;
+const orderModel = containService.modelControl.order;
+
 //  Service
 const articleService = articleModel.articleService;
 const productService = productModel.productService;
 const sliderService = sliderModel.sliderService;
 const userService = userModel.userService;
+const orderService = orderModel.orderService;
 
 // Utility
 const utilGetParam = require("../../utils/utilParam");
@@ -22,8 +25,7 @@ const authToken = require("../../middleware/verifyToken");
 
 // -------------------------------------------GET
 
-// Index
-router.get("/checkout", async (req, res, next) => {
+router.get("/checkout(/:id)?", async (req, res, next) => {
   try {
     res.render("frontend/pages/post/checkout", {
       title: "Homepage",
@@ -33,6 +35,7 @@ router.get("/checkout", async (req, res, next) => {
   }
 });
 
+// Index
 router.get("/", async (req, res, next) => {
   const [itemSpecial, products, slider] = await Promise.all([
     articleService.getSpecial(),
@@ -53,9 +56,11 @@ router.get("/:id", async (req, res, next) => {
     const url = req.params.id;
     let idArticle = "";
     let idProduct = "";
+    let idCategory = "";
     let collection;
     let article;
     let product;
+    let products;
     let productRelated;
 
     if (url.includes("-idp=")) {
@@ -72,6 +77,10 @@ router.get("/:id", async (req, res, next) => {
       productRelated = await productService
         .getAll({ category: { $in: article.category } })
         .limit(4);
+    } else if (url.includes("-idc=")) {
+      collection = "productsByCategory";
+      idCategory = url.split("-idc=")[1];
+      products = await productService.getAll({ category: idCategory });
     }
 
     res.render("frontend/pages/post/index", {
@@ -80,6 +89,7 @@ router.get("/:id", async (req, res, next) => {
       product,
       collection,
       productRelated,
+      products,
     });
   } catch (error) {
     console.log(error);
@@ -139,6 +149,7 @@ router.get("/add-to-cart/:id", async (req, res, next) => {
       img: product.img,
       size: product.size,
       price: product.price,
+      amount: 1,
     };
     req.session.listCart.push(data);
   }
@@ -252,6 +263,59 @@ router.post("/subscribe", async function (req, res) {
     console.error(error);
     res.status(500).send("An error occurred while subscribing.");
   }
+});
+
+// Add to cart
+router.post("/add-to-cart/:id", async (req, res, next) => {
+  const id = req.params.id;
+  const product = await productService.getOne({ _id: id });
+  const amount = req.body.amount;
+  if (!req.session.listCart) {
+    req.session.listCart = []; // Initialize the listCart array if it doesn't exist
+  }
+  let data = {};
+  if (!req.session.listCart.some((item) => item.name === product.name)) {
+    data = {
+      _id: product._id,
+      name: product.name,
+      img: product.img,
+      size: product.size,
+      price: product.price,
+      amount: 1,
+    };
+    req.session.listCart.push(data);
+  }
+  res.redirect("/checkout");
+});
+
+router.post("/create-order", async (req, res, next) => {
+  let data = req.body;
+  let products = req.session.listCart;
+  let item = {
+    orderID: data.orderID,
+    customer: {
+      user_id: data.user_id,
+      address: data.address,
+      email: data.email,
+      phone: data.phone,
+    },
+    products,
+    total: data.total,
+  };
+  if (data.user_id !== "") {
+    await userService.updateOneById(data.user_id, {
+      address: data.address,
+      email: data.email,
+      phone: data.phone,
+      name: data.name,
+    });
+  }
+  const newOrder = await orderService.create(item);
+  req.session.listCart = [];
+  res.render("frontend/pages/post/description", {
+    title: "Homepage",
+    newOrder,
+  });
 });
 
 module.exports = router;

@@ -1,4 +1,4 @@
-const changeStatus = (id, status) => {
+const changeStatus = (id, status, collection) => {
   let newLinkChangeStatus = `change-status/${id}/${status}`;
   $.ajax({
     type: "get",
@@ -12,9 +12,17 @@ const changeStatus = (id, status) => {
           newStatus === "active"
             ? "btn btn-block btn-info"
             : "btn btn-block btn-danger";
-        $(`#${id}`).html(
-          `<a href="javascript:changeStatus('${id}','${newStatus}')" class="${statusClass}"><span>${newStatus}</span></a>`
-        );
+        let statusOrder = newStatus === "active" ? "incompleted" : "completed";
+
+        if (collection === "order") {
+          $(`#${id}`).html(
+            `<a href="javascript:changeStatus('${id}','${newStatus}')" class="${statusClass}"><span>${statusOrder}</span></a>`
+          );
+        } else {
+          $(`#${id}`).html(
+            `<a href="javascript:changeStatus('${id}','${newStatus}')" class="${statusClass}"><span>${newStatus}</span></a>`
+          );
+        }
 
         // Recount status
         let statusFilter = response.recount;
@@ -124,6 +132,31 @@ const changeSpecial = (id, special) => {
         generateNotify("You have changed the special");
       } else {
         generateNotify("Failed to change the special");
+      }
+    },
+  });
+};
+
+const changeRole = (id, role) => {
+  let newLinkChangeRole = `change-role/${id}/${role}`;
+  $.ajax({
+    type: "get",
+    url: newLinkChangeRole,
+    dataType: "JSON",
+    success: function (response) {
+      // Change status
+      let newRole = response.newRole;
+      if (newRole != undefined && newRole != "") {
+        let roleClass =
+          newRole === "on"
+            ? "btn btn-block btn-info"
+            : "btn btn-block btn-danger";
+        $(`#${id}-role`).html(
+          `<a href="javascript:changeRole('${id}','${newRole}')" class="${roleClass}"><span>${newRole}</span></a>`
+        );
+        generateNotify("You have changed the role");
+      } else {
+        generateNotify("Failed to change the role");
       }
     },
   });

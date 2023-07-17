@@ -1,0 +1,127 @@
+<!-- Page Title
+		============================================= -->
+<section
+  id="page-title"
+  class="page-title-parallax page-title-dark page-title-center"
+  style="
+    background-image: url('demos/store/images/men/page-title.jpg');
+    background-size: cover;
+    padding: 170px 0 100px;
+  "
+  data-bottom-top="background-position: 50% 200px;"
+  data-top-bottom="background-position: 50% -200px;"
+>
+  <div class="container clearfix">
+    <h1>Men Collections</h1>
+    <span>A Fresh Collections Of Men</span>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="#">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Men</li>
+    </ol>
+  </div>
+</section>
+<!-- #page-title end -->
+
+<!-- Content
+		============================================= -->
+<section id="content">
+  <div class="content-wrap pb-0">
+    <div class="container-fluid topmargin">
+      <div class="row">
+        <div class="col-md-2 sticky-sidebar-wrap">
+          <ul
+            class="list-unstyled items-nav sticky-sidebar shop-filter"
+            data-container="#shop"
+          >
+            <li>
+              <a href="#" class="text-dark fw-semibold" data-filter="*"
+                >All Collections</a
+              >
+            </li>
+            <li class="no-divider">
+              <a href="#" class="text-dark fw-semibold" data-filter=".sf-new"
+                >New Arrivals</a
+              >
+            </li>
+            <li><hr /></li>
+            <li><a href="#" data-filter=".sf-jeans">Jeans</a></li>
+            <li><a href="#" data-filter=".sf-t-shirts">T-Shirts</a></li>
+            <li><a href="#" data-filter=".sf-watches">Watches</a></li>
+            <li><a href="#" data-filter=".sf-shoes">Shoes</a></li>
+            <li><a href="#" data-filter=".sf-sportswear">Sportswear</a></li>
+            <li><a href="#" data-filter=".sf-shorts">Shorts</a></li>
+            <li><a href="#" data-filter=".sf-trousers">Trousers</a></li>
+            <li><a href="#" data-filter=".sf-jackets">Jackets</a></li>
+            <li><a href="#" data-filter=".sf-sweaters">Sweaters</a></li>
+          </ul>
+
+          <hr />
+
+          <div>
+            <h5 class="ls0 text-muted">Select Price:</h5>
+            <input class="range_23" />
+          </div>
+        </div>
+
+        <div class="col-md-10">
+          <div id="shop" class="row shop grid-container" data-layout="fitRows">
+            <!-- Shop Item 1
+								============================================= -->
+            <% products.forEach(item =>{ %>
+            <div class="col-lg-4 col-md-6 mb-4 sf-shoes sf-sportswear sf-new">
+              <div class="product">
+                <div class="product-image position-relative">
+                  <div
+                    class="fslider"
+                    data-pagi="false"
+                    data-speed="400"
+                    data-pause="200000"
+                  >
+                    <div class="flexslider">
+                      <div class="slider-wrap">
+                        <div class="slide">
+                          <a
+                            href="<%= item.slug %>-idp=<%= item._id.toString() %>"
+                            ><img
+                              src="backend/upload/product/<%=item.img[0] %>"
+                              alt="Black Shoe"
+                          /></a>
+                        </div>
+                        <div class="slide">
+                          <a
+                            href="<%= item.slug %>-idp=<%= item._id.toString() %>"
+                            ><img
+                              src="backend/upload/product/<%=item.img[1] %>"
+                              alt="Black Shoe"
+                          /></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    onclick="addToCart('<%= item._id %>')"
+                    class="cart-btn button button-white button-light add-cart"
+                  >
+                    <i class="icon-line-plus"></i>Add to Cart
+                  </button>
+                </div>
+                <div class="product-desc">
+                  <div class="product-title">
+                    <h3>
+                      <a href="demo-store-product-single.html"
+                        ><%=item.name %></a
+                      >
+                    </h3>
+                  </div>
+                  <div class="product-price"><ins>$<%=item.price %></ins></div>
+                </div>
+              </div>
+            </div>
+            <%}) %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- #content end -->

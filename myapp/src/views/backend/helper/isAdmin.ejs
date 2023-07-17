@@ -1,0 +1,10 @@
+<% isAdminHelper=(collection, isAdmin, id)=> {
+    let isAdminClass = (isAdmin ==='on') ? "btn btn-block btn-info" : "btn btn-block btn-danger" ;
+    %>
+    
+    <a href="javascript:changeRole('<%= id %>','<%= isAdmin %>')" class="<%= isAdminClass %>">
+        <span class="label">
+            <%= isAdmin %>
+        </span>
+    </a>
+    <% } %>

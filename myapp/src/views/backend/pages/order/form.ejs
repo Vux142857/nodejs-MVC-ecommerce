@@ -1,0 +1,85 @@
+<% include ./../../helper/select-box %>
+  <% include ./../../helper/image %>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">
+                <%= title %>
+              </h3>
+            </div>
+            <form action="/admin/<%= collection %>/save" method="post" enctype="multipart/form-data">
+              <div class="card-body">
+                <div class="form-group">
+                  <label>Status</label>
+                  <select class="form-control" name="status" required>
+                    <option disabled selected>Please select status</option>
+                    <option value="active" <%=(item.status=="active" ? 'selected ="selected"' :'') %>>Incompleted
+                    </option>
+                    <option value="inactive" <%=(item.status=="inactive" ? 'selected ="selected"' :'') %>>Completed
+                    </option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="name">Email of customer</label>
+                  <input type="email" name="email" class="form-control" id="email" placeholder="Enter email"
+                    value="<%= item.customer.email %>" required />
+                </div>
+                <div class="form-group">
+                  <label for="name">Phone of customer</label>
+                  <input type="number" name="phone" class="form-control" id="phone" placeholder="Enter phone"
+                    value="<%= item.customer.phone %>" required />
+                </div>
+                <div class="form-group">
+                  <label for="name">Address of customer</label>
+                  <input type="text" name="address" class="form-control" id="address" placeholder="Enter address"
+                    value="<%= item.customer.address %>" required />
+                </div>
+                <div class="form-group">
+                  <label for="name">Ship fee: </label>
+                  <select name="shipFee" id="province">
+                    <option value="">Chọn tỉnh/thành phố</option>
+                    <option value="3">Hà Nội</option>
+                    <option value="0">TP Hồ Chí Minh</option>
+                    <option value="2">Đà Nẵng</option>
+                    <option value="3">Hải Phòng</option>
+                    <option value="1">Cần Thơ</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="name">Total</label>
+                  <input type="number" name="total" class="form-control" id="total" placeholder="Enter total"
+                    value="<%= item.total %>" required />
+                </div>
+                <div class="form-group">
+                  <label>Description</label>
+                  <textarea class="form-control" name="description" rows="2" id="content_ckeditor">
+                    <%= item.description %>
+                  </textarea>
+                </div>
+              </div>
+
+              <div class="card-footer">
+                <input name="id" class="form-control" value="<%= item.id %>" hidden />
+                <button type="submit" class="btn btn-primary float-right">
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notify-catch errors -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <% if (typeof errorsNotify !=='undefined' && errorsNotify !=='' ) { errorsNotify.forEach(element=> { %>
+      <button class="notify" onclick="generateNotify('<%= element.msg %>')" hidden>Click Me</button>
+      <% });%>
+        <% } %>
+          <script>
+            $(function () {
+              $('.notify').click();
+            });
+          </script>
