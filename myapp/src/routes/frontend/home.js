@@ -69,19 +69,14 @@ router.get("/:id", async (req, res, next) => {
     let product;
     let products;
     let productRelated;
-    let SIZE;
+    let SIZE = await sizeService.getAll({});
     if (url.includes("-idp=")) {
       collection = productModel.name;
       idProduct = url.split("-idp=")[1];
       product = await productService.getOne({ _id: idProduct });
-      // productRelated = await productService
-      //   .getAll({ category: product.category })
-      //   .limit(4);
-      // SIZE = sizeService.getAll({});
-      [productRelated, SIZE] = await Promise.all([
-        productService.getAll({ category: product.category }).limit(4),
-        sizeService.getAll({}),
-      ]);
+      productRelated = await productService
+        .getAll({ category: product.category })
+        .limit(4);
     } else if (url.includes("-ida=")) {
       collection = articleModel.name;
       idArticle = url.split("-ida=")[1];
@@ -146,52 +141,7 @@ router.get("/profile/:id", async (req, res, next) => {
   res.send(data);
 });
 
-// Add to cart
-router.get("/add-to-cart/:id", async (req, res, next) => {
-  // const id = req.params.id;
-  // const product = await productService.getOne({ _id: id });
-  // if (!req.session.listCart) {
-  //   req.session.listCart = []; // Initialize the listCart array if it doesn't exist
-  // }
-  // let data = {};
-  // if (!req.session.listCart.some((item) => item.name === product.name)) {
-  //   data = {
-  //     _id: product._id,
-  //     name: product.name,
-  //     img: product.img,
-  //     size: product.size,
-  //     price: product.price,
-  //     amount: 1,
-  //   };
-  //   req.session.listCart.push(data);
-  // }
-  // res.send(req.session.listCart);
-});
-
-router.post("/add-to-cart-test/:id", async (req, res, next) => {
-  // const id = req.params.id;
-  // const product = await productService.getOne({ _id: id });
-
-  // if (!req.session.listCart) {
-  //   req.session.listCart = []; // Initialize the listCart array if it doesn't exist
-  // }
-  // let data = {};
-  // if (!req.session.listCart.some((item) => item.name === product.name)) {
-  //   data = {
-  //     _id: product._id,
-  //     name: product.name,
-  //     img: product.img,
-  //     size: product.size,
-  //     price: product.price,
-  //     amount: 1,
-  //   };
-  //   req.session.listCart.push(data);
-  // }
-  // res.send(req.session.listCart);
-  let item = req.query;
-  res.send(item);
-});
-
+// Apply coupon
 router.get("/apply-coupon/:code", async (req, res, next) => {
   const code = req.params.code;
   let coupon = await couponService.findOne({ name: code });
@@ -307,29 +257,7 @@ router.post("/subscribe", async function (req, res) {
   }
 });
 
-// Add to cart
-// router.post("/add-to-cart/:id", async (req, res, next) => {
-//   const id = req.params.id;
-//   const product = await productService.getOne({ _id: id });
-//   const amount = req.body.amount;
-//   if (!req.session.listCart) {
-//     req.session.listCart = []; // Initialize the listCart array if it doesn't exist
-//   }
-//   let data = {};
-//   if (!req.session.listCart.some((item) => item.name === product.name)) {
-//     data = {
-//       _id: product._id,
-//       name: product.name,
-//       img: product.img,
-//       size: product.size,
-//       price: product.price,
-//       amount: 1,
-//     };
-//     req.session.listCart.push(data);
-//   }
-//   res.redirect("/checkout");
-// });
-
+// Create order
 router.post("/create-order", async (req, res, next) => {
   let data = req.body;
   let products = JSON.parse(data.products);
