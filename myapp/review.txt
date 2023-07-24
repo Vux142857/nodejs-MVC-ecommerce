@@ -205,3 +205,18 @@ index.js {
 // socket.js 
 // localStorage
 // 
+
+// advertise {
+    url: String,
+    status: String,
+    position: String,
+    ordering: Number,
+    cash: Number,
+    start_at: Date,
+    end_at: Date
+}
+
+// active isMenu
+// display link category
+// ko hiện phân trang
+// 
