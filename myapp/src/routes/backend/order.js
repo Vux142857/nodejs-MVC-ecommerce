@@ -91,14 +91,6 @@ router.delete("/delete/:id/:status", async (req, res, next) => {
   res.send({ recount });
 });
 
-// Change role single
-router.get("/change-role/:id/:role", async (req, res, next) => {
-  const { id, role } = req.params;
-  const newRole = role === "on" ? "off" : "on";
-  await mainService.updateOneById(id, { isAdmin: newRole });
-  res.send({ newRole });
-});
-
 // ---------------------------------------------------------------POST
 
 // Change status multi

@@ -99,11 +99,6 @@ router.get("(/list)?(/:status)?", async (req, res, next) => {
 router.get("/change-status/:id/:status", async (req, res, next) => {
   const { id, status } = req.params;
   const newStatus = status === "active" ? "inactive" : "active";
-  // await mainService.updateOneById(id, { status: newStatus });
-  // const recount = await utilStatusFilter.createFilterStatus(
-  //   status,
-  //   mainService
-  // );
   const [recount] = await Promise.all([
     utilStatusFilter.createFilterStatus(status, mainService),
     mainService.updateOneById(id, { status: newStatus }),

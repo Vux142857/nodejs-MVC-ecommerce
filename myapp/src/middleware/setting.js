@@ -40,6 +40,5 @@ module.exports = async (req, res, next) => {
   res.locals.categoryParent = categoryParent;
   res.locals.categoryArticle = categoryArticle;
   res.locals.userInfo = userInfo;
-  res.locals.listCart = req.session.listCart;
   next();
 };

@@ -3,17 +3,13 @@
 "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"; let id = ""; for (let i = 0; i < length;
 i++) { const randomIndex=Math.floor(Math.random() * characters.length); id
 +=characters.charAt(randomIndex); } return id; }; let randomID=generateID(); %>
-<% function calculateTotal(list) { let total=0; list.forEach((item)=> {
-if(item.amount > 1){ total += item.price*amount; } total += item.price; });
-return total; } %> <% let total=(typeof listCart !=="undefined" && listCart
-!==[]) ? calculateTotal(listCart) : 0 %>
 <div class="content-wrap pb-0">
   <div class="container">
     <h2>Checkout Form</h2>
+    <form action="/create-order" method="post">
     <div class="row">
       <div class="col-75">
         <div class="container">
-          <form action="/create-order" method="post">
             <div class="row">
               <div class="col-50">
                 <h3>Billing Address</h3>
@@ -49,7 +45,7 @@ return total; } %> <% let total=(typeof listCart !=="undefined" && listCart
                 />
                 <div class="form-group">
                   <label for="name">Ship fee: </label>
-                  <select name="shipFee" id="province">
+                  <select name="shipFee" id="shipFee" required>
                     <option value="">Chọn tỉnh/thành phố</option>
                     <option value="3">Hà Nội</option>
                     <option value="0">TP Hồ Chí Minh</option>
@@ -57,6 +53,18 @@ return total; } %> <% let total=(typeof listCart !=="undefined" && listCart
                     <option value="3">Hải Phòng</option>
                     <option value="1">Cần Thơ</option>
                   </select>
+                </div>
+                <div class="form-group">
+                  <label for="coupon"><i class="fa fa-ticket"></i> Coupon</label>
+                  <div class="coupon-input-container" style="display: flex;">
+                    <input
+                      type="text"
+                      id="coupon"
+                      name="coupon"
+                      placeholder="Enter your coupon code"
+                    />
+                    <a href="javascript:applyCoupon()" id="checkCouponBtn" style="margin-left: 10px;">Apply</a>
+                  </div>
                 </div>
               </div>
 
@@ -139,50 +147,14 @@ return total; } %> <% let total=(typeof listCart !=="undefined" && listCart
               name="orderID"
               hidden
             />
-            <input type="text" value="<%= total %>" name="total" hidden />
             <input type="submit" value="Continue to checkout" class="btn" />
-          </form>
         </div>
       </div>
       <div class="col-25">
-        <div class="container">
-          <h4>
-            Cart
-            <span class="price" style="color: black"
-              ><i class="fa fa-shopping-cart"></i> <b></b
-            ></span>
-          </h4>
-          <% if(typeof listCart !=='undefined' && listCart !==[]){%> <%
-          listCart.forEach(item=>{%>
-          <div class="top-cart-item">
-            <div class="top-cart-item-image">
-              <a href="#"
-                ><img
-                  src="backend/upload/product/<%= item.img[0] %>"
-                  alt="<%= item.name %>"
-              /></a>
-            </div>
-
-            <div class="top-cart-item-desc">
-              <div class="top-cart-item-desc-title">
-                <a href="#" class="fw-normal"> <%= item.name %> </a>
-                <span class="top-cart-item-price d-block">
-                  <%= item.price %>
-                </span>
-              </div>
-              <div class="top-cart-item-quantity fw-semibold">
-                x <%= item.amount %>
-              </div>
-            </div>
-          </div>
-          <% }) %> <% } %>
-          <hr />
-          <p>
-            Total
-            <span class="price" style="color: black"><b>$<%= total %></b></span>
-          </p>
+        <div class="container" id="cart-checkout">
         </div>
       </div>
+    </form>
     </div>
   </div>
 </div>

@@ -9,6 +9,7 @@ const productService = require("./productService");
 const userService = require("./userService");
 const sliderService = require("./sliderService");
 const orderService = require("./orderService");
+const couponService = require("./couponService");
 
 exports.modelControl = {
   item: {
@@ -81,5 +82,11 @@ exports.modelControl = {
     name: "order",
     index: "order/list",
     save: "order/form",
+  },
+  coupon: {
+    couponService,
+    name: "coupon",
+    index: "coupon/list",
+    save: "coupon/form",
   },
 };

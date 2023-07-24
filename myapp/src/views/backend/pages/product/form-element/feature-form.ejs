@@ -41,6 +41,7 @@
         type="checkbox"
         id="size_<%= item.name %>"
         value="<%= item.name %>"
+        name="sizes"
         checked
       />
       <label class="form-check-label" for="size_<%= item.name %>">
@@ -50,6 +51,7 @@
         class="form-control"
         type="number"
         id="size_<%= item.name %>"
+        name="amount"
         value="<%= item.amount %>"
         required
       />

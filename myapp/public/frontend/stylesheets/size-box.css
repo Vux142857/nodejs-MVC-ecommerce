@@ -1,0 +1,80 @@
+ /* Apply basic styling to the form container */
+.horizontal-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    max-width: 400px;
+    margin: 1.5rem 0rem;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+
+  /* Apply styles to each form group */
+  .form-group {
+    display: flex;
+    align-items: center;
+    margin-right: 0.1rem; /* Add spacing between the form groups */
+    margin-bottom: 0rem;
+  }
+
+  /* Apply basic styling to the radioes */
+  input[type="radio"] {
+    display: none;
+  }
+
+  /* Customize the appearance of the radioes */
+  input[type="radio"] + label {
+    cursor: pointer;
+    font-size: 14px;
+    color: #666;
+    margin-left: 5px; /* Add spacing between the radio and the label */
+  }
+
+  /* Style the custom radio icon when checked */
+  input[type="radio"] + label:before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #ddd;
+    border-radius: 3px;
+    background-color: #fff;
+    margin-right: 5px; /* Add spacing between the radio icon and the label */
+  }
+
+  /* Apply custom styles when radio is checked */
+  input[type="radio"]:checked + label:before {
+    background-color: #0a2d53;
+    border-color: #33465b;
+  }
+
+  /* Style the label text when radio is checked */
+  input[type="radio"]:checked + label {
+    color: #07203a;
+    font-weight: bold;
+  }
+
+  /* Add some spacing between the radioes */
+  input[type="radio"] + label {
+    margin-right: 15px;
+  }
+
+  /* Add a line break after each radio option */
+  input[type="radio"] + label:after {
+    content: "\A";
+    white-space: pre;
+  }
+
+  /* Apply styles to the form container and labels on small screens */
+  @media screen and (max-width: 600px) {
+    form {
+      max-width: 100%;
+    }
+
+    label {
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+  }

@@ -154,10 +154,6 @@ router.post(
     const errorsMsg = validateItems.validateItemsErros(req);
     const errorsNotify = Object.assign(errorsMsg.errors);
     const item = req.body;
-    item.slug = item.name
-      .toLowerCase()
-      .replace(/ /g, "-")
-      .replace(/[^\w-]+/g, "");
     if (!errorsMsg.isEmpty()) {
       console.log(errorsNotify);
       res.render(`backend/pages/${currentModel.save}`, {
@@ -169,9 +165,7 @@ router.post(
     } else {
       if (item.id != "" && typeof item.id != "undefined") {
         await mainService.updateOneById(item.id, {
-          name: item.name,
-          ordering: parseInt(item.ordering),
-          status: item.status,
+          item,
         });
         req.flash("successMessage", "Item updated successfully");
       } else {

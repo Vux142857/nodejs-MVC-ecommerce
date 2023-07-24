@@ -192,46 +192,16 @@ display list products in category page {
 login & register & admin +
 
 display profile user -
-
-// size
-<% product.size.forEach((item, index) => { let sizeItem =
-                    size.find((size) => size._id.toString() == item.name); %>
-                    <div data-value="M" class="n-sd swatch-element m">
-                      <input
-                        class="variant-1"
-                        id="swatch-1-m"
-                        type="radio"
-                        name="<%= item.name %>"
-                        value="<%= sizeItem.name %>"
-                        checked =""
-                      />
-                      <label for="swatch-1-m" class="sd">
-                        <span><%= sizeItem.name.toUpperCase() %></span>
-                      </label>
-                    </div>
-                    <% }) %>
-                                    <div
-                  id="variant-swatch-1"
-                  class="swatch clearfix"
-                  data-option="option2"
-                  data-option-index="1"
-                >
-                  <div
-                    style="
-                      display: flex;
-                      align-items: center;
-                      margin-bottom: 0.625em;
-                    "
-                  >
-                    <div
-                      keylanguage="size"
-                      class="header lang"
-                      style="margin-right: 0.3125em; width: 50%"
-                    >
-                      Size
-                    </div>
-                  </div>
-                  <div class="select-swap">
-                    
-                  </div>
-                </div>
+// exports server
+// create index.js -> require("./bin/www) -> package ->
+index.js {
+    server
+    io
+}
+// 
+// 
+// board list order
+// dashboard :{product,article, user in article, user in product };
+// socket.js 
+// localStorage
+// 

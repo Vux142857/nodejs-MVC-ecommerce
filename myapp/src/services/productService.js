@@ -76,3 +76,11 @@ exports.deleteMany = async (conditions) => {
     console.log(error);
   }
 };
+
+exports.count = async (param) => {
+  try {
+    return Item.countDocuments(param);
+  } catch (error) {
+    console.log(error);
+  }
+};

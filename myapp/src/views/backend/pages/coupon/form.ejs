@@ -1,0 +1,120 @@
+<% include ./../../helper/select-box %> <% include ./../../helper/image %>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title"><%= title %></h3>
+        </div>
+        <form action="/admin/<%= collection %>/save" method="post">
+          <div class="card-body">
+            <div class="form-group">
+              <label for="name">Coupon Name:</label>
+              <input
+                class="form-control"
+                type="text"
+                id="name"
+                name="name"
+                value="<%= item.name  %>"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="value">Value:</label>
+              <input
+                class="form-control"
+                type="number"
+                id="value"
+                name="value"
+                value="<%= item.value  %>"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="start_at">Start Date:</label>
+              <input
+                class="form-control"
+                type="date"
+                id="start_at"
+                name="start_at"
+                value="<%= item.start_at  %>"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="expired_at">Expiration Date:</label>
+              <input
+                class="form-control"
+                type="date"
+                id="expired_at"
+                name="expired_at"
+                value="<%= item.expired_at  %>"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="amount">Amount:</label>
+              <input
+                class="form-control"
+                type="number"
+                id="amount"
+                name="amount"
+                value="<%= item.amount  %>"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="condition">Minimum Purchase Condition:</label>
+              <input
+                class="form-control"
+                type="number"
+                id="condition"
+                name="condition"
+                value="<%= item.condition  %>"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="used">Used:</label>
+              <input
+                class="form-control"
+                type="number"
+                id="used"
+                name="used"
+                value="<%= item.used  %>"
+                disabled
+                required
+              />
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <input
+              name="id"
+              class="form-control"
+              value="<%= item.id %>"
+              hidden
+            />
+            <button type="submit" class="btn btn-primary float-right">
+              Create
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Notify-catch errors -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<% if (typeof errorsNotify !=='undefined' && errorsNotify !=='' ) {
+errorsNotify.forEach(element=> { %>
+<button class="notify" onclick="generateNotify('<%= element.msg %>')" hidden>
+  Click Me
+</button>
+<% });%> <% } %>
+<script>
+  $(function () {
+    $(".notify").click();
+  });
+</script>

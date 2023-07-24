@@ -27,9 +27,23 @@
           </div>
         </div>
       </div>
+
+      <input
+        type="number"
+        step="1"
+        min="1"
+        value="1"
+        name="amount"
+        title="Qty"
+        class="qty"
+        hidden
+      />
+      <input type="text" name="name" value="<%= item.name %>" hidden />
+      <input type="text" name="_id" value="<%= item._id %>" hidden />
+      <input type="text" name="main_Img" value="<%= item.img[0] %>" hidden />
+      <input type="number" name="price" value="<%= item.price %>" hidden />
       <button
-        onclick="addToCart('<%= item._id %>')"
-        class="cart-btn button button-white button-light add-cart"
+        class="cart-btn button button-white button-light add-cart " id="add-to-cart"
       >
         <i class="icon-line-plus"></i>Add to Cart
       </button>
@@ -42,7 +56,27 @@
           >
         </h3>
       </div>
-      <div class="product-price"><ins>$<%= item.price %></ins></div>
+      <div class="product-price">
+        <div class="form-group">
+          <% item.size.forEach((element, index) => { let sizeItem =
+          SIZE.find((sizeEl) => sizeEl._id.toString() == element.name); %>
+          <input
+            type="radio"
+            id="<%= element.name %>"
+            name="size"
+            value="<%= element.name %>"
+          />
+          <label for="<%= element.name %>"><%= sizeItem.name %></label>
+          <input
+            type="text"
+            name="size_name"
+            value="<%= sizeItem.name %>"
+            hidden
+          />
+          <% }) %>
+          <ins>$<%= item.price %></ins>
+        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -1,5 +1,6 @@
 <!-- Page Title
 		============================================= -->
+<link rel="stylesheet" href="./frontend/stylesheets/size-box.css" />
 <section
   id="page-title"
   class="page-title-parallax page-title-dark page-title-center"
@@ -73,32 +74,73 @@
 
               <!-- Product Single - Quantity & Cart Button
 									============================================= -->
-              <form
-                class="cart mb-0 d-flex justify-content-between align-items-center"
-                method="post"
-                enctype="multipart/form-data"
-                action="/add-to-cart/<%= product._id %>"
-              >
+              <div class="cart mb-0 justify-content-between align-items-center">
+                <div class="horizontal-form">
+                  <label>Select Size:</label>
+                  <% product.size.forEach((item, index) => { let sizeItem =
+                  SIZE.find((size) => size._id.toString() == item.name); %>
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      id="<%= item.name %>"
+                      name="size"
+                      value="<%= item.name %>"
+                    />
+                    <label for="<%= item.name %>"><%= sizeItem.name %></label>
+                  </div>
+                  <input
+                    type="text"
+                    name="size_name"
+                    value="<%= sizeItem.name %>"
+                    hidden
+                  />
+                  <% }) %>
+                </div>
                 <div class="quantity clearfix">
                   <input type="button" value="-" class="minus" />
                   <input
                     type="number"
                     step="1"
                     min="1"
-                    name="amount"
                     value="1"
+                    name="amount"
                     title="Qty"
                     class="qty"
                   />
                   <input type="button" value="+" class="plus" />
                 </div>
+                <input
+                  type="text"
+                  name="name"
+                  value="<%= product.name %>"
+                  hidden
+                />
+                <input
+                  type="text"
+                  name="_id"
+                  value="<%= product._id %>"
+                  hidden
+                />
+                <input
+                  type="text"
+                  name="main_Img"
+                  value="<%= product.img[0] %>"
+                  hidden
+                />
+                <input
+                  type="number"
+                  name="price"
+                  value="<%= product.price %>"
+                  hidden
+                />
                 <button
-                  type="submit"
-                  class="add-to-cart button button-large m-0"
+                  type="button"
+                  class="button button-large m-0" id="add-to-cart"
                 >
                   Add to cart
                 </button>
-              </form>
+              </div>
+
               <!-- Product Single - Quantity & Cart Button End -->
 
               <div class="line line-sm"></div>
@@ -250,3 +292,8 @@
   </div>
 </section>
 <!-- #content end -->
+<script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+<script>
+  var socket = io();
+  socket.emit("collection", "product");
+</script>

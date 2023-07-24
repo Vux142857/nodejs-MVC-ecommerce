@@ -11,6 +11,8 @@ const productModel = containService.modelControl.product;
 const sliderModel = containService.modelControl.slider;
 const userModel = containService.modelControl.user;
 const orderModel = containService.modelControl.order;
+const sizeModel = containService.modelControl.size;
+const couponModel = containService.modelControl.coupon;
 
 //  Service
 const articleService = articleModel.articleService;
@@ -18,10 +20,13 @@ const productService = productModel.productService;
 const sliderService = sliderModel.sliderService;
 const userService = userModel.userService;
 const orderService = orderModel.orderService;
+const sizeService = sizeModel.sizeService;
+const couponService = couponModel.couponService;
 
 // Utility
 const utilGetParam = require("../../utils/utilParam");
 const authToken = require("../../middleware/verifyToken");
+const { body } = require("express-validator");
 
 // -------------------------------------------GET
 
@@ -37,16 +42,18 @@ router.get("/checkout(/:id)?", async (req, res, next) => {
 
 // Index
 router.get("/", async (req, res, next) => {
-  const [itemSpecial, products, slider] = await Promise.all([
+  const [itemSpecial, products, slider, SIZE] = await Promise.all([
     articleService.getSpecial(),
     productService.getAll({}),
     sliderService.getAll({}),
+    sizeService.getAll({}),
   ]);
   res.render("frontend/pages/home/index", {
     title: "Homepage",
     itemSpecial,
     products,
     slider,
+    SIZE,
   });
 });
 
@@ -62,14 +69,19 @@ router.get("/:id", async (req, res, next) => {
     let product;
     let products;
     let productRelated;
-
+    let SIZE;
     if (url.includes("-idp=")) {
       collection = productModel.name;
       idProduct = url.split("-idp=")[1];
       product = await productService.getOne({ _id: idProduct });
-      productRelated = await productService
-        .getAll({ category: product.category })
-        .limit(4);
+      // productRelated = await productService
+      //   .getAll({ category: product.category })
+      //   .limit(4);
+      // SIZE = sizeService.getAll({});
+      [productRelated, SIZE] = await Promise.all([
+        productService.getAll({ category: product.category }).limit(4),
+        sizeService.getAll({}),
+      ]);
     } else if (url.includes("-ida=")) {
       collection = articleModel.name;
       idArticle = url.split("-ida=")[1];
@@ -90,6 +102,7 @@ router.get("/:id", async (req, res, next) => {
       collection,
       productRelated,
       products,
+      SIZE,
     });
   } catch (error) {
     console.log(error);
@@ -135,25 +148,54 @@ router.get("/profile/:id", async (req, res, next) => {
 
 // Add to cart
 router.get("/add-to-cart/:id", async (req, res, next) => {
-  const id = req.params.id;
-  const product = await productService.getOne({ _id: id });
+  // const id = req.params.id;
+  // const product = await productService.getOne({ _id: id });
+  // if (!req.session.listCart) {
+  //   req.session.listCart = []; // Initialize the listCart array if it doesn't exist
+  // }
+  // let data = {};
+  // if (!req.session.listCart.some((item) => item.name === product.name)) {
+  //   data = {
+  //     _id: product._id,
+  //     name: product.name,
+  //     img: product.img,
+  //     size: product.size,
+  //     price: product.price,
+  //     amount: 1,
+  //   };
+  //   req.session.listCart.push(data);
+  // }
+  // res.send(req.session.listCart);
+});
 
-  if (!req.session.listCart) {
-    req.session.listCart = []; // Initialize the listCart array if it doesn't exist
-  }
-  let data = {};
-  if (!req.session.listCart.some((item) => item.name === product.name)) {
-    data = {
-      _id: product._id,
-      name: product.name,
-      img: product.img,
-      size: product.size,
-      price: product.price,
-      amount: 1,
-    };
-    req.session.listCart.push(data);
-  }
-  res.send(req.session.listCart);
+router.post("/add-to-cart-test/:id", async (req, res, next) => {
+  // const id = req.params.id;
+  // const product = await productService.getOne({ _id: id });
+
+  // if (!req.session.listCart) {
+  //   req.session.listCart = []; // Initialize the listCart array if it doesn't exist
+  // }
+  // let data = {};
+  // if (!req.session.listCart.some((item) => item.name === product.name)) {
+  //   data = {
+  //     _id: product._id,
+  //     name: product.name,
+  //     img: product.img,
+  //     size: product.size,
+  //     price: product.price,
+  //     amount: 1,
+  //   };
+  //   req.session.listCart.push(data);
+  // }
+  // res.send(req.session.listCart);
+  let item = req.query;
+  res.send(item);
+});
+
+router.get("/apply-coupon/:code", async (req, res, next) => {
+  const code = req.params.code;
+  let coupon = await couponService.findOne({ name: code });
+  res.send(coupon);
 });
 
 // -------------------------------------------POST
@@ -266,31 +308,32 @@ router.post("/subscribe", async function (req, res) {
 });
 
 // Add to cart
-router.post("/add-to-cart/:id", async (req, res, next) => {
-  const id = req.params.id;
-  const product = await productService.getOne({ _id: id });
-  const amount = req.body.amount;
-  if (!req.session.listCart) {
-    req.session.listCart = []; // Initialize the listCart array if it doesn't exist
-  }
-  let data = {};
-  if (!req.session.listCart.some((item) => item.name === product.name)) {
-    data = {
-      _id: product._id,
-      name: product.name,
-      img: product.img,
-      size: product.size,
-      price: product.price,
-      amount: 1,
-    };
-    req.session.listCart.push(data);
-  }
-  res.redirect("/checkout");
-});
+// router.post("/add-to-cart/:id", async (req, res, next) => {
+//   const id = req.params.id;
+//   const product = await productService.getOne({ _id: id });
+//   const amount = req.body.amount;
+//   if (!req.session.listCart) {
+//     req.session.listCart = []; // Initialize the listCart array if it doesn't exist
+//   }
+//   let data = {};
+//   if (!req.session.listCart.some((item) => item.name === product.name)) {
+//     data = {
+//       _id: product._id,
+//       name: product.name,
+//       img: product.img,
+//       size: product.size,
+//       price: product.price,
+//       amount: 1,
+//     };
+//     req.session.listCart.push(data);
+//   }
+//   res.redirect("/checkout");
+// });
 
 router.post("/create-order", async (req, res, next) => {
   let data = req.body;
-  let products = req.session.listCart;
+  let products = JSON.parse(data.products);
+
   let item = {
     orderID: data.orderID,
     customer: {
@@ -310,8 +353,8 @@ router.post("/create-order", async (req, res, next) => {
       name: data.name,
     });
   }
+
   const newOrder = await orderService.create(item);
-  req.session.listCart = [];
   res.render("frontend/pages/post/description", {
     title: "Homepage",
     newOrder,
