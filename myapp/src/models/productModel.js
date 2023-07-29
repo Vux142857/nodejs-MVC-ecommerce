@@ -15,6 +15,7 @@ const productSchema = mongoose.Schema(
     img: [String],
     size: [
       {
+        id: String,
         name: String,
         amount: Number,
         sold: { type: Number, default: 0 },

@@ -262,21 +262,26 @@ router.post(
           }
         }
         // Create size object
-        if (Array.isArray(item.sizes)) {
-          item.sizes.forEach((element, index) => {
+        console.log(item.size_name);
+
+        if (Array.isArray(item.size_id)) {
+          item.size_id.forEach((element, index) => {
             let sizeObj = {
-              name: element,
+              id: element,
+              name: item.size_name[index],
               amount: parseInt(item.amount[index]),
             };
             size.push(sizeObj);
           });
         } else {
           let sizeObj = {
-            name: item.sizes,
+            id: item.size_id,
+            name: item.size_name,
             amount: parseInt(item.amount),
           };
           size.push(sizeObj);
         }
+        console.log(item.size_id);
 
         const data = {
           name: item.name,

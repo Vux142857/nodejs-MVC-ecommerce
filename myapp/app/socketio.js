@@ -26,8 +26,8 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.emit("userInArticle", { value: listArticle.length });
-  socket.emit("userInProduct", { value: listProduct.length });
+  io.emit("userInArticle", { value: listArticle.length });
+  io.emit("userInProduct", { value: listProduct.length });
   socket.on("disconnect", () => {
     console.log("A user disconnected");
     const socketIndex = listArticle.indexOf(socket.id);

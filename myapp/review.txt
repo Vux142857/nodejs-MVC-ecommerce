@@ -219,4 +219,26 @@ index.js {
 // active isMenu
 // display link category
 // ko hiện phân trang
-// 
+// slider {
+    bỏ category thêm add 
+}
+
+order {
+    add coupon
+    email -> gửi về {
+        nhân viên
+        khách hàng
+    } 
+}
+
+setting {
+    add email {
+        mã hóa
+    }
+}
+
+socket {
+    tạo {article, product}
+}
+
+note !!!!

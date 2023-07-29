@@ -77,8 +77,7 @@
               <div class="cart mb-0 justify-content-between align-items-center">
                 <div class="horizontal-form">
                   <label>Select Size:</label>
-                  <% product.size.forEach((item, index) => { let sizeItem =
-                  SIZE.find((size) => size._id.toString() == item.name); %>
+                  <% product.size.forEach((item, index) => { %>
                   <div class="form-group">
                     <input
                       type="radio"
@@ -86,12 +85,12 @@
                       name="size"
                       value="<%= item.name %>"
                     />
-                    <label for="<%= item.name %>"><%= sizeItem.name %></label>
+                    <label for="<%= item.name %>"><%= item.name %></label>
                   </div>
                   <input
                     type="text"
                     name="size_name"
-                    value="<%= sizeItem.name %>"
+                    value="<%= item.name %>"
                     hidden
                   />
                   <% }) %>
@@ -135,7 +134,8 @@
                 />
                 <button
                   type="button"
-                  class="button button-large m-0" id="add-to-cart"
+                  class="button button-large m-0"
+                  id="add-to-cart"
                 >
                   Add to cart
                 </button>

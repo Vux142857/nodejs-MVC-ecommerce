@@ -148,22 +148,20 @@
                     </h3>
                   </div>
                   <div class="product-price">
-                    <% item.size.forEach((element, index) => { let sizeItem =
-                    SIZE.find((sizeEl) => sizeEl._id.toString() ==
-                    element.name); %>
+                    <% item.size.forEach((element, index) => { %>
                     <input
                       type="radio"
-                      id="<%= element.name %>"
+                      id="<%= element.id %>"
                       name="size"
-                      value="<%= element.name %>"
+                      value="<%= element.id %>"
                     />
-                    <label for="<%= element.name %>"
-                      ><%= sizeItem.name %></label
+                    <label for="<%= element.id %>"
+                      ><%= element.name %></label
                     >
                     <input
                       type="text"
                       name="size_name"
-                      value="<%= sizeItem.name %>"
+                      value="<%= element.name %>"
                       hidden
                     />
                     <% }) %><ins>$<%=item.price %></ins>
