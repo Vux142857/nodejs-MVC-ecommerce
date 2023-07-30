@@ -191,11 +191,27 @@ function addToCartLocalStorage() {
   }
 }
 
+function deleteCartItem(itemId) {
+  const index = cartItems.findIndex((item) => item._id === itemId);
+  console.log(index);
+
+  if (index !== -1) {
+    cartItems.splice(index, 1);
+    displayCart(cartItems);
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    alert("Item removed from cart!");
+  }
+}
+
 function displayCart(listCart) {
   let innerHTML = "";
   let total = 0;
+  let amount = 0;
   if (Array.isArray(listCart)) {
     listCart.forEach((cartItem) => {
+      cartItem.sizes.forEach((item) => {
+        amount += item.amount;
+      });
       innerHTML += `<div class="top-cart-item" >
 <div class="top-cart-item-image">
   <a href=""
@@ -209,7 +225,10 @@ function displayCart(listCart) {
     <a href="#" class="fw-normal">${cartItem.name}</a>
     <span class="top-cart-item-price d-block">$${cartItem.price}</span>
   </div>
-  <div class="top-cart-item-quantity fw-semibold">x 1</div>
+  <div class="top-cart-item-quantity fw-semibold">x ${amount}</div>
+</div>
+<div class="top-cart-item-desc ">
+<a href="javascript:deleteCartItem('${cartItem._id}')" class="icon-line-delete"></a>
 </div>
 </div>`;
       total += parseInt(cartItem.price);

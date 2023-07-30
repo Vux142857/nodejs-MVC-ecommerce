@@ -40,6 +40,18 @@ router.get("/checkout(/:id)?", async (req, res, next) => {
   }
 });
 
+router.get("/pages(/:setting)?", async (req, res, next) => {
+  try {
+    let href = req.params.setting;
+    console.log(href);
+    res.render(`frontend/pages/setting/${href}`, {
+      title: "Homepage",
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 // Index
 router.get("/", async (req, res, next) => {
   const [itemSpecial, products, slider, SIZE] = await Promise.all([

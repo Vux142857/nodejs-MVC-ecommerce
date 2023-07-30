@@ -206,7 +206,45 @@ index.js {
 // localStorage
 // 
 
-// advertise {
+- slider {
+    bỏ category thêm add 
+}
+
+- setting {
+    add {
+        help
+        about
+        privacy
+    }
+    add email {
+        mã hóa
+    } -+
+} +
+
+- order {
+    delete cart +
+    add coupon +
+    fix coupon {
+        add type: num and %
+    } -
+    email -> gửi về {
+        nhân viên
+        khách hàng
+    } -
+}
+
+- socket {
+    tạo {article, product}
+}
+
+- add notify {
+    add to cart
+    add coupon
+    login & logout
+    add Admin to navbar
+}
+
+- advertise {
     url: String,
     status: String,
     position: String,
@@ -214,31 +252,14 @@ index.js {
     cash: Number,
     start_at: Date,
     end_at: Date
-}
+} -
 
-// active isMenu
-// display link category
-// ko hiện phân trang
-// slider {
-    bỏ category thêm add 
+- extra {
+    - page {
+    sort product by price
+    find product by name
 }
-
-order {
-    add coupon
-    email -> gửi về {
-        nhân viên
-        khách hàng
-    } 
-}
-
-setting {
-    add email {
-        mã hóa
-    }
-}
-
-socket {
-    tạo {article, product}
+    - adjust ui upload file
 }
 
 note !!!!

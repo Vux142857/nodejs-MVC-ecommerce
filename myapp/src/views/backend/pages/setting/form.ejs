@@ -1,151 +1,154 @@
-<% include ./../../helper/image %>
-  <% if (typeof item !='undefined' && item.length> 0) { %>
-    <div class="card card-primary card-tabs">
-      <form action="/admin/setting/save" method="post" enctype="multipart/form-data">
-        <div class="card-header p-0 pt-1">
-          <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
-            <li class="nav-item">
-              <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home"
-                role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Logo</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile"
-                role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Contact</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="custom-tabs-one-messages-tab" data-toggle="pill" href="#custom-tabs-one-messages"
-                role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false">Privacy</a>
-            </li>
-          </ul>
-        </div>
-        <div class="card-body">
-          <div class="tab-content" id="custom-tabs-one-tabContent">
-            <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel"
-              aria-labelledby="custom-tabs-one-home-tab">
-              <div class="form-group">
-                <label for="logo-image">Logo Image:</label>
-                <input class="form-control" type="file" name="logo" onchange="readURL(this)">
-                <%- imageHelper("backend/upload/logo/", data.logo, data.logo, 'img-avatar-form' ); %>
-              </div>
-              <img id="blah" style="width: 10rem;" src="/backend/upload/no-img.jpg" alt="Choose your image" class="img-avatar-form" />
-            </div>
-            <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel"
-              aria-labelledby="custom-tabs-one-profile-tab">
-              <div class="form-group">
-                <label for="contact-email">Contact Email:</label>
-                <input class="form-control" type="email" id="contact-email" name="email"
-                  value="<%= data.contact.email%>" />
-
-                <label for="contact-phone">Contact Phone:</label>
-                <input class="form-control" type="tel" id="contact-phone" name="phone"
-                  value="<%= data.contact.phone %>" />
-
-                <label for="contact-facebook">Contact Facebook Link:</label>
-                <input class="form-control" type="text" id="contact-facebook" name="facebook"
-                  value="<%= data.contact.facebook %>" />
-
-                <label for="contact-address">Contact Address:</label>
-                <input class="form-control" id="contact-address" name="address"
-                  value="<%= data.contact.address %>"></input>
-              </div>
-            </div>
-            <div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel"
-              aria-labelledby="custom-tabs-one-messages-tab">
-              <div class="form-group">
-                <label for="privacy-copyright">Privacy Copyright:</label>
-                <input class="form-control" type="text" id="privacy-copyright" name="copyright"
-                  value="<%= data.privacy.copyright %>" />
-                <label for=" privacy-doc"> Privacy Document:</label>
-                <textarea class="form-control" id="privacy-doc" name="doc"></textarea>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card-footer">
-          <input name="id" class="form-control" value="<%= item[0]._id %>" hidden />
-          <input name="logo_old" value="<%= data.logo %>" type="hidden" />
-          <button type="submit" class="btn btn-primary float-right">
-            Submit
-          </button>
-        </div>
-      </form>
+<% include ./../../helper/image %> <% include ./form-element/promo-form %> <%
+include ./form-element/email-form %> <% include ./form-element/contact-form %>
+<% include ./form-element/privacy-form %>
+<div class="card card-primary card-tabs">
+  <form
+    action="/admin/setting/save"
+    method="post"
+    enctype="multipart/form-data"
+  >
+    <div class="card-header p-0 pt-1">
+      <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+        <li class="nav-item">
+          <a
+            class="nav-link active"
+            id="custom-tabs-one-home-tab"
+            data-toggle="pill"
+            href="#custom-tabs-one-home"
+            role="tab"
+            aria-controls="custom-tabs-one-home"
+            aria-selected="true"
+            >Logo</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            id="custom-tabs-one-profile-tab"
+            data-toggle="pill"
+            href="#custom-tabs-one-profile"
+            role="tab"
+            aria-controls="custom-tabs-one-profile"
+            aria-selected="false"
+            >Contact</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            id="custom-tabs-one-messages-tab"
+            data-toggle="pill"
+            href="#custom-tabs-one-messages"
+            role="tab"
+            aria-controls="custom-tabs-one-messages"
+            aria-selected="false"
+            >Privacy</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            id="custom-tabs-one-promo-tab"
+            data-toggle="pill"
+            href="#custom-tabs-one-promo"
+            role="tab"
+            aria-controls="custom-tabs-one-promo"
+            aria-selected="false"
+            >Promo</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            id="custom-tabs-one-email-tab"
+            data-toggle="pill"
+            href="#custom-tabs-one-email"
+            role="tab"
+            aria-controls="custom-tabs-one-email"
+            aria-selected="false"
+            >Email</a
+          >
+        </li>
+      </ul>
     </div>
-    <% } else { %>
-      <div class="card card-primary card-tabs">
-        <form action="/admin/setting/save" method="post" enctype="multipart/form-data">
-          <div class="card-header p-0 pt-1">
-            <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
-              <li class="nav-item">
-                <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home"
-                  role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Logo</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile"
-                  role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Contact</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="custom-tabs-one-messages-tab" data-toggle="pill"
-                  href="#custom-tabs-one-messages" role="tab" aria-controls="custom-tabs-one-messages"
-                  aria-selected="false">Privacy</a>
-              </li>
-            </ul>
+    <div class="card-body">
+      <div class="tab-content" id="custom-tabs-one-tabContent">
+        <div
+          class="tab-pane fade show active"
+          id="custom-tabs-one-home"
+          role="tabpanel"
+          aria-labelledby="custom-tabs-one-home-tab"
+        >
+          <div class="form-group">
+            <label for="logo-image">Logo Image:</label>
+            <input
+              class="form-control"
+              type="file"
+              name="logo"
+              onchange="readURL(this)"
+            />
+            <%- imageHelper("backend/upload/logo/", data.logo, data.logo,
+            'img-avatar-form' ); %>
           </div>
-          <div class="card-body">
-            <div class="tab-content" id="custom-tabs-one-tabContent">
-              <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel"
-                aria-labelledby="custom-tabs-one-home-tab">
-                <div class="form-group">
-                  <label for="logo-image">Logo Image:</label>
-                  <input class="form-control" type="file" name="logo">
-                </div>
-              </div>
-              <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel"
-                aria-labelledby="custom-tabs-one-profile-tab">
-                <div class="form-group">
-                  <label for="contact-email">Contact Email:</label>
-                  <input class="form-control" type="email" id="contact-email" name="email" />
-
-                  <label for="contact-phone">Contact Phone:</label>
-                  <input class="form-control" type="tel" id="contact-phone" name="phone" />
-
-                  <label for="contact-facebook">Contact Facebook Link:</label>
-                  <input class="form-control" type="text" id="contact-facebook" name="facebook" />
-
-                  <label for="contact-address">Contact Address:</label>
-                  <input class="form-control" id="contact-address" name="address"></input>
-                </div>
-              </div>
-              <div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel"
-                aria-labelledby="custom-tabs-one-messages-tab">
-                <div class="form-group">
-                  <label for="privacy-copyright">Privacy Copyright:</label>
-                  <input class="form-control" type="text" id="privacy-copyright" name="copyright" />
-
-                  <label for="privacy-doc">Privacy Document:</label>
-                  <textarea class="form-control" id="privacy-doc" name="doc"></textarea>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="card-footer">
-            <input name="id" class="form-control" value="" hidden />
-            <button type="submit" class="btn btn-primary float-right">
-              Submit
-            </button>
-          </div>
-        </form>
+          <img
+            id="blah"
+            style="width: 10rem"
+            src="/backend/upload/no-img.jpg"
+            alt="Choose your image"
+            class="img-avatar-form"
+          />
+        </div>
+        <div
+          class="tab-pane fade"
+          id="custom-tabs-one-profile"
+          role="tabpanel"
+          aria-labelledby="custom-tabs-one-profile-tab"
+        >
+          <%= contactForm() %>
+        </div>
+        <div
+          class="tab-pane fade"
+          id="custom-tabs-one-messages"
+          role="tabpanel"
+          aria-labelledby="custom-tabs-one-messages-tab"
+        >
+          <%= privacyForm() %>
+        </div>
+        <div
+          class="tab-pane fade"
+          id="custom-tabs-one-promo"
+          role="tabpanel"
+          aria-labelledby="custom-tabs-one-promo-tab"
+        >
+          <%= promoForm() %>
+        </div>
+        <div
+          class="tab-pane fade"
+          id="custom-tabs-one-email"
+          role="tabpanel"
+          aria-labelledby="custom-tabs-one-email-tab"
+        >
+          <%= emailForm() %>
+        </div>
       </div>
-      <% } %>
-        <!-- Notify-catch errors -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <% if (typeof errorsNotify !=='undefined' && errorsNotify !=='' ) { errorsNotify.forEach(element=> { %>
-          <button class="notify" onclick="generateNotify('<%= element.msg %>')" hidden>
-            Click Me
-          </button>
-          <% });%>
-            <% } %>
-              <script>
-                $(function () {
-                  $(".notify").click();
-                });
-              </script>
+    </div>
+    <div class="card-footer">
+      <input name="id" class="form-control" value="<%= item[0]._id %>" hidden />
+      <input name="logo_old" value="<%= data.logo %>" type="hidden" />
+      <button type="submit" class="btn btn-primary float-right">Submit</button>
+    </div>
+  </form>
+</div>
+<!-- Notify-catch errors -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<% if (typeof errorsNotify !=='undefined' && errorsNotify !=='' ) {
+errorsNotify.forEach(element=> { %>
+<button class="notify" onclick="generateNotify('<%= element.msg %>')" hidden>
+  Click Me
+</button>
+<% });%> <% } %>
+<script>
+  $(function () {
+    $(".notify").click();
+  });
+</script>
