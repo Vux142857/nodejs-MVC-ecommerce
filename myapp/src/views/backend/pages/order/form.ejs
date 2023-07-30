@@ -11,13 +11,23 @@
             </div>
             <form action="/admin/<%= collection %>/save" method="post" enctype="multipart/form-data">
               <div class="card-body">
+                  <% if(item.id !==undefined && item.id !=='' ){  %>
+                     <% if(Array.isArray(item.products)) { item.products.forEach(element =>{%>
+                    <div class="form-group">
+                      <label><%= element.name %></label>
+                      <%- imageHelper("backend/upload/product/", element.main_Img, element.name, 'img-avatar-form' ); %>
+                    </div>
+                      <%})}%>
+                    <%}%>
                 <div class="form-group">
                   <label>Status</label>
                   <select class="form-control" name="status" required>
                     <option disabled selected>Please select status</option>
-                    <option value="active" <%=(item.status=="active" ? 'selected ="selected"' :'') %>>Incompleted
+                    <option value="processing" <%=(item.status=="processing" ? 'selected ="selected"' :'') %>>Processing
                     </option>
-                    <option value="inactive" <%=(item.status=="inactive" ? 'selected ="selected"' :'') %>>Completed
+                    <option value="cancelled" <%=(item.status=="cancelled" ? 'selected ="selected"' :'') %>>Cancelled
+                    </option>
+                    <option value="done" <%=(item.status=="done" ? 'selected ="selected"' :'') %>>Done
                     </option>
                   </select>
                 </div>
@@ -62,9 +72,9 @@
 
               <div class="card-footer">
                 <input name="id" class="form-control" value="<%= item.id %>" hidden />
-                <button type="submit" class="btn btn-primary float-right">
+                <!-- <button type="submit" class="btn btn-primary float-right">
                   Submit
-                </button>
+                </button> -->
               </div>
             </form>
           </div>

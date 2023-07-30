@@ -83,16 +83,11 @@
                       type="radio"
                       id="<%= item.name %>"
                       name="size"
-                      value="<%= item.name %>"
+                      value="<%= item.id%>"
+                      data-name = "<%= item.name %>"
                     />
                     <label for="<%= item.name %>"><%= item.name %></label>
                   </div>
-                  <input
-                    type="text"
-                    name="size_name"
-                    value="<%= item.name %>"
-                    hidden
-                  />
                   <% }) %>
                 </div>
                 <div class="quantity clearfix">
@@ -134,8 +129,7 @@
                 />
                 <button
                   type="button"
-                  class="button button-large m-0"
-                  id="add-to-cart"
+                  class="button button-large m-0 add-to-cart"
                 >
                   Add to cart
                 </button>

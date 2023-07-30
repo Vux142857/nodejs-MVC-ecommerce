@@ -10,6 +10,7 @@ const userService = require("./userService");
 const sliderService = require("./sliderService");
 const orderService = require("./orderService");
 const couponService = require("./couponService");
+const advertiseService = require("./advertiseService");
 
 exports.modelControl = {
   item: {
@@ -88,5 +89,12 @@ exports.modelControl = {
     name: "coupon",
     index: "coupon/list",
     save: "coupon/form",
+  },
+  advertise: {
+    advertiseService,
+    name: "advertise",
+    index: "advertise/list",
+    save: "advertise/form",
+    folderUpload: "backend/upload/advertise",
   },
 };

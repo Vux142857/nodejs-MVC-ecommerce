@@ -13,7 +13,7 @@ const sliderSchema = mongoose.Schema(
     thumb: String,
     special: String,
     slug: String,
-    category: [String],
+    href: String,
   },
   { timestamps: true }
 );

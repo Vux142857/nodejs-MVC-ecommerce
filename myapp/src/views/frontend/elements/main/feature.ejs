@@ -1,5 +1,5 @@
 <div class="container-fluid">
-  <div class="mx-auto center bottommargin" style="max-width: 700px">
+  <!-- <div class="mx-auto center bottommargin" style="max-width: 700px">
     <h2>Fresh Collection of 2019</h2>
     <p>
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto
@@ -7,10 +7,24 @@
       ipsam, asperiores, soluta dolorem facere exercitationem laborum. Magni
       mollitia laudantium vel tempore.
     </p>
-  </div>
+  </div> -->
+  <% let topAd = advertise.find(element => element.position === "top") %> <%if
+  (typeof topAd !== 'undefined' && topAd){%>
+  <marquee
+    onmouseover="this.stop()"
+    onmouseout="this.start()"
+    scrollamount="10"
+    style="background-image: url('backend/upload/advertise/<%= topAd.thumb %>')"
+    class="hero"
+  >
+    <h2><%= topAd.name %></h2>
+    <%- topAd.content %>
+    <a href="<%= topAd.url %>" class="cta">Shop Now</a>
+  </marquee>
+  <%}%>
 </div>
 
-<div class="container-fluid">
+<!-- <div class="container-fluid">
   <div class="row mt-2">
     <div class="col-md-4 mb-5">
       <div class="card cat-card rounded-0 border-0 dark">
@@ -83,4 +97,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->

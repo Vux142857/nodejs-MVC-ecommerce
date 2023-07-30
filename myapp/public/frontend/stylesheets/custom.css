@@ -90,7 +90,7 @@
   }
 
   /* size css */
-  
+
   /* Swatch Container */
   .swatch {
       margin-bottom: 1.25em;
@@ -153,4 +153,76 @@
   /* Swatch Option Label Text */
   .n-sd span {
       font-size: 0.875em;
+  }
+
+  /* Custom font for cyberpunk style (You can change this to your desired font) */
+  @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&display=swap');
+
+
+
+  /* Style for the text inside the .adv-bottom */
+  .adv-bottom h2 {
+      margin: 0;
+      /* Remove default margin */
+  }
+
+  /* On hover, stop the .adv-bottom animation */
+  .adv-bottom:hover {
+      animation-play-state: paused;
+  }
+
+  .hero {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      height: 100%;
+      background-image: url();
+      background-repeat: repeat;
+      font-family: "Montserrat", sans-serif;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: black;
+      /* Cyberpunk highlight color */
+      text-shadow: 0 0 4px #1ABC9C, 0 0 6px #1ABC9C;
+      text-align: center;
+      animation: marquee 30s infinite linear;
+  }
+
+  .highlight-text {
+      /* Add your cyberpunk style here */
+      font-size: 18px;
+      font-weight: bold;
+      color: #1ABC9C;
+      /* Cyberpunk highlight color */
+      text-shadow: 0 0 4px #1ABC9C, 0 0 6px #1ABC9C;
+  }
+
+    /* Styling for the marquee container */
+    .adv-bottom {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 35px;
+        background-color: #1f1f1f;
+        /* Dark background color */
+        color: #ffcc00;
+        /* Yellow text color */
+        font-family: 'Roboto Condensed', sans-serif;
+        /* Custom font for the text */
+        font-size: 0.1rem;
+        /* Add padding to the left and right of the text */
+        box-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+        /* Add a glow effect */
+    }
+
+  @keyframes marquee {
+      0% {
+          background-position: 0;
+      }
+
+      100% {
+          background-position: -1190px;
+      }
   }

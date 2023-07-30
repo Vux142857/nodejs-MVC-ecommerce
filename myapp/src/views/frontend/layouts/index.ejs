@@ -16,7 +16,22 @@
       </footer>
     </div>
 
-    <%- include('../elements/script') %>
-
+    <%- include('../elements/script') %> <% let bottomAd =
+    advertise.find(element => element.position === "bottom") %> <% if (typeof
+    bottomAd !== 'undefined' && bottomAd) { %>
+    <marquee
+      onmouseover="this.stop()"
+      onmouseout="this.start()"
+      scrollamount="10"
+      class="adv-bottom"
+      style="
+        background-image: url('backend/upload/advertise/<%= bottomAd.thumb %>');
+      "
+    >
+      <h2><%= bottomAd.name %></h2>
+      <p><%= bottomAd.content %></p>
+      <a href="<%= bottomAd.url %>" class="cta">Shop Now</a>
+    </marquee>
+    <% } %>
   </body>
 </html>

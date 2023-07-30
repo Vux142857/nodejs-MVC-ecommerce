@@ -8,16 +8,23 @@ exports.createFilterStatus = async (currentStatus, currentService) => {
             class: "default"
         },
         {
-            name: "Active",
-            value: "active",
-            count: await currentService.count({ status: "active" }),
+            name: "Processing",
+            value: "processing",
+            count: await currentService.count({ status: "processing" }),
             link: "#",
             class: "default"
         },
         {
-            name: "Inactive",
-            value: "inactive",
-            count: await currentService.count({ status: "inactive" }),
+            name: "Done",
+            value: "done",
+            count: await currentService.count({ status: "done" }),
+            link: "#",
+            class: "default"
+        },
+        {
+            name: "Cancelled",
+            value: "cancelled",
+            count: await currentService.count({ status: "cancelled" }),
             link: "#",
             class: "default"
         }

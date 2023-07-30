@@ -1,35 +1,49 @@
-<% actionHelper=(collection)=> {
-    let actions = [
-    { value: "", name: "Bulk Action" },
-    { value: "change-status/active", name: "Active" },
-    { value: "change-status/inactive", name: "InActive" },
-    { value: "change-ordering/", name: "Change Ordering" },
-    { value: "delete", name: "Delete" },
-    ];
-    if (collection == "email"){
-    actions.push({value: "send-mail", name: "Send mail"})
-    }
+<% actionHelper = (collection) => {
+let actions = [
+  { value: "", name: "Bulk Action" },
+  { value: "change-status/active", name: "Active" },
+  { value: "change-status/inactive", name: "InActive" },
+  { value: "change-ordering/", name: "Change Ordering" },
+  { value: "delete", name: "Delete" },
+];
+
+if (collection === "email") {
+  actions.push({ value: "send-mail", name: "Send mail" });
+} else if (
+  collection === "product" ||
+  collection === "setting" ||
+  collection === "coupon" ||
+  collection === "size" ||
+  collection === "color" ||
+  collection === "user"
+) {
+  actions = actions.filter((action) => action.name !== "Change Ordering");
+}
+
     let xhtmlAction = '';
 
-    actions.forEach((action)=> {
-    // let link = "admin" + '/' + collection + '/' + action.value;
-    xhtmlAction += `<option value="${action.value}">${action.name}</option>`;
+    actions.forEach((action) => {
+      xhtmlAction += `<option value="${action.value}">${action.name}</option>`;
     });
 
-    let formMessage = ''
-    if (collection == "email") {
-    formMessage = `<div class="card-body">
+    let formMessage = '';
+    if (collection === "email") {
+      formMessage = `<div class="card-body">
         <div class="form-group">
             <label for="exampleInputEmail1">Subject</label>
-            <input type="email" name="subject" class="form-control" id="subject" placeholder="Enter subject">
+            <input type="text" name="subject" class="form-control" id="subject" placeholder="Enter subject">
         </div>
         <div class="form-group">
             <label for="exampleInputEmail1">Message</label>
-            <input type="email" name="message" class="form-control" id="message" placeholder="Enter message">
+            <input type="text" name="message" class="form-control" id="message" placeholder="Enter message">
         </div>
     </div>`;
     } else {
-    formMessage = ''
+      formMessage = '';
+    }
+    let addItem = ``;
+    if(collection !== "order"){
+        addItem = `<a class="btn btn-success btn-lg float-right" href="/admin/${collection}/form">Add items</a>`
     }
     return `<div style="width: 100%;">
         <div class="zcontrols" style="display: inline-block;">
@@ -40,8 +54,8 @@
             <button class="btn btn-info btnAction" type="button" id="btn-action" value="btnAction" disabled
                 style="display: inline-block;">Apply</button>
         </div>
-        <a class="btn btn-success btn-lg float-right" href="/admin/${collection}/form">Add items</a>
+        ${addItem}
     </div>
     `;
-    }
-    %>
+};
+%>

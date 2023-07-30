@@ -1,6 +1,8 @@
 <% include ./../../helper/filter-status %> <% include ./../../helper/search-form
 %> <% include ./../../helper/action %> <% include ./../../helper/status %> <%
-include ./../../helper/show-items %> <% include ./../../helper/pagination %>
+include ./../../helper/show-items %> <% include ./../../helper/pagination %><%
+include ./../../helper/select-box %> <% include ./../../helper/isAdmin %> <%
+include ./../../helper/highlightHelper %>
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-12">
@@ -41,11 +43,14 @@ include ./../../helper/show-items %> <% include ./../../helper/pagination %>
                       </div>
                     </th>
                     <th>Name</th>
+                    <th>Image</th>
+                    <th>Start At</th>
+                    <th>Expired At</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody id="article-list">
                   <% items.forEach((item)=> { %>
                   <tr>
                     <td>
@@ -59,6 +64,12 @@ include ./../../helper/show-items %> <% include ./../../helper/pagination %>
                       </div>
                     </td>
                     <td><%- highlightHelper(item.name,keyword) %></td>
+                    <td>
+                      <%- imageHelper("backend/upload/advertise/", item.thumb,
+                      item.name) %>
+                    </td>
+                    <td><%= item.start_at %></td>
+                    <td><%= item.expired_at %></td>
                     <td id="<%= item.id %>">
                       <%= statusHelper(collection,item.status, item.id) %>
                     </td>
@@ -92,13 +103,14 @@ include ./../../helper/show-items %> <% include ./../../helper/pagination %>
 </div>
 <!-- Notify-catch errors -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<% if (typeof messages.successMessage !== 'undefined' && messages.successMessage !== '') {
-  messages.successMessage.forEach(element => { %>
-  <button class="notify" onclick="generateNotify('<%= element%>')" hidden>Click Me</button>
- <% });%>
-<% } %>
+<% if (typeof messages.successMessage !== 'undefined' && messages.successMessage
+!== '') { messages.successMessage.forEach(element => { %>
+<button class="notify" onclick="generateNotify('<%= element%>')" hidden>
+  Click Me
+</button>
+<% });%> <% } %>
 <script>
-  $(function(){
-     $('.notify').click();
+  $(function () {
+    $(".notify").click();
   });
-  </script>
+</script>

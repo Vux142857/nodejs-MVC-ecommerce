@@ -7,9 +7,9 @@ const currentModel = containService.modelControl.order;
 const mainService = currentModel.orderService; // Service
 
 // Utility
-const utilStatusFilter = require("../../utils/utilCreateStatus");
+const utilStatusFilter = require("../../utils/utilCreateOrderStatus");
 const utilGetParam = require("../../utils/utilParam");
-const validateItems = require("../../validates/items");
+// const validateItems = require("../../validates/items");
 // ---------------------------------------------------------------GET
 
 // Get form edit or add
@@ -55,6 +55,7 @@ router.get("(/list)?(/:status)?", async (req, res, next) => {
     .getAll(condition)
     .skip((pagination.currentPage - 1) * pagination.itemsPerPage)
     .limit(pagination.itemsPerPage);
+
   // Render
   res.render(`backend/pages/${currentModel.index}`, {
     title: "List items",
@@ -71,12 +72,11 @@ router.get("(/list)?(/:status)?", async (req, res, next) => {
 // Change status single
 router.get("/change-status/:id/:status", async (req, res, next) => {
   const { id, status } = req.params;
-  const newStatus = status === "active" ? "inactive" : "active";
-  await mainService.updateOneById(id, { status: newStatus });
-  const recount = await utilStatusFilter.createFilterStatus(
-    status,
-    mainService
-  );
+  const newStatus = status;
+  const [item, recount] = await Promise.all([
+    mainService.updateOneById(id, { status: newStatus }),
+    utilStatusFilter.createFilterStatus(status, mainService),
+  ]);
   res.send({ newStatus, recount });
 });
 
@@ -109,52 +109,23 @@ router.post("/delete", async (req, res, next) => {
   res.redirect(`/admin/${currentModel.index}`);
 });
 
-// Change status multi
-router.post("/change-ordering", async (req, res, next) => {
-  const cids = req.body.cid;
-  const orderings = req.body.ordering;
-
-  if (Array.isArray(cids)) {
-    cids.forEach(async (item, index) => {
-      await mainService.updateOneById(
-        { _id: item },
-        { ordering: parseInt(orderings[index]) }
-      );
-    });
-  } else {
-    await mainService.updateOneById(
-      { _id: cids },
-      { ordering: parseInt(orderings) }
-    );
-  }
-  res.redirect(`/admin/${currentModel.index}`);
-});
-
-// Change ordering single
-router.post("/change-ordering/:id", async (req, res, next) => {
-  const { id } = req.params;
-  const ordering = req.body.ordering;
-  await mainService.updateOneById(id, { ordering: parseInt(ordering) });
-  res.send({ data: ordering });
-});
-
 // Create and Update items
-router.post("/save", async (req, res, next) => {
-  const data = req.body;
-  await mainService.updateOneById(data.id, {
-    orderID: data.orderID,
-    customer: {
-      user_id: data.user_id,
-      address: data.address,
-      email: data.email,
-      phone: data.phone,
-    },
-    total: data.total,
-    status: data.status,
-    shipFee: data.shipFee,
-  });
-  req.flash("successMessage", "Item updated successfully");
-  res.redirect(`/admin/${currentModel.index}`);
-});
+// router.post("/save", async (req, res, next) => {
+//   const data = req.body;
+//   await mainService.updateOneById(data.id, {
+//     orderID: data.orderID,
+//     customer: {
+//       user_id: data.user_id,
+//       address: data.address,
+//       email: data.email,
+//       phone: data.phone,
+//     },
+//     total: data.total,
+//     status: data.status,
+//     shipFee: data.shipFee,
+//   });
+//   req.flash("successMessage", "Item updated successfully");
+//   res.redirect(`/admin/${currentModel.index}`);
+// });
 
 module.exports = router;

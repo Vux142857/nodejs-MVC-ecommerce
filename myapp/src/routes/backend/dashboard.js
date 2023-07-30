@@ -14,7 +14,7 @@ router.get("/", async (req, res, next) => {
   const [articleCount, productCount, orderList] = await Promise.all([
     articleService.count({ status: "active" }),
     productService.count({ status: "active" }),
-    orderService.getAll({ status: "active" }).limit(10),
+    orderService.getAll({}).limit(10),
   ]);
   const article = {
     count: articleCount,

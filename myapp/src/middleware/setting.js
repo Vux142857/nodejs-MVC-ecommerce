@@ -1,24 +1,27 @@
 const settingService = require("../services/settingService");
 const categoryService = require("../services/categoryService");
 const userService = require("../services/userService");
-const sizeService = require("../services/sizeService");
+const advertiseService = require("../services/advertiseService");
+
 // Utility
 const utilGetParam = require("../utils/utilParam");
 
 module.exports = async (req, res, next) => {
   const user_id = utilGetParam.getParam(req.session, "user_id", "");
   let currentUser;
-  const [categoryParent, categoryArticle, settingModel] = await Promise.all([
-    categoryService.getAll({
-      status: "active",
-      special: "on",
-    }),
-    categoryService.getAll({
-      status: "active",
-      special: "off",
-    }),
-    settingService.getAll({}), // Corrected line
-  ]);
+  const [categoryParent, categoryArticle, settingModel, advertise] =
+    await Promise.all([
+      categoryService.getAll({
+        status: "active",
+        special: "on",
+      }),
+      categoryService.getAll({
+        status: "active",
+        special: "off",
+      }),
+      settingService.getAll({}),
+      advertiseService.getAll({ status: "active" }).limit(2),
+    ]);
   if (user_id !== "") {
     currentUser = await userService.findOne({ _id: user_id });
   }
@@ -40,5 +43,6 @@ module.exports = async (req, res, next) => {
   res.locals.categoryParent = categoryParent;
   res.locals.categoryArticle = categoryArticle;
   res.locals.userInfo = userInfo;
+  res.locals.advertise = advertise;
   next();
 };

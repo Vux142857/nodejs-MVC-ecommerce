@@ -28,11 +28,31 @@
             <td><a href=""><%= item.orderID %></a></td>
             <td><%= item.customer.email%></td>
             <td id="<%= item.id %>">
-              <%= statusHelper("order",item.status, item.id) %>
+              <%
+                let statusClass = '';
+                switch (item.status) {
+                  case "processing":
+                    statusClass = "btn btn-block btn-warning";
+                    break;
+                  case "cancelled":
+                    statusClass = "btn btn-block btn-danger";
+                    break;
+                  case "done":
+                    statusClass = "btn btn-block btn-info";
+                    break;
+                  default:
+                    break;
+                }
+                console.log(statusClass);
+              %>
+              <a href="#" class="<%= statusClass %>">
+                <span class="label"> <%= item.status %> </span>
+              </a>
             </td>
           </tr>
           <%}) %>
         </tbody>
+        
       </table>
     </div>
   </div>

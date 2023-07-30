@@ -7,8 +7,8 @@ const couponSchema = mongoose.Schema({
   },
   value: Number,
   created_at: { type: Date, default: Date.now },
-  start_at: String,
-  expired_at: String,
+  start_at: Date,
+  expired_at: Date,
   amount: Number,
   used: {
     type: Number,

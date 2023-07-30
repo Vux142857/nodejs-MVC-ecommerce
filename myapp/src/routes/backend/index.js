@@ -19,5 +19,6 @@ router.use("/user", require("./user"));
 router.use("/slider", require("./slider"));
 router.use("/order", require("./order"));
 router.use("/coupon", require("./coupon"));
+router.use("/advertise", require("./advertise"));
 
 module.exports = router;

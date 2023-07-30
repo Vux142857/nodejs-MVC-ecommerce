@@ -43,8 +43,7 @@
       <input type="text" name="main_Img" value="<%= item.img[0] %>" hidden />
       <input type="number" name="price" value="<%= item.price %>" hidden />
       <button
-        class="cart-btn button button-white button-light add-cart"
-        id="add-to-cart"
+        class="cart-btn button button-white button-light add-cart add-to-cart"
       >
         <i class="icon-line-plus"></i>Add to Cart
       </button>
@@ -65,14 +64,9 @@
             id="<%= element.id %>"
             name="size"
             value="<%= element.id %>"
+            data-name = "<%= element.name %>"
           />
           <label for="<%= element.id %>"><%= element.name %></label>
-          <input
-            type="text"
-            name="size_name"
-            value="<%= element.name %>"
-            hidden
-          />
           <% }) %>
           <ins>$<%= item.price %></ins>
         </div>

@@ -12,17 +12,10 @@ const changeStatus = (id, status, collection) => {
           newStatus === "active"
             ? "btn btn-block btn-info"
             : "btn btn-block btn-danger";
-        let statusOrder = newStatus === "active" ? "incompleted" : "completed";
 
-        if (collection === "order") {
-          $(`#${id}`).html(
-            `<a href="javascript:changeStatus('${id}','${newStatus}')" class="${statusClass}"><span>${statusOrder}</span></a>`
-          );
-        } else {
-          $(`#${id}`).html(
-            `<a href="javascript:changeStatus('${id}','${newStatus}')" class="${statusClass}"><span>${newStatus}</span></a>`
-          );
-        }
+        $(`#${id}`).html(
+          `<a href="javascript:changeStatus('${id}','${newStatus}')" class="${statusClass}"><span>${newStatus}</span></a>`
+        );
 
         // Recount status
         let statusFilter = response.recount;
@@ -237,3 +230,62 @@ readURL = (input) => {
     reader.readAsDataURL(input.files[0]);
   }
 };
+
+// Function to handle the AJAX request and update the status
+const changeStatusOrders = document.querySelectorAll(".change-status-order");
+changeStatusOrders.forEach((input) => {
+  const id = input.dataset.id;
+  input.addEventListener("change", () => updateStatus(id, input.value));
+});
+
+function updateStatus(itemId, newStatus) {
+  let newLinkChangeStatus = `change-status/${itemId}/${newStatus}`;
+  $.ajax({
+    type: "get",
+    url: newLinkChangeStatus,
+    dataType: "JSON",
+    success: function (response) {
+      // Change status
+      let newStatus = response.newStatus;
+      if (newStatus != undefined && newStatus != "") {
+        let selectedProcess = "";
+        let selectedCancel = "";
+        let selectedDone = "";
+        switch (newStatus) {
+          case "processing":
+            selectedProcess = "selected ='selected'";
+            break;
+          case "cancelled":
+            selectedCancel = "selected ='selected'";
+            break;
+          case "done":
+            selectedDone = "selected ='selected'";
+            break;
+          default:
+            break;
+        }
+        $(`#${itemId}`).html(
+          `  <select class="form-control change-status-order" name="status" data-id="<%= id %>" required>
+          <option value="processing" ${selectedProcess}>Processing
+          </option>
+          <option value="cancelled" ${selectedCancel}>Cancelled
+          </option>
+          <option value="done" ${selectedDone}>Done
+          </option>
+        </select>`
+        );
+
+        // Recount status
+        let statusFilter = response.recount;
+        if (statusFilter != undefined) {
+          statusFilter.forEach((filter) => {
+            $(`#${filter.value}`).html(`${filter.name} (${filter.count})`);
+          });
+        }
+        generateNotify("You have changed the status");
+      } else {
+        generateNotify("Failed to change the status");
+      }
+    },
+  });
+}

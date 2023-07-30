@@ -1,0 +1,12 @@
+<% statusOrderHelper=(status, id)=> {
+  %>
+  <select class="form-control change-status-order" name="status" data-id="<%= id %>" required>
+    <option value="processing" <%=(status=="processing" ? 'selected ="selected"' :'') %>>Processing
+    </option>
+    <option value="cancelled" <%=(status=="cancelled" ? 'selected ="selected"' :'') %>>Cancelled
+    </option>
+    <option value="done" <%=(status=="done" ? 'selected ="selected"' :'') %>>Done
+    </option>
+  </select>
+  <% } %>
+

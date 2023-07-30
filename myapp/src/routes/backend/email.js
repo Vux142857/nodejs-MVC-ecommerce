@@ -162,7 +162,6 @@ router.post(
       if (item.id != "" && typeof item.id != "undefined") {
         await mainService.updateOneById(item.id, {
           name: item.name,
-          ordering: parseInt(item.ordering),
           status: item.status,
         });
         req.flash("successMessage", "Item updated successfully");

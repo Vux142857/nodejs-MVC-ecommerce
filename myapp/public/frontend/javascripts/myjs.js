@@ -62,7 +62,6 @@ const changeCategoryProduct = (id) => {
         try {
           if (Array.isArray(products)) {
             let url;
-            console.log(123);
             products.forEach((product) => {
               url = product.slug + "-id-" + product._id.toString();
               html += `<div class="col-lg-4 col-md-6 mb-4">
@@ -124,8 +123,10 @@ function toggleCart() {
 }
 
 // JavaScript to handle the "Add to cart" button click
-const addToCart = document.querySelector("#add-to-cart");
-addToCart.addEventListener("click", addToCartLocalStorage);
+const addToCart = document.querySelectorAll(".add-to-cart");
+addToCart.forEach((input) => {
+  input.addEventListener("click", addToCartLocalStorage);
+});
 
 function addToCartLocalStorage() {
   const selectedSize = document.querySelector(
@@ -135,7 +136,8 @@ function addToCartLocalStorage() {
   const idProduct = document.querySelector('input[name="_id"]')?.value;
   const price = document.querySelector('input[name="price"]')?.value;
   const main_Img = document.querySelector('input[name="main_Img"]')?.value;
-  const size_name = document.querySelector('input[name="size_name"]')?.value;
+  const size_name = document.querySelector('input[name="size"]:checked')
+    ?.dataset.name;
 
   const quantity = parseInt(document.querySelector(".qty").value);
 
@@ -145,7 +147,6 @@ function addToCartLocalStorage() {
       let sizesOfProduct = Array.isArray(existedProduct.sizes)
         ? existedProduct.sizes
         : [existedProduct.sizes];
-      console.log(typeof sizesOfProduct);
 
       let existedSize = sizesOfProduct.find(
         (size) => size.name === selectedSize
@@ -153,12 +154,11 @@ function addToCartLocalStorage() {
       if (existedSize) {
         existedSize.amount += quantity;
       } else {
-        // if (Array.isArray(existedProduct.sizes)) {
         sizesOfProduct.push({
-          name: selectedSize,
+          name: size_name,
+          id: selectedSize,
           amount: quantity,
         });
-        // }
       }
       const index = cartItems.findIndex((existedProduct) => {
         return existedProduct._id === idProduct;
@@ -167,8 +167,8 @@ function addToCartLocalStorage() {
       cartItems[index].sizes = sizesOfProduct;
     } else {
       let size = {
-        size_name,
-        name: selectedSize,
+        name: size_name,
+        id: selectedSize,
         amount: quantity,
       };
       const cartItem = {
@@ -185,21 +185,20 @@ function addToCartLocalStorage() {
     displayCart(cartItems);
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
 
-    alert("Item added to cart!");
+    generateNotify("Item added to cart!");
   } else {
-    alert("Please select a size and quantity.");
+    generateNotify("Please select a size.");
   }
 }
 
 function deleteCartItem(itemId) {
   const index = cartItems.findIndex((item) => item._id === itemId);
-  console.log(index);
-
   if (index !== -1) {
     cartItems.splice(index, 1);
     displayCart(cartItems);
+    displayCartCheckout(cartItems);
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
-    alert("Item removed from cart!");
+    generateNotify("Item removed from cart!");
   }
 }
 
@@ -211,6 +210,7 @@ function displayCart(listCart) {
     listCart.forEach((cartItem) => {
       cartItem.sizes.forEach((item) => {
         amount += item.amount;
+        total += parseInt(cartItem.price) * item.amount;
       });
       innerHTML += `<div class="top-cart-item" >
 <div class="top-cart-item-image">
@@ -231,7 +231,6 @@ function displayCart(listCart) {
 <a href="javascript:deleteCartItem('${cartItem._id}')" class="icon-line-delete"></a>
 </div>
 </div>`;
-      total += parseInt(cartItem.price);
     });
   }
   let outerHTML = `<a id="top-cart-trigger" class="position-relative"
@@ -253,7 +252,7 @@ function displayCartCheckout(cartItems) {
   cartItems.forEach((item) => {
     let sizeAmount = item.sizes
       .map((size) => {
-        return `size: ${size.size_name} x ${size.amount}`;
+        return `size: ${size.name} x ${size.amount}`;
       })
       .join(", ");
     item.sizes.forEach((size) => {
@@ -275,10 +274,11 @@ function displayCartCheckout(cartItems) {
         ${item.price}
         </span>
       </div>
-      <div class="top-cart-item-quantity fw-semibold">
+      <div class="top-cart-item-quantity fw-semibold" style ="margin-right: 5px">
         ${sizeAmount}
       </div>
     </div>
+    <a href="javascript:deleteCartItem('${item._id}')" class="icon-line-delete"></a>
   </div>`;
   });
   html = `<h4>
@@ -357,3 +357,14 @@ function applyCoupon() {
     console.log("Please enter a valid coupon code.");
   }
 }
+
+const generateNotify = (notify) => {
+  return Toastify({
+    text: notify,
+    duration: 1500,
+    close: true,
+    style: {
+      background: "#ffcc00",
+    },
+  }).showToast();
+};

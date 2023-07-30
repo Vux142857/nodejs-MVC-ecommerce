@@ -208,7 +208,7 @@ index.js {
 
 - slider {
     bỏ category thêm add 
-}
+} +
 
 - setting {
     add {
@@ -221,11 +221,35 @@ index.js {
     } -+
 } +
 
+- add advertise {
+    - advertise {
+    url: String,
+    status: String,
+    position: String,
+    cash: Number,
+    start_at: Date,
+    end_at: Date
+    }
+} +
+
+- add notify {
+    add & delete to cart +
+    add coupon -
+    login & logout -
+    add Admin to navbar -
+}
+
 - order {
     delete cart +
-    add coupon +
+    fix checkout form -
+    add coupon {
+        add coupon to detail 
+        add ship Fee
+        add expired coupon + used
+    } -
     fix coupon {
         add type: num and %
+        add generate: name
     } -
     email -> gửi về {
         nhân viên
@@ -237,29 +261,15 @@ index.js {
     tạo {article, product}
 }
 
-- add notify {
-    add to cart
-    add coupon
-    login & logout
-    add Admin to navbar
-}
-
-- advertise {
-    url: String,
-    status: String,
-    position: String,
-    ordering: Number,
-    cash: Number,
-    start_at: Date,
-    end_at: Date
-} -
-
 - extra {
     - page {
+    add image for subscribe -
+    coated image product and article
     sort product by price
     find product by name
-}
+    }
     - adjust ui upload file
+    - email admin and staff
 }
 
 note !!!!

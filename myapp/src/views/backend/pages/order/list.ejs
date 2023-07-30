@@ -1,8 +1,8 @@
-<% include ./../../helper/filter-status %> <% include ./../../helper/search-form
-%> <% include ./../../helper/action %> <% include ./../../helper/status %> <%
-include ./../../helper/show-items %> <% include ./../../helper/pagination %><%
-include ./../../helper/select-box %> <% include ./../../helper/image %> <%
-include ./../../helper/isAdmin %> <% include ./../../helper/highlightHelper %>
+<% include ./../../helper/filter-status-order %> <% include
+./../../helper/search-form %><% include ./../../helper/status-order %><% include
+./../../helper/pagination %><% include ./../../helper/select-box %> <% include
+./../../helper/image %> <% include ./../../helper/isAdmin %> <% include
+./../../helper/highlightHelper %>
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-12">
@@ -19,7 +19,7 @@ include ./../../helper/isAdmin %> <% include ./../../helper/highlightHelper %>
                   role="group"
                   aria-label="Basic outlined example"
                 >
-                  <%= filterStatusHelper(statusFilter, keyword) %>
+                  <%= filterStatusOrderHelper(statusFilter, keyword) %>
                 </div>
                 <%= formSearch(currentStatus) %>
               </div>
@@ -33,7 +33,6 @@ include ./../../helper/isAdmin %> <% include ./../../helper/highlightHelper %>
               action=""
               method="post"
             >
-              <%- actionHelper(collection) %>
               <table class="table table-bordered">
                 <thead>
                   <tr>
@@ -67,14 +66,14 @@ include ./../../helper/isAdmin %> <% include ./../../helper/highlightHelper %>
                     <td><%= item.customer.email %></td>
                     <td><%= item.customer.phone %></td>
                     <td id="<%= item.id %>">
-                      <%= statusHelper(collection,item.status, item.id) %>
+                      <%= statusOrderHelper(item.status, item.id) %>
                     </td>
                     <td>
                       <a
                         href="form/<%= item.id %>"
                         type="button"
                         class="btn btn-warning btn-sm"
-                        >Edit</a
+                        >View</a
                       >
                       <a
                         data-id="<%=item.id %>"
