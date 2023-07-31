@@ -34,6 +34,7 @@ module.exports = async (req, res, next) => {
       email: currentUser.email,
       address: currentUser.address,
       phone: currentUser.phone,
+      isAdmin: currentUser.isAdmin,
     };
   }
   const contain =
