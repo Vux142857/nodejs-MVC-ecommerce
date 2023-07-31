@@ -234,18 +234,18 @@ index.js {
 
 - add notify {
     add & delete to cart +
-    add coupon -
+    add coupon +
     login & logout -
     add Admin to navbar -
 }
 
 - order {
     delete cart +
-    fix checkout form -
+    fix checkout form +
     add coupon {
-        add coupon to detail 
-        add ship Fee
-        add expired coupon + used
+        add coupon to detail +
+        add ship Fee +
+        add expired coupon - used +
     } -
     fix coupon {
         add type: num and %

@@ -169,33 +169,29 @@ router.post("/register", async (req, res) => {
       req.session.user_id !== "" &&
       typeof req.session.user_id !== "undefined"
     ) {
-      res.redirect("/");
+      return res.redirect("/");
     } else {
       const { username, email, password } = req.body;
 
-      // Validate user input
-      if (!(email && password)) {
-        res.status(400).send("All input is required");
-      }
-
       // check if user already exist
       const [existedUser, deletedUser] = await Promise.all([
-        userService.findOne({ username, status: "active" }),
-        userService.findOne({ username, status: "inactive" }),
+        userService.findOne({ email, status: "active" }),
+        userService.findOne({ email, status: "inactive" }),
       ]);
-
+      console.log(existedUser);
       if (existedUser) {
-        return res.status(409).send("User Already Exist. Please Login");
+        return res.flash("logError", "User Already Exists. Please Login.");
       } else if (deletedUser) {
-        return res
-          .status(409)
-          .send("User Had Been Deleted. Please create another");
+        return res.flash(
+          "logError",
+          "User Had Been Deleted. Please Create Another Account."
+        );
       }
 
       // Create user in our database
       const user = await userService.create({
         username,
-        email: email.toLowerCase(),
+        email,
         password: password,
       });
 
@@ -273,7 +269,10 @@ router.post("/subscribe", async function (req, res) {
 router.post("/create-order", async (req, res, next) => {
   let data = req.body;
   let products = JSON.parse(data.products);
-
+  if (products.length <= 0) {
+    res.redirect("/");
+    return;
+  }
   let item = {
     orderID: data.orderID,
     customer: {
@@ -283,6 +282,8 @@ router.post("/create-order", async (req, res, next) => {
       phone: data.phone,
     },
     products,
+    coupon: data.coupon,
+    shipFee: parseInt(data.shipFee),
     total: data.total,
   };
   if (data.user_id !== "") {
@@ -294,7 +295,14 @@ router.post("/create-order", async (req, res, next) => {
     });
   }
 
+  const existedCoupon = await couponService.findOne({ name: data.coupon });
+
   const newOrder = await orderService.create(item);
+  if (existedCoupon && typeof existedCoupon !== "undefined") {
+    let newUsed = existedCoupon.used + 1;
+    await couponService.updateOneById(existedCoupon._id, { used: newUsed });
+  }
+
   res.render("frontend/pages/post/description", {
     title: "Homepage",
     newOrder,

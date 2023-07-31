@@ -317,11 +317,8 @@ function applyCoupon() {
       dataType: "json",
       success: function (response) {
         let coupon = response;
-        console.log(coupon);
-
         if (coupon) {
           try {
-            console.log(shipFee);
             total += shipFee;
             if (total >= coupon.condition) {
               // Use >= to check if total is greater than or equal to coupon condition
@@ -330,7 +327,9 @@ function applyCoupon() {
             if (total < 0) {
               total = 0;
             }
-            let html = `<p>
+            let html = `
+            <input type="text" name = "coupon" value="${coupon.name}" hidden>
+            <p>
               Coupon value
               <span class="price" style="color: black"><b>${coupon.value}</b></span>
             </p><p>
@@ -340,21 +339,35 @@ function applyCoupon() {
               Total
               <span class="price" style="color: black"><b>${total}</b></span>
             </p>`;
-            console.log(html);
+            generateNotify("Add coupon successfully !");
             return $("#cart-total").html(html);
           } catch (error) {
             console.log(error);
           }
         } else {
-          console.log("Error :((");
+          generateNotify("Please enter a valid coupon code.");
         }
       },
       error: function () {
-        console.log("Error occurred during AJAX request.");
+        // console.log("Error occurred during AJAX request.");
+        generateNotify("Please enter a valid coupon code.");
       },
     });
   } else {
-    console.log("Please enter a valid coupon code.");
+    total += shipFee;
+    let html = `
+            <input type="text" name = "coupon" value="${coupon.name}" hidden>
+            <p>
+              Coupon value
+              <span class="price" style="color: black"><b>${coupon.value}</b></span>
+            </p><p>
+              Ship fee
+              <span class="price" style="color: black"><b>${shipFee}</b></span>
+            </p><p>
+              Total
+              <span class="price" style="color: black"><b>${total}</b></span>
+            </p>`;
+    return $("#cart-total").html(html);
   }
 }
 

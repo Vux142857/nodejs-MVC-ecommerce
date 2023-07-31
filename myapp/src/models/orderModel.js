@@ -1,6 +1,13 @@
 const mongoose = require("mongoose");
 
-const generateDescription = function ({ customer, total, status, products }) {
+const generateDescription = function ({
+  customer,
+  total,
+  status,
+  products,
+  coupon,
+  shipFee,
+}) {
   const customerInfo = `Customer: ${customer.email} | Address: ${customer.address} | Phone: ${customer.phone}`;
   const productInfo = products
     .map((product) => {
@@ -11,7 +18,7 @@ const generateDescription = function ({ customer, total, status, products }) {
     })
     .join(", ");
 
-  return `${customerInfo} | Total: ${total} | Status: ${status} | Products: ${productInfo}`;
+  return `${customerInfo} | Total: ${total} | Status: ${status} | Products: ${productInfo} | Ship fee: ${shipFee} | Coupon: ${coupon}`;
 };
 
 const orderSchema = mongoose.Schema(
@@ -31,7 +38,7 @@ const orderSchema = mongoose.Schema(
       },
     },
     status: { type: String, default: "processing" },
-    shipFee: String,
+    shipFee: Number,
     total: Number,
     coupon: String,
     created: { type: Date, default: Date.now },

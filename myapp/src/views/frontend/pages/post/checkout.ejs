@@ -44,9 +44,9 @@ i++) { const randomIndex=Math.floor(Math.random() * characters.length); id
                   value="<%= userInfo.address  %>"
                 />
                 <div class="form-group">
-                  <label for="name">Ship fee: </label>
-                  <select name="shipFee" id="shipFee" required>
-                    <option value="">Chọn tỉnh/thành phố</option>
+                  <label for="name">City: </label>
+                  <select name="shipFee" id="shipFee" onchange="applyCoupon()" required>
+                    <option value="">Choose city: </option>
                     <option value="3">Hà Nội</option>
                     <option value="0">TP Hồ Chí Minh</option>
                     <option value="2">Đà Nẵng</option>
@@ -60,7 +60,6 @@ i++) { const randomIndex=Math.floor(Math.random() * characters.length); id
                     <input
                       type="text"
                       id="coupon"
-                      name="coupon"
                       placeholder="Enter your coupon code"
                     />
                     <a href="javascript:applyCoupon()" id="checkCouponBtn" style="margin-left: 10px;">Apply</a>
