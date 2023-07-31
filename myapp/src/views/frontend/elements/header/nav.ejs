@@ -1,7 +1,8 @@
 <nav class="primary-menu with-arrows">
   <!-- Menu Left -->
   <ul class="not-dark menu-container">
-    <% categoryParent.forEach((item)=> {%> <% if (item.childs.length > 0 && item.childs[0] !== null) { %>
+    <% categoryParent.forEach((item)=> {%> <% if (item.childs.length > 0 &&
+    item.childs[0] !== null) { %>
     <li class="menu-item mega-menu">
       <a class="menu-link" href="<%= item.href%>">
         <div><%= item.name %></div>
@@ -17,7 +18,10 @@
             >
               <% results.forEach((item)=>{%>
               <li class="mega-menu-title menu-item">
-                <a class="menu-link" href="<%= item.href %>-idc=<%= item._id.toString() %>">
+                <a
+                  class="menu-link"
+                  href="/<%= item.href %>-idc=<%= item._id.toString() %>"
+                >
                   <div><%= item.name %></div>
                 </a>
               </li>
@@ -29,10 +33,17 @@
     </li>
     <%} else {%>
     <li class="menu-item current">
-      <a class="menu-link" href="<%= item.href %>">
+      <a class="menu-link" href="/<%= item.href %>">
         <div><%= item.name %></div>
       </a>
     </li>
-    <%} %> <%}) %>
+    <%} %> <%}) %> <% if (typeof userInfo !== 'undefined' && userInfo.isAdmin
+    === "on") { %>
+    <li class="menu-item current">
+      <a class="menu-link" href="/admin">
+        <div>Admin</div>
+      </a>
+    </li>
+    <%} %>
   </ul>
 </nav>

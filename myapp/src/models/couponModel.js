@@ -9,6 +9,10 @@ const couponSchema = mongoose.Schema({
   created_at: { type: Date, default: Date.now },
   start_at: Date,
   expired_at: Date,
+  type: {
+    type: String,
+    default: "num",
+  },
   amount: Number,
   used: {
     type: Number,

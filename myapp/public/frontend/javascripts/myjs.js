@@ -320,9 +320,15 @@ function applyCoupon() {
         if (coupon) {
           try {
             total += shipFee;
+            console.log(typeof coupon.value);
+
             if (total >= coupon.condition) {
               // Use >= to check if total is greater than or equal to coupon condition
-              total -= coupon.value;
+              if (coupon.type == "num") {
+                total -= coupon.value;
+              } else if (coupon.type == "percent") {
+                total = total * (1 - coupon.value / 100);
+              }
             }
             if (total < 0) {
               total = 0;

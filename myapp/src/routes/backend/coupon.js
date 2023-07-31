@@ -91,8 +91,6 @@ router.delete("/delete/:id/:status", async (req, res, next) => {
   res.send({ recount });
 });
 
-
-
 // ---------------------------------------------------------------POST
 
 // Change status multi
@@ -154,11 +152,11 @@ router.post("/save", async (req, res, next) => {
     used: item.used,
     condition: parseInt(item.condition),
     status: item.status,
+    type: item.type,
   };
+
   if (item.id != "" && typeof item.id != "undefined") {
-    await mainService.updateOneById(item.id, {
-      data,
-    });
+    await mainService.updateOneById(item.id, data);
     req.flash("successMessage", "Item updated successfully");
   } else {
     await mainService.create(item);

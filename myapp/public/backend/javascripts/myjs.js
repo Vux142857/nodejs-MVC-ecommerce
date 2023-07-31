@@ -289,3 +289,9 @@ function updateStatus(itemId, newStatus) {
     },
   });
 }
+
+sendMessage = () => {
+  const message = document.querySelector("input[name='message']").value;
+  var socket = io();
+  socket.emit("sendMessage", { value: message });
+};

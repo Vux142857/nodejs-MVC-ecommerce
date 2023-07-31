@@ -1,56 +1,59 @@
 const server = require("../bin/www");
 const { Server } = require("socket.io");
+const fs = require("fs");
+const appRoot = require("app-root-path");
+
 const io = new Server(server);
-let listHome = [];
-let listProduct = [];
-let listArticle = [];
+
+const filePath = appRoot + "/app/file.json";
+
+let clientsByCollection = {
+  total: [],
+  article: [],
+  product: [],
+};
 
 io.on("connection", (socket) => {
   console.log("A user connected");
-
+  // clientsByCollection = JSON.parse(fs.readFileSync(filePath, "utf-8"));
   socket.on("collection", (msg) => {
-    console.log(msg);
-    switch (msg) {
-      case "article":
-        listArticle.push(socket.id);
-        console.log(
-          `Total connected users to article page: ${listArticle.length}`
-        );
-        break;
-      case "product":
-        listProduct.push(socket.id);
-        console.log(
-          `Total connected users to product page: ${listProduct.length}`
-        );
-        break;
+    console.log(`Total connected users: ${clientsByCollection.total.length}`);
+    clientsByCollection.total.push(socket.id);
+    if (msg === "article" || msg === "product") {
+      clientsByCollection[msg].push(socket.id);
+      console.log(
+        `Total connected users to ${msg} page: ${clientsByCollection[msg].length}`
+      );
+      // fs.writeFileSync(filePath, JSON.stringify(clientsByCollection));
+      io.emit("userInArticle", { value: clientsByCollection.article.length });
+      io.emit("userInProduct", { value: clientsByCollection.product.length });
+      io.emit("totalVistor", {
+        value: clientsByCollection.total.length,
+      });
     }
   });
 
-  io.emit("userInArticle", { value: listArticle.length });
-  io.emit("userInProduct", { value: listProduct.length });
+  socket.on("sendMessage", (msg) => {
+    io.emit("rececivedMessage", msg);
+  });
+
   socket.on("disconnect", () => {
     console.log("A user disconnected");
-    const socketIndex = listArticle.indexOf(socket.id);
-    if (socketIndex !== -1) {
-      listArticle.splice(socketIndex, 1);
-      console.log(
-        `Total connected users to article page: ${listArticle.length}`
-      );
-    }
 
-    const productSocketIndex = listProduct.indexOf(socket.id);
-    if (productSocketIndex !== -1) {
-      listProduct.splice(productSocketIndex, 1);
-      console.log(
-        `Total connected users to product page: ${listProduct.length}`
-      );
+    for (const collection in clientsByCollection) {
+      const socketIndex = clientsByCollection[collection].indexOf(socket.id);
+      if (socketIndex !== -1) {
+        clientsByCollection[collection].splice(socketIndex, 1);
+        console.log(
+          `Total connected users to ${collection} page: ${clientsByCollection[collection].length}`
+        );
+        // fs.writeFileSync(filePath, JSON.stringify(clientsByCollection));
+        io.emit("userInArticle", { value: clientsByCollection.article.length });
+        io.emit("userInProduct", { value: clientsByCollection.product.length });
+        io.emit("totalVistor", {
+          value: clientsByCollection.total.length,
+        });
+      }
     }
   });
 });
-var productCount = listProduct.length;
-var articleCount = listArticle.length;
-
-// module.exports = {
-//   productCount,
-//   articleCount,
-// };

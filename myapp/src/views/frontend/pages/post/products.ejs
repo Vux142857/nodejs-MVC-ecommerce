@@ -12,11 +12,9 @@
   data-top-bottom="background-position: 50% -200px;"
 >
   <div class="container clearfix">
-    <h1>Men Collections</h1>
-    <span>A Fresh Collections Of Men</span>
+    <h1><%= currentCategory %></h1>
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="#">Home</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Men</li>
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
     </ol>
   </div>
 </section>
@@ -29,38 +27,22 @@
     <div class="container-fluid topmargin">
       <div class="row">
         <div class="col-md-2 sticky-sidebar-wrap">
-          <ul
-            class="list-unstyled items-nav sticky-sidebar shop-filter"
-            data-container="#shop"
-          >
+          <ul class="list-unstyled items-nav sticky-sidebar">
             <li>
-              <a href="#" class="text-dark fw-semibold" data-filter="*"
-                >All Collections</a
-              >
+              <a href="/" class="text-dark fw-semibold">All Collections</a>
             </li>
             <li class="no-divider">
-              <a href="#" class="text-dark fw-semibold" data-filter=".sf-new"
-                >New Arrivals</a
-              >
+              <a href="/" class="text-dark fw-semibold">New Arrivals</a>
             </li>
             <li><hr /></li>
-            <li><a href="#" data-filter=".sf-jeans">Jeans</a></li>
-            <li><a href="#" data-filter=".sf-t-shirts">T-Shirts</a></li>
-            <li><a href="#" data-filter=".sf-watches">Watches</a></li>
-            <li><a href="#" data-filter=".sf-shoes">Shoes</a></li>
-            <li><a href="#" data-filter=".sf-sportswear">Sportswear</a></li>
-            <li><a href="#" data-filter=".sf-shorts">Shorts</a></li>
-            <li><a href="#" data-filter=".sf-trousers">Trousers</a></li>
-            <li><a href="#" data-filter=".sf-jackets">Jackets</a></li>
-            <li><a href="#" data-filter=".sf-sweaters">Sweaters</a></li>
+            <% categoryArticle.forEach((item)=>{%>
+            <li>
+              <a href="<%= item.href %>-idc=<%= item._id.toString() %>">
+                <%=item.name %></a
+              >
+            </li>
+            <%}) %>
           </ul>
-
-          <hr />
-
-          <div>
-            <h5 class="ls0 text-muted">Select Price:</h5>
-            <input class="range_23" />
-          </div>
         </div>
 
         <div class="col-md-10">
@@ -68,7 +50,7 @@
             <!-- Shop Item 1
 								============================================= -->
             <% products.forEach(item =>{ %>
-            <div class="col-lg-4 col-md-6 mb-4 sf-shoes sf-sportswear sf-new">
+            <div class="col-lg-4 col-md-6 mb-4">
               <div class="product">
                 <div class="product-image position-relative">
                   <div
@@ -153,11 +135,9 @@
                       id="<%= element.id %>"
                       name="size"
                       value="<%= element.id %>"
-                      data-name = "<%= element.name %>"
+                      data-name="<%= element.name %>"
                     />
-                    <label for="<%= element.id %>"
-                      ><%= element.name %></label
-                    >
+                    <label for="<%= element.id %>"><%= element.name %></label>
                     <% }) %><ins>$<%=item.price %></ins>
                   </div>
                 </div>
@@ -171,3 +151,7 @@
   </div>
 </section>
 <!-- #content end -->
+<script>
+  var socket = io();
+  socket.emit("collection", "product");
+</script>

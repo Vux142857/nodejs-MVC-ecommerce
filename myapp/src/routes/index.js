@@ -6,8 +6,8 @@ router.use((req, res, next) => {
   next();
 });
 
-// router.use("/admin", authToken, require("./backend"));
-router.use("/admin", require("./backend"));
+router.use("/admin", authToken, require("./backend"));
+// router.use("/admin", require("./backend"));
 router.use("/", require("./frontend"));
 
 module.exports = router;

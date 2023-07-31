@@ -1,0 +1,102 @@
+<div class="content-wrap pb-0">
+  <div class="container">
+    <div class="card mx-auto" style="max-width: 540px">
+      <div class="card-header py-3 bg-transparent center">
+        <h3 class="mb-0 fw-normal">Hello, Welcome</h3>
+      </div>
+      <div class="card-body mx-auto py-5" style="max-width: 70%">
+        <form
+          id="register-form"
+          name="login-form"
+          class="mb-0 row"
+          action="/register"
+          method="post"
+          onsubmit="return validateForm()"
+        >
+          <p id="log-error" style="color: red"><%= logError %></p>
+          <% console.log(logError); %>
+          <div class="col-12">
+            <input
+              type="text"
+              id="register-form-username"
+              name="username"
+              value=""
+              class="form-control not-dark"
+              placeholder="Username"
+              required
+            />
+          </div>
+
+          <div class="col-12 mt-4">
+            <input
+              type="email"
+              id="register-form-email"
+              name="email"
+              value=""
+              class="form-control not-dark"
+              placeholder="Email"
+              required
+            />
+          </div>
+
+          <div class="col-12 mt-4">
+            <input
+              type="password"
+              id="register-form-password"
+              name="password"
+              value=""
+              class="form-control not-dark"
+              placeholder="Password"
+              required
+            />
+            <p id="password-error" style="color: red; display: none">
+              Password must be at least 8 characters long.
+            </p>
+          </div>
+          <label class="mt-4">
+            <input
+              type="checkbox"
+              checked="checked"
+              name="remember"
+              style="margin-bottom: 15px"
+            />
+            Remember me
+          </label>
+
+          <p>
+            By creating an account you agree to our
+            <a href="/pages/policy" style="color: dodgerblue">Terms & Privacy</a
+            >.
+          </p>
+          <div class="col-12 mt-4">
+            <button
+              class="button w-100 m-0"
+              id="register-form-submit"
+              name="register-form-submit"
+              value="register"
+            >
+              Register
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function validateForm() {
+    const passwordField = document.getElementById("register-form-password");
+    const passwordError = document.getElementById("password-error");
+
+    if (passwordField.value.length < 8) {
+      passwordError.style.display = "block";
+      return false; // Prevent form submission
+    } else {
+      passwordError.style.display = "none";
+      return true; // Allow form submission
+    }
+  }
+  var socket = io();
+  socket.emit("collection", "product");
+</script>

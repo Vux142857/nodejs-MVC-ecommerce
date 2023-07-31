@@ -33,5 +33,11 @@
       <a href="<%= bottomAd.url %>" class="cta">Shop Now</a>
     </marquee>
     <% } %>
+    <script>
+      var socket = io();
+      socket.on("rececivedMessage", (message) => {
+        generateNotify(message.value);
+      });
+    </script>
   </body>
 </html>

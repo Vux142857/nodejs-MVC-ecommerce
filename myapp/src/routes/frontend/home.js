@@ -26,7 +26,8 @@ const couponService = couponModel.couponService;
 // Utility
 const utilGetParam = require("../../utils/utilParam");
 const authToken = require("../../middleware/verifyToken");
-const { body } = require("express-validator");
+const utilMail = require("../../utils/utilMail");
+const emailSetup = require("../../middleware/emailSetup");
 
 // -------------------------------------------GET
 
@@ -40,12 +41,32 @@ router.get("/checkout(/:id)?", async (req, res, next) => {
   }
 });
 
+router.get("/form(/:action)?", async (req, res, next) => {
+  try {
+    let logError = "";
+    let action = req.params.action;
+    res.render(`frontend/pages/post/${action}`, {
+      title: "Homepage",
+      logError,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 router.get("/pages(/:setting)?", async (req, res, next) => {
   try {
     let href = req.params.setting;
-    console.log(href);
+    let articleItems = {};
+    if (href == "articles") {
+      articleItems = await articleService.getAll({
+        status: "active",
+        special: "on",
+      });
+    }
     res.render(`frontend/pages/setting/${href}`, {
       title: "Homepage",
+      articleItems,
     });
   } catch (error) {
     console.log(error);
@@ -82,6 +103,7 @@ router.get("/:id", async (req, res, next) => {
     let products;
     let productRelated;
     let SIZE = await sizeService.getAll({});
+    let currentCategory;
     if (url.includes("-idp=")) {
       collection = productModel.name;
       idProduct = url.split("-idp=")[1];
@@ -99,6 +121,7 @@ router.get("/:id", async (req, res, next) => {
     } else if (url.includes("-idc=")) {
       collection = "productsByCategory";
       idCategory = url.split("-idc=")[1];
+      currentCategory = url.split("-idc=")[0].toUpperCase();
       products = await productService.getAll({ category: idCategory });
     }
 
@@ -110,6 +133,7 @@ router.get("/:id", async (req, res, next) => {
       productRelated,
       products,
       SIZE,
+      currentCategory,
     });
   } catch (error) {
     console.log(error);
@@ -174,18 +198,26 @@ router.post("/register", async (req, res) => {
       const { username, email, password } = req.body;
 
       // check if user already exist
-      const [existedUser, deletedUser] = await Promise.all([
-        userService.findOne({ email, status: "active" }),
-        userService.findOne({ email, status: "inactive" }),
-      ]);
+      const [existedUser, deletedUser, existedUsername, deletedUsername] =
+        await Promise.all([
+          userService.findOne({ email, status: "active" }),
+          userService.findOne({ email, status: "inactive" }),
+          userService.findOne({ username, status: "active" }),
+          userService.findOne({ username, status: "inactive" }),
+        ]);
       console.log(existedUser);
-      if (existedUser) {
-        return res.flash("logError", "User Already Exists. Please Login.");
-      } else if (deletedUser) {
-        return res.flash(
-          "logError",
-          "User Had Been Deleted. Please Create Another Account."
-        );
+      if (existedUser || existedUsername) {
+        let logError = "User already exists.";
+        return res.render("frontend/pages/post/register", {
+          title: "Homepage",
+          logError,
+        });
+      } else if (deletedUser || deletedUsername) {
+        let logError = "User had been deleted. Please create another account.";
+        return res.render("frontend/pages/post/register", {
+          title: "Homepage",
+          logError,
+        });
       }
 
       // Create user in our database
@@ -206,7 +238,7 @@ router.post("/register", async (req, res) => {
       // save user token
       req.session.token = token;
       req.session.user_id = user._id;
-      return res.redirect("/");
+      return res.redirect("/form/login");
     }
   } catch (err) {
     console.log(err);
@@ -224,10 +256,6 @@ router.post("/login", async (req, res) => {
     } else {
       const { username, password } = req.body;
 
-      if (!(username && password)) {
-        return res.status(400).send("All input is required");
-      }
-
       const user = await userService.findOne({ username, status: "active" });
 
       if (user && (await bcrypt.compare(password, user.password))) {
@@ -243,7 +271,11 @@ router.post("/login", async (req, res) => {
         req.session.user_id = user._id;
         return res.redirect("/");
       }
-      return res.status(400).send("Invalid Credentials");
+      let logError = "Password or username is wrong !";
+      return res.render("frontend/pages/post/login", {
+        title: "Homepage",
+        logError,
+      });
     }
   } catch (err) {
     console.log(err);
@@ -284,7 +316,7 @@ router.post("/create-order", async (req, res, next) => {
     products,
     coupon: data.coupon,
     shipFee: parseInt(data.shipFee),
-    total: data.total,
+    total: parseFloat(data.total),
   };
   if (data.user_id !== "") {
     await userService.updateOneById(data.user_id, {
@@ -298,6 +330,17 @@ router.post("/create-order", async (req, res, next) => {
   const existedCoupon = await couponService.findOne({ name: data.coupon });
 
   const newOrder = await orderService.create(item);
+  if (data.email !== "" && typeof data.email !== "undefined") {
+    const message = {
+      subject: "Order is processing",
+      text: newOrder.description,
+    };
+    const [toClient, toStaff] = await Promise.all([
+      utilMail.sendMail(data.email, message),
+      utilMail.sendMail(emailSetup, message),
+    ]);
+  }
+
   if (existedCoupon && typeof existedCoupon !== "undefined") {
     let newUsed = existedCoupon.used + 1;
     await couponService.updateOneById(existedCoupon._id, { used: newUsed });

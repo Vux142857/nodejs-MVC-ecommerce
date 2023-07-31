@@ -1,0 +1,110 @@
+<!-- Page Title
+		============================================= -->
+<section
+  id="page-title"
+  class="page-title-parallax page-title-dark page-title-center"
+  style="
+    background-image: url('backend/upload/article/');
+    background-size: cover;
+    padding: 170px 0 100px;
+  "
+  data-bottom-top="background-position: 50% 200px;"
+  data-top-bottom="background-position: 50% -200px;"
+>
+  <div class="container clearfix">
+    <h1 class="h1 fw-bold mb-4">Articles</h1>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item h1 fw-bold mb-4"><a href="/">Home</a></li>
+    </ol>
+  </div>
+</section>
+<!-- #page-title end -->
+<div class="content-wrap pb-0">
+  <div class="container">
+    <div class="row">
+      <%articleItems.forEach((item) => { %>
+      <div class="col-md-6 mb-5">
+        <img
+          src="/backend/upload/article/<%= item.thumb %>"
+          alt="image"
+          class="mb-4"
+        />
+        <h4 class="mb-2">
+          <a href="/<%= item.slug %>-ida=<%= item._id %>"><%= item.name%></a>
+        </h4>
+        <p class="mb-3">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo
+          doloremque eveniet dolorem, porro earum. Eius, corrupti provident
+          iusto modi sunt.
+        </p>
+        <a
+          href="/<%= item.slug %>-ida=<%= item._id %>"
+          class="stretched-link btn p-0 fw-semibold"
+          ><u>View Details</u>
+          <i
+            class="icon-line-arrow-right position-relative ms-1"
+            style="top: 2px"
+          ></i
+        ></a>
+      </div>
+      <% }) %>
+    </div>
+    <div class="clear my-5"></div>
+  </div>
+  <div class="clear"></div>
+  <div class="section mb-0 border-0" style="padding: 80px 0">
+    <div class="video-wrap" style="z-index: 0">
+      <video
+        poster="one-page/images/page/portrait/video-poster.jpg"
+        preload="auto"
+        loop
+        autoplay
+        muted
+      >
+        <source
+          src="one-page/images/page/portrait/video.mp4"
+          type="video/mp4"
+        />
+      </video>
+      <div class="video-overlay" style="background: rgba(0, 0, 0, 0.2)"></div>
+    </div>
+    <div
+      class="emphasis-title widget subscribe-widget mx-auto center px-4"
+      data-loader="button"
+      style="max-width: 650px"
+    >
+      <h2 class="fw-bold text-white">Subscribe Now</h2>
+      <p class="mb-5 text-white-50 lead" data-delay="100">
+        Subscribe to Our Newsletter to get Important News, Amazing Offers &
+        Inside Scoops:
+      </p>
+      <div class="widget-subscribe-form-result"></div>
+      <form
+        id="widget-subscribe-form-2"
+        action="include/subscribe.php"
+        method="post"
+        class="mt-1 input-group input-group-lg mb-0"
+      >
+        <input
+          type="email"
+          id="widget-subscribe-form-2-email"
+          name="widget-subscribe-form-email"
+          class="form-control required email rounded-0 border-0"
+          placeholder="Enter your Email Address"
+        />
+
+        <button
+          class="btn btn-dark bg-color rounded-0 text-uppercase fw-bold"
+          type="submit"
+          style="font-size: 16px"
+        >
+          Subscribe Now
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+  var socket = io();
+  socket.emit("collection", "article");
+</script>

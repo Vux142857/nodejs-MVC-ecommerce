@@ -235,8 +235,8 @@ index.js {
 - add notify {
     add & delete to cart +
     add coupon +
-    login & logout -
-    add Admin to navbar -
+    login & logout +
+    add Admin to navbar +
 }
 
 - order {
@@ -250,26 +250,26 @@ index.js {
     fix coupon {
         add type: num and %
         add generate: name
-    } -
+    } +
     email -> gửi về {
         nhân viên
         khách hàng
-    } -
+    } +
 }
 
 - socket {
     tạo {article, product}
-}
+} +
 
 - extra {
     - page {
     add image for subscribe -
-    coated image product and article
-    sort product by price
-    find product by name
+    coated image product and article +
+    sort product by price -
+    find product by name -
     }
-    - adjust ui upload file
-    - email admin and staff
+    - adjust ui upload file -
+    - email admin - and staff +
 }
 
 note !!!!

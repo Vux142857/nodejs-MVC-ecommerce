@@ -489,7 +489,7 @@ body #side-panel.dark {
 
 .dark .slider-caption:not(.not-dark),
 .dark .slider-caption:not(.not-dark) h2 {
-	color: #F7F7F7;
+  color: #ffcc00; /* Yellow color code for cyberpunk theme */
 }
 
 .dark #page-title,
