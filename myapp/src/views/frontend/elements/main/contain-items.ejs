@@ -57,19 +57,17 @@
         </h3>
       </div>
       <div class="product-price">
-        <div class="form-group">
           <% item.size.forEach((element, index) => { %>
           <input
             type="radio"
             id="<%= element.id %>"
             name="size"
             value="<%= element.id %>"
-            data-name = "<%= element.name %>"
+            data-name="<%= element.name %>"
           />
           <label for="<%= element.id %>"><%= element.name %></label>
           <% }) %>
-          <ins>$<%= item.price %></ins>
-        </div>
+        <ins>$<%= item.price %></ins>
       </div>
     </div>
   </div>

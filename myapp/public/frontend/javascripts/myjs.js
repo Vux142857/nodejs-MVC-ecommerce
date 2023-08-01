@@ -63,7 +63,7 @@ const changeCategoryProduct = (id) => {
           if (Array.isArray(products)) {
             let url;
             products.forEach((product) => {
-              url = product.slug + "-id-" + product._id.toString();
+              url = product.slug + "-idp=" + product._id.toString();
               html += `<div class="col-lg-4 col-md-6 mb-4">
               <div class="product">
                 <div class="product-image position-relative">
@@ -90,9 +90,31 @@ const changeCategoryProduct = (id) => {
                       </div>
                     </div>
                   </div>
-                  <a href="#" class="cart-btn button button-white button-light"
-                    ><i class="icon-line-plus"></i>Add to Cart</a
-                  >
+                  <input
+                  type="number"
+                  step="1"
+                  min="1"
+                  value="1"
+                  name="amount"
+                  title="Qty"
+                  class="qty"
+                  hidden
+                />
+                <input type="text" name="name" value="${
+                  product.name
+                }<%= item.name %>" hidden />
+                <input type="text" name="_id" value="${product._id}" hidden />
+                <input type="text" name="main_Img" value="${
+                  product.img[0]
+                }" hidden />
+                <input type="number" name="price" value="${
+                  product.price
+                }" hidden />
+                <button
+                class="cart-btn button button-white button-light add-cart add-to-cart"
+              >
+                <i class="icon-line-plus"></i>Add to Cart
+              </button>
                 </div>
                 <div class="product-desc">
                   <div class="product-title">
@@ -100,7 +122,13 @@ const changeCategoryProduct = (id) => {
                       <a href="${url}">${product.name}</a>
                     </h3>
                   </div>
-                  <div class="product-price"><ins>${product.price}</ins></div>
+                  <div class="product-price">${product.size
+                    .map(
+                      (element) =>
+                        `<input type="radio" id="${element.id}" name="size" value="${element.id}" data-name="${element.name}" />
+                        <label for="${element.id}">${element.name}</label>`
+                    )
+                    .join("")}<ins>${product.price}</ins></div>
                 </div>
               </div>
             </div>`;
@@ -111,6 +139,11 @@ const changeCategoryProduct = (id) => {
         }
         console.log(html);
         $("#contain-products").html(html);
+        // Call the addToCartLocalStorage function after updating the HTML
+        const addToCartButtons = document.querySelectorAll(".add-to-cart");
+        addToCartButtons.forEach((button) => {
+          button.addEventListener("click", addToCartLocalStorage);
+        });
       } else {
         console.log("Error :((");
       }

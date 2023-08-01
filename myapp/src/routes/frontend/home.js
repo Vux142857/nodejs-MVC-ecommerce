@@ -90,39 +90,43 @@ router.get("/", async (req, res, next) => {
   });
 });
 
-// Single-page article, product
 router.get("/:id", async (req, res, next) => {
   try {
     const url = req.params.id;
-    let idArticle = "";
-    let idProduct = "";
-    let idCategory = "";
     let collection;
-    let article;
-    let product;
-    let products;
-    let productRelated;
-    let SIZE = await sizeService.getAll({});
+    let idProduct;
+    let idArticle;
+    let idCategory;
     let currentCategory;
+    let productRelated;
+
     if (url.includes("-idp=")) {
       collection = productModel.name;
       idProduct = url.split("-idp=")[1];
-      product = await productService.getOne({ _id: idProduct });
-      productRelated = await productService
-        .getAll({ category: product.category })
-        .limit(4);
     } else if (url.includes("-ida=")) {
       collection = articleModel.name;
       idArticle = url.split("-ida=")[1];
-      article = await articleService.getOne({ _id: idArticle });
-      productRelated = await productService
-        .getAll({ category: { $in: article.category } })
-        .limit(4);
     } else if (url.includes("-idc=")) {
       collection = "productsByCategory";
       idCategory = url.split("-idc=")[1];
       currentCategory = url.split("-idc=")[0].toUpperCase();
-      products = await productService.getAll({ category: idCategory });
+    }
+
+    const [article, product, SIZE, products] = await Promise.all([
+      idArticle ? articleService.getOne({ _id: idArticle }) : null,
+      idProduct ? productService.getOne({ _id: idProduct }) : null,
+      sizeService.getAll({}),
+      idCategory ? productService.getAll({ category: idCategory }) : null,
+    ]);
+
+    if (idArticle) {
+      productRelated = await productService
+        .getAll({ category: { $in: article.category } })
+        .limit(4);
+    } else if (idProduct) {
+      productRelated = await productService
+        .getAll({ category: product.category })
+        .limit(4);
     }
 
     res.render("frontend/pages/post/index", {

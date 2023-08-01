@@ -273,3 +273,17 @@ index.js {
 }
 
 note !!!!
+
+note {
+    bố cục web
+    delete change status admin
+    count revenue
+    count revenue Today
+    chức năng nào chưa làm ẩn đi
+    nodejs13
+    errors
+    tìm hiểu nonlogin login
+    update data
+    tat adv
+    cloudinary
+}
