@@ -261,29 +261,30 @@ index.js {
     tạo {article, product}
 } +
 
-- extra {
-    - page {
-    add image for subscribe -
-    coated image product and article +
-    sort product by price -
-    find product by name -
-    }
-    - adjust ui upload file -
-    - email admin - and staff +
-}
 
 note !!!!
 
 note {
-    bố cục web
-    delete change status admin
-    count revenue
-    count revenue Today
-    chức năng nào chưa làm ẩn đi
-    nodejs13
-    errors
-    tìm hiểu nonlogin login
-    update data
-    tat adv
-    cloudinary
+    bố cục web +
+    delete change status admin +
+    nodejs13 --
+    tìm hiểu nonlogin login --
+    cloudinary --
+}
+
+- extra {
+    - page {
+    add image for subscribe --
+    sort product by price +
+    find product by name +
+    }
+    - count revenue -
+    - count revenue Today -
+    - tat adv -
+    - update data -
+    - userinfo -
+    - adjust ui upload file +
+    - email admin -- and staff +
+    - errors -
+    - forget password -
 }

@@ -46,7 +46,6 @@ include ./../../helper/isAdmin %> <% include ./../../helper/highlightHelper %>
                     <!-- <th>Image</th> -->
                     <th>Email</th>
                     <th>Phone</th>
-                    <th>isAdmin</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
@@ -67,9 +66,6 @@ include ./../../helper/isAdmin %> <% include ./../../helper/highlightHelper %>
                     <td><%- highlightHelper(item.username, keyword) %></td>
                     <td><%= item.email %></td>
                     <td><%= item.phone %></td>
-                    <td id="<%= item.id %>-role">
-                      <%= isAdminHelper("items",item.isAdmin, item.id) %>
-                    </td>
                     <td id="<%= item.id %>">
                       <%= statusHelper("items",item.status, item.id) %>
                     </td>

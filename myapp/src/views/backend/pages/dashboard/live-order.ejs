@@ -19,31 +19,22 @@
           <tr>
             <th>Order ID</th>
             <th>User's email</th>
+            <th>Total</th>
             <th>Status</th>
           </tr>
         </thead>
         <tbody>
-          <% orderList.forEach(item =>{ %>
+          <% orderLatest.forEach(item =>{ %>
           <tr>
-            <td><a href=""><%= item.orderID %></a></td>
+            <td><a href="order/form/<%= item._id %>"><%= item.orderID %></a></td>
             <td><%= item.customer.email%></td>
+            <td>$<%= item.total %></td>
             <td id="<%= item.id %>">
-              <%
-                let statusClass = '';
-                switch (item.status) {
-                  case "processing":
-                    statusClass = "btn btn-block btn-warning";
-                    break;
-                  case "cancelled":
-                    statusClass = "btn btn-block btn-danger";
-                    break;
-                  case "done":
-                    statusClass = "btn btn-block btn-info";
-                    break;
-                  default:
-                    break;
-                }
-              %>
+              <% let statusClass = ''; switch (item.status) { case "processing":
+              statusClass = "btn btn-block btn-warning"; break; case
+              "cancelled": statusClass = "btn btn-block btn-danger"; break; case
+              "done": statusClass = "btn btn-block btn-info"; break; default:
+              break; } %>
               <a href="#" class="<%= statusClass %>">
                 <span class="label"> <%= item.status %> </span>
               </a>
@@ -51,7 +42,6 @@
           </tr>
           <%}) %>
         </tbody>
-        
       </table>
     </div>
   </div>

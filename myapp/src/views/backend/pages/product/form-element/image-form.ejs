@@ -1,39 +1,106 @@
 <% imageForm=()=> { %>
-<div class="form-group">
-  <% if (item.id !== undefined && item.id !== '') { %>
-  <label>Chosen images</label>
-  <% if (Array.isArray(item.img)) { item.img.forEach((element) => { %> <%-
-  imageHelper("backend/upload/product/", element, item.name, 'img-avatar-form');
-  %> <% }); } else { %> <%- imageHelper("backend/upload/product/", item.img,
-  item.name, 'img-avatar-form'); %> <% } %> <% } %>
-</div>
-<div
-  class="w-[400px] relative border-2 border-gray-300 border-dashed rounded-lg p-6"
-  id="dropzone"
->
-  <input
-    type="file"
-    class="absolute inset-0 w-full h-full opacity-0 z-50"
-    id="file-upload"
-    multiple
-    name="images"
-  />
-  <div class="text-center">
-    <img
-      class="mx-auto h-12 w-12"
-      src="https://www.svgrepo.com/show/357902/image-upload.svg"
-      alt=""
+<div class="container-grid">
+  <% if (item.id !== '' && typeof item.id !== "undefined"){
+  console.log(item.img); item.img.forEach((image, index)=>{ %>
+  <div class="preview">
+    <img class="img-preview" src="/backend/upload/product/<%= image %>" />
+    <label for="file-input">Upload Image <%= index + 1 %></label>
+    <input
+      accept="image/*"
+      type="file"
+      class="file-input"
+      name="images"
+      multiple
     />
-    <h3 class="mt-2 text-sm font-medium text-gray-900">
-      <label for="file-upload" class="relative cursor-pointer">
-        <span>Drag and drop</span>
-        <span class="text-indigo-600"> or browse</span>
-        <span>to upload</span>
-      </label>
-    </h3>
-    <p class="mt-1 text-xs text-gray-500">Images up to 3MB</p>
   </div>
+  <%})} else { %>
+  <div class="preview">
+    <img class="img-preview" src="/backend/upload/no-img.jpg" />
 
-  <div id="preview-container" class="mt-4 mx-auto hidden"></div>
+    <label for="file-input">Upload Image 1</label>
+    <input type="file" class="file-input" name="images" mutiple />
+  </div>
+  <div class="preview">
+    <img class="img-preview" src="/backend/upload/no-img.jpg" />
+
+    <label for="file-input">Upload Image 2</label>
+    <input type="file" class="file-input" name="images" mutiple />
+  </div>
+  <div class="preview">
+    <img class="img-preview" src="/backend/upload/no-img.jpg" />
+
+    <label for="file-input">Upload Image 3</label>
+    <input type="file" class="file-input" name="images" mutiple />
+  </div>
+  <div class="preview">
+    <img class="img-preview" src="/backend/upload/no-img.jpg" />
+
+    <label for="file-input">Upload Image 4</label>
+    <input type="file" class="file-input" name="images" mutiple />
+  </div>
+  <%} %>
 </div>
+<style>
+  .container-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+  }
+
+  .preview {
+    position: relative;
+  }
+
+  .img-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .file-input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  /* Optional styling for the preview container */
+  .preview {
+    width: 100%;
+    height: 200px; /* Set a fixed height for consistent image display */
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden; /* Ensure images are clipped to the container */
+  }
+
+  /* Optional styling for the label */
+  .preview label {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+</style>
+<script>
+  const inputs = document.querySelectorAll(".file-input");
+  const images = document.querySelectorAll(".img-preview");
+
+  inputs.forEach((input, index) => {
+    input.addEventListener("change", (e) => {
+      if (e.target.files.length) {
+        let file = e.target.files[0]; // Get the first file from the FileList
+        let src = URL.createObjectURL(file);
+        images[index].src = src;
+      }
+    });
+  });
+</script>
+
 <% } %>

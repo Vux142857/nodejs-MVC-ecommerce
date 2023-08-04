@@ -1,123 +1,121 @@
-<div class="row">
-  <div class="col-lg-3 col-6">
-    <div class="small-box bg-info">
-      <div class="inner">
-        <h3><%= product.count %></h3>
-        <p>Products</p>
-      </div>
-      <div class="icon">
-        <i class="ion ion-bag"></i>
-      </div>
-      <a href="/admin/<%= product.index %>" class="small-box-footer"
-        >More info <i class="fas fa-arrow-circle-right"></i
-      ></a>
+<div class="col-lg-3 col-6">
+  <div class="small-box bg-info">
+    <div class="inner">
+      <h3><%= product.count %></h3>
+      <p>Products</p>
     </div>
-  </div>
-
-  <div class="col-lg-3 col-6">
-    <div class="small-box bg-success">
-      <div class="inner">
-        <h3><%= article.count %></h3>
-        <p>Articles</p>
-      </div>
-      <div class="icon">
-        <i class="ion ion-stats-bars"></i>
-      </div>
-      <a href="/admin/<%= article.index %>" class="small-box-footer"
-        >More info <i class="fas fa-arrow-circle-right"></i
-      ></a>
+    <div class="icon">
+      <i class="ion ion-bag"></i>
     </div>
-  </div>
-  <div class="col-lg-3 col-6">
-    <div class="small-box bg-warning">
-      <div class="inner">
-        <h3 id="articleCount">0</h3>
-        <p>Users in article</p>
-      </div>
-      <div class="icon">
-        <i class="ion ion-person-add"></i>
-      </div>
-      <a href="#" class="small-box-footer"
-        >More info <i class="fas fa-arrow-circle-right"></i
-      ></a>
-    </div>
-  </div>
-
-  <div class="col-lg-3 col-6">
-    <div class="small-box bg-danger">
-      <div class="inner">
-        <h3 id="productCount">0</h3>
-        <p>Users in product</p>
-      </div>
-      <div class="icon">
-        <i class="ion ion-pie-graph"></i>
-      </div>
-      <a href="#" class="small-box-footer"
-        >More info <i class="fas fa-arrow-circle-right"></i
-      ></a>
-    </div>
-  </div>
-  <div class="col-lg-3 col-6">
-    <div class="small-box bg-danger">
-      <div class="inner">
-        <h3 id="totalVistor">0</h3>
-        <p>Total visitor</p>
-      </div>
-      <div class="icon">
-        <i class="ion ion-pie-graph"></i>
-      </div>
-      <a href="#" class="small-box-footer"
-        >More info <i class="fas fa-arrow-circle-right"></i
-      ></a>
-    </div>
+    <a href="/admin/<%= product.index %>" class="small-box-footer"
+      >More info <i class="fas fa-arrow-circle-right"></i
+    ></a>
   </div>
 </div>
-<div class="row">
-  <div class="card direct-chat direct-chat-primary">
-    <div class="card-header ui-sortable-handle" style="cursor: move">
-      <h3 class="card-title">Direct Chat</h3>
-      <div class="card-tools">
-        <!-- <span title="3 New Messages" class="badge badge-primary">3</span> -->
-        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-          <i class="fas fa-minus"></i>
-        </button>
-        <button
-          type="button"
-          class="btn btn-tool"
-          title="Contacts"
-          data-widget="chat-pane-toggle"
-        >
-          <i class="fas fa-comments"></i>
-        </button>
-        <button type="button" class="btn btn-tool" data-card-widget="remove">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-    </div>
 
-    <div class="card-footer">
-      <form>
-        <div class="input-group">
-          <input
-            type="text"
-            name="message"
-            placeholder="Type Message ..."
-            class="form-control"
-          />
-          <span class="input-group-append">
-            <button
-              type="button"
-              class="btn btn-primary"
-              onclick="sendMessage()"
-            >
-              Send
-            </button>
-          </span>
-        </div>
-      </form>
+<div class="col-lg-3 col-6">
+  <div class="small-box bg-success">
+    <div class="inner">
+      <h3><%= article.count %></h3>
+      <p>Articles</p>
     </div>
+    <div class="icon">
+      <i class="ion ion-stats-bars"></i>
+    </div>
+    <a href="/admin/<%= article.index %>" class="small-box-footer"
+      >More info <i class="fas fa-arrow-circle-right"></i
+    ></a>
   </div>
 </div>
+<div class="col-lg-3 col-6">
+  <div class="small-box bg-warning">
+    <div class="inner">
+      <h3 id="articleCount">0</h3>
+      <p>Users in article</p>
+    </div>
+    <div class="icon">
+      <i class="ion ion-person-add"></i>
+    </div>
+    <a href="#" class="small-box-footer"
+      >More info <i class="fas fa-arrow-circle-right"></i
+    ></a>
+  </div>
+</div>
+
+<div class="col-lg-3 col-6">
+  <div class="small-box bg-info">
+    <div class="inner">
+      <h3 id="productCount">0</h3>
+      <p>Users in product</p>
+    </div>
+    <div class="icon">
+      <i class="ion ion-pie-graph"></i>
+    </div>
+    <a href="#" class="small-box-footer"
+      >More info <i class="fas fa-arrow-circle-right"></i
+    ></a>
+  </div>
+</div>
+<div class="col-lg-3 col-6">
+  <div class="small-box bg-success">
+    <div class="inner">
+      <h3 id="totalVistor">0</h3>
+      <p>Total visitor</p>
+    </div>
+    <div class="icon">
+      <i class="ion ion-pie-graph"></i>
+    </div>
+    <a href="#" class="small-box-footer"
+      >More info <i class="fas fa-arrow-circle-right"></i
+    ></a>
+  </div>
+</div>
+<div class="col-lg-3 col-6">
+  <div class="small-box bg-info">
+    <div class="inner">
+      <h3 id="incomeToday">$<%= incomeToday %></h3>
+      <p>Income today</p>
+    </div>
+    <div class="icon">
+      <i class="ion ion-pie-graph"></i>
+    </div>
+    <a href="#" class="small-box-footer"
+      >More info <i class="fas fa-arrow-circle-right"></i
+    ></a>
+  </div>
+</div>
+<div class="col-lg-3 col-6">
+  <div class="small-box bg-success">
+    <div class="inner">
+      <h3 id="incomeTotal">$<%= incomeTotal %></h3>
+      <p>Income total</p>
+    </div>
+
+    <div class="icon">
+      <i class="ion ion-pie-graph"></i>
+    </div>
+    <a href="#" class="small-box-footer"
+      >More info <i class="fas fa-arrow-circle-right"></i
+    ></a>
+  </div>
+</div>
+
+<div class="col-lg-3 col-6">
+  <div class="small-box bg-info">
+    <div class="inner">
+      <h3 id="incomeTotal"><%= totalOrder %></h3>
+      <p>Orders total</p>
+    </div>
+
+    <div class="icon">
+      <i class="ion ion-pie-graph"></i>
+    </div>
+    <a href="#" class="small-box-footer"
+      >More info <i class="fas fa-arrow-circle-right"></i
+    ></a>
+  </div>
+</div>
+
 <script>
   var socket = io();
   socket.on("userInArticle", function (data) {
@@ -129,5 +127,4 @@
   socket.on("totalVistor", function (data) {
     $("#totalVistor").text(data.value);
   });
-
 </script>

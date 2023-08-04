@@ -84,3 +84,11 @@ exports.count = async (param) => {
     console.log(error);
   }
 };
+
+exports.save = async (param) => {
+  try {
+    return Item.save(param);
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -41,6 +41,27 @@ router.get("/checkout(/:id)?", async (req, res, next) => {
   }
 });
 
+router.get("/user/:id", async (req, res, next) => {
+  try {
+    let user;
+    let orderLatest;
+    if (req.session.user_id !== "") {
+      user = await userService.getOne({ _id: req.params.id });
+      orderLatest = await orderService.getAll({
+        customer: { email: user.email },
+      });
+      return res.render("frontend/pages/post/user", {
+        title: "Homepage",
+        orderLatest,
+      });
+    } else {
+      return res.redirect("/");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 router.get("/form(/:action)?", async (req, res, next) => {
   try {
     let logError = "";
@@ -93,6 +114,9 @@ router.get("/", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
   try {
     const url = req.params.id;
+    const keyword = req.query.search;
+    let searchName;
+    let condition;
     let collection;
     let idProduct;
     let idArticle;
@@ -110,13 +134,28 @@ router.get("/:id", async (req, res, next) => {
       collection = "productsByCategory";
       idCategory = url.split("-idc=")[1];
       currentCategory = url.split("-idc=")[0].toUpperCase();
+      searchName = new RegExp(keyword, "ig");
+      condition =
+        searchName !== ""
+          ? { category: idCategory, status: "active", name: searchName }
+          : { category: idCategory, status: "active" };
     }
 
     const [article, product, SIZE, products] = await Promise.all([
-      idArticle ? articleService.getOne({ _id: idArticle }) : null,
-      idProduct ? productService.getOne({ _id: idProduct }) : null,
+      idArticle
+        ? articleService.getOne({
+            _id: idArticle,
+            status: "active",
+          })
+        : null,
+      idProduct
+        ? productService.getOne({
+            _id: idProduct,
+            status: "active",
+          })
+        : null,
       sizeService.getAll({}),
-      idCategory ? productService.getAll({ category: idCategory }) : null,
+      idCategory ? productService.getAll(condition) : null,
     ]);
 
     if (idArticle) {
@@ -138,6 +177,8 @@ router.get("/:id", async (req, res, next) => {
       products,
       SIZE,
       currentCategory,
+      url,
+      keyword,
     });
   } catch (error) {
     console.log(error);

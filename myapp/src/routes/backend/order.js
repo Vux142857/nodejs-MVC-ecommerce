@@ -39,22 +39,19 @@ router.get("(/list)?(/:status)?", async (req, res, next) => {
     delete condition.name;
   }
 
-  // Filter
-  const statusFilter = await utilStatusFilter.createFilterStatus(
-    currentStatus,
-    mainService
-  );
-
   // Pagination
   const pagination = {
     currentPage: parseInt(utilGetParam.getParam(req.query, "page", 1)),
     itemsPerPage: 4,
   };
 
-  const items = await mainService
-    .getAll(condition)
-    .skip((pagination.currentPage - 1) * pagination.itemsPerPage)
-    .limit(pagination.itemsPerPage);
+  const [statusFilter, items] = await Promise.all([
+    utilStatusFilter.createFilterStatus(currentStatus, mainService),
+    mainService
+      .getAll(condition)
+      .skip((pagination.currentPage - 1) * pagination.itemsPerPage)
+      .limit(pagination.itemsPerPage),
+  ]);
 
   // Render
   res.render(`backend/pages/${currentModel.index}`, {

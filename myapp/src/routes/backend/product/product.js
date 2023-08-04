@@ -218,7 +218,7 @@ router.post(
         item.images_old !== "" && typeof item.images_old !== "undefined"
           ? item.images_old.split(",")
           : [];
-      console.log("Checked: " + item.images_old);
+      console.log("Checked: " + req.files);
       let taskCurrent =
         typeof item !== "undefined" && item.id !== "" ? "Edit" : "Add";
       if (!errorsMsg.isEmpty()) {

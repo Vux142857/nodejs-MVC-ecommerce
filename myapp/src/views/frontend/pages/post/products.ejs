@@ -43,6 +43,35 @@
             </li>
             <%}) %>
           </ul>
+          <div class="price-slider">
+            <label for="price-range">Price Range:</label>
+            <input
+              type="range"
+              id="price-range"
+              name="price-range"
+              min="0"
+              max="100"
+            />
+            <span id="price-value">$50</span>
+          </div>
+          <div class="search-box form-group" style="margin-top: 30px">
+            <form method="get" action="/<%= url %>">
+              <input
+                type="text"
+                id="search-input"
+                name="search"
+                placeholder="Search for products..."
+                class="form-control"
+                value="<%= keyword %>"
+              />
+              <button id="search-button" class="button button-primary">
+                Search
+              </button>
+            </form>
+            <label for="" class="form-control"
+              >Have <%= products.length %> products</label
+            >
+          </div>
         </div>
 
         <div class="col-md-10">
@@ -51,7 +80,11 @@
 								============================================= -->
             <% products.forEach(item =>{ %>
             <div class="col-lg-4 col-md-6 mb-4">
-              <div class="product">
+              <div
+                class="product"
+                data-price="<%= item.price  %>"
+                data-name="<%= item.name  %>"
+              >
                 <div class="product-image position-relative">
                   <div
                     class="fslider"
@@ -154,4 +187,54 @@
 <script>
   var socket = io();
   socket.emit("collection", "product");
+</script>
+<script>
+  // JavaScript to update the price value when the slider is moved
+  const priceSlider = document.getElementById("price-range");
+  const priceValue = document.getElementById("price-value");
+  const products = document.querySelectorAll(".product");
+
+  products.forEach((product) => {
+    if (parseInt(product.dataset.price) > parseInt(priceSlider.value)) {
+      product.style.display = "none";
+    } else {
+      product.style.display = "block";
+    }
+  });
+
+  priceSlider.addEventListener("input", function () {
+    priceValue.textContent = `$${priceSlider.value}`;
+    products.forEach((product) => {
+      if (parseInt(product.dataset.price) > parseInt(priceSlider.value)) {
+        product.style.display = "none";
+      } else {
+        product.style.display = "block";
+      }
+    });
+  });
+</script>
+<script>
+  // JavaScript to handle the "Search" button click
+  const searchButton = document.getElementById("search-button");
+  searchButton.addEventListener("click", function () {
+    const searchTerm = document
+      .getElementById("search-input")
+      .value.trim()
+      .toLowerCase();
+
+    // Filter the products based on the search term
+    const products = document.querySelectorAll(".product");
+    products.forEach((product) => {
+      const productName = product
+        .querySelector(".product-title a")
+        .textContent.trim()
+        .toLowerCase();
+
+      if (productName.includes(searchTerm)) {
+        product.style.display = "block";
+      } else {
+        product.style.display = "none";
+      }
+    });
+  });
 </script>
