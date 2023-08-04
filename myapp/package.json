@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./index.js",
-    "start:dev": "node ./bin/www"
+    "start:dev": "nodemon ./index.js",
+    "start": "node ./bin/www"
   },
   "dependencies": {
     "admin-lte": "^3.2.0",
@@ -29,9 +29,6 @@
     "socket.io": "^4.7.1",
     "sweetalert2": "^11.7.12",
     "toastify-js": "^1.12.0"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.22"
   },
   "engines": {
     "node": "14.x"

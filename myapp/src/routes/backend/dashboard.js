@@ -45,7 +45,7 @@ router.get("/", async (req, res, next) => {
       updateCouponStatus(coupon);
     });
 
-    updateStock(orderDone);
+    // updateStock(orderDone);
     const article = {
       count: articleCount,
       index: articleModel.index,
