@@ -49,8 +49,10 @@ router.get("/user/:id", async (req, res, next) => {
     if (req.session.user_id !== "") {
       user = await userService.getOne({ _id: req.params.id });
       orderLatest = await orderService.getAll({
-        customer: { email: user.email },
+        "customer.email": user.email,
       });
+      console.log(orderLatest);
+
       return res.render("frontend/pages/post/user", {
         title: "Homepage",
         orderLatest,
