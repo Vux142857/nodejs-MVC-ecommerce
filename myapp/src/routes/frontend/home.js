@@ -338,11 +338,14 @@ router.post("/change-password", checkLogin, async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await userService.findOne({ email, status: "active" });
+    const [user, hashedPass] = await Promise.all([
+      userService.findOne({ email, status: "active" }),
+      bcrypt.hash(password, 10),
+    ]);
     if (user) {
       await userService.updateOneById(
         { _id: user._id },
-        { password: await bcrypt.hash(password, 10) }
+        { password: hashedPass }
       );
       const logError = "Change password succesfully";
       return res.render("frontend/pages/post/login", {
