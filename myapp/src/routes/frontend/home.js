@@ -26,6 +26,7 @@ const couponService = couponModel.couponService;
 // Utility
 const utilGetParam = require("../../utils/utilParam");
 const authToken = require("../../middleware/verifyToken");
+const checkLogin = require("../../middleware/checkExistedLogin");
 const utilMail = require("../../utils/utilMail");
 const emailSetup = require("../../middleware/emailSetup");
 
@@ -62,7 +63,25 @@ router.get("/user/:id", async (req, res, next) => {
   }
 });
 
-router.get("/form(/:action)?", async (req, res, next) => {
+router.get("/change-password/:token", checkLogin, async (req, res, next) => {
+  try {
+    const tokenSend = req.params.token;
+    const token = req.session.tokenEmail;
+
+    if (token === tokenSend) {
+      const user = jwt.verify(token, process.env.TOKEN_KEY);
+      console.log(user);
+      return res.render(`frontend/pages/post/change-password`, {
+        title: "Homepage",
+        user,
+      });
+    }
+    return res.redirect("/");
+  } catch (error) {
+    console.log(error);
+  }
+});
+router.get("/form(/:action)?", checkLogin, async (req, res, next) => {
   try {
     let logError = "";
     let action = req.params.action;
@@ -232,47 +251,65 @@ router.get("/apply-coupon/:code", async (req, res, next) => {
 // -------------------------------------------POST
 
 // register
-router.post("/register", async (req, res) => {
+router.post("/register", checkLogin, async (req, res) => {
   try {
-    if (
-      req.session.user_id !== "" &&
-      typeof req.session.user_id !== "undefined"
-    ) {
-      return res.redirect("/");
-    } else {
-      const { username, email, password } = req.body;
+    const { username, email, password } = req.body;
 
-      // check if user already exist
-      const [existedUser, deletedUser, existedUsername, deletedUsername] =
-        await Promise.all([
-          userService.findOne({ email, status: "active" }),
-          userService.findOne({ email, status: "inactive" }),
-          userService.findOne({ username, status: "active" }),
-          userService.findOne({ username, status: "inactive" }),
-        ]);
-      console.log(existedUser);
-      if (existedUser || existedUsername) {
-        let logError = "User already exists.";
-        return res.render("frontend/pages/post/register", {
-          title: "Homepage",
-          logError,
-        });
-      } else if (deletedUser || deletedUsername) {
-        let logError = "User had been deleted. Please create another account.";
-        return res.render("frontend/pages/post/register", {
-          title: "Homepage",
-          logError,
-        });
-      }
-
-      // Create user in our database
-      const user = await userService.create({
-        username,
-        email,
-        password: password,
+    // check if user already exist
+    const [existedUser, deletedUser, existedUsername, deletedUsername] =
+      await Promise.all([
+        userService.findOne({ email, status: "active" }),
+        userService.findOne({ email, status: "inactive" }),
+        userService.findOne({ username, status: "active" }),
+        userService.findOne({ username, status: "inactive" }),
+      ]);
+    console.log(existedUser);
+    if (existedUser || existedUsername) {
+      let logError = "User already exists.";
+      return res.render("frontend/pages/post/register", {
+        title: "Homepage",
+        logError,
       });
+    } else if (deletedUser || deletedUsername) {
+      let logError = "User had been deleted. Please create another account.";
+      return res.render("frontend/pages/post/register", {
+        title: "Homepage",
+        logError,
+      });
+    }
 
-      // Create token
+    // Create user in our database
+    const user = await userService.create({
+      username,
+      email,
+      password: password,
+    });
+
+    // Create token
+    const token = jwt.sign(
+      { user_id: user._id, username, isAdmin: user.isAdmin },
+      process.env.TOKEN_KEY,
+      {
+        expiresIn: "2h",
+      }
+    );
+    // save user token
+    req.session.token = token;
+    req.session.user_id = user._id;
+    return res.redirect("/form/login");
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+// Login
+router.post("/login", checkLogin, async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    const user = await userService.findOne({ username, status: "active" });
+
+    if (user && (await bcrypt.compare(password, user.password))) {
       const token = jwt.sign(
         { user_id: user._id, username, isAdmin: user.isAdmin },
         process.env.TOKEN_KEY,
@@ -280,50 +317,108 @@ router.post("/register", async (req, res) => {
           expiresIn: "2h",
         }
       );
-      // save user token
+
       req.session.token = token;
       req.session.user_id = user._id;
-      return res.redirect("/form/login");
+      return res.redirect("/");
     }
+    let logError = "Password or username is wrong !";
+    return res.render("frontend/pages/post/login", {
+      title: "Homepage",
+      logError,
+    });
   } catch (err) {
     console.log(err);
+    return res.status(500).send("Internal Server Error");
   }
 });
 
-// Login
-router.post("/login", async (req, res) => {
+// change-password
+router.post("/change-password", checkLogin, async (req, res) => {
   try {
-    if (
-      req.session.user_id !== "" &&
-      typeof req.session.user_id !== "undefined"
-    ) {
-      return res.redirect("/");
-    } else {
-      const { username, password } = req.body;
+    const { email, password } = req.body;
 
-      const user = await userService.findOne({ username, status: "active" });
-
-      if (user && (await bcrypt.compare(password, user.password))) {
-        const token = jwt.sign(
-          { user_id: user._id, username, isAdmin: user.isAdmin },
-          process.env.TOKEN_KEY,
-          {
-            expiresIn: "2h",
-          }
-        );
-
-        req.session.token = token;
-        req.session.user_id = user._id;
-        return res.redirect("/");
-      }
-      let logError = "Password or username is wrong !";
+    const user = await userService.findOne({ email, status: "active" });
+    if (user) {
+      await userService.updateOneById(
+        { _id: user._id },
+        { password: await bcrypt.hash(password, 10) }
+      );
+      const logError = "Change password succesfully";
       return res.render("frontend/pages/post/login", {
         title: "Homepage",
         logError,
       });
     }
+    return res.redirect("/");
   } catch (err) {
     console.log(err);
+    return res.status(500).send("Internal Server Error");
+  }
+});
+
+// Forget-password
+router.post("/forget-password", checkLogin, async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const [user, deletedUser] = await Promise.all([
+      userService.findOne({ email, status: "active" }),
+      userService.findOne({ email, status: "inactive" }),
+    ]);
+
+    if (deletedUser) {
+      const logError = "User had been deleted. Please create another account.";
+      return res.render("frontend/pages/post/forget-password", {
+        title: "Homepage",
+        logError,
+      });
+    }
+
+    if (user) {
+      const token = jwt.sign(
+        {
+          user_id: user._id,
+          username: user.username, // Corrected from just 'username'
+          isAdmin: user.isAdmin,
+          email: user.email,
+        },
+        process.env.TOKEN_KEY,
+        {
+          expiresIn: "5m",
+        }
+      );
+
+      req.session.tokenEmail = token;
+      const host = process.env.CLIENT_URL
+        ? `https://${process.env.CLIENT_URL}`
+        : `http://localhost:3000`;
+      const link = `${host}/change-password/` + token;
+      const message = {
+        subject: "Change password",
+        text: link,
+      };
+
+      try {
+        await utilMail.sendMail(email, message, "link");
+        const logError = "Please check email";
+        return res.render("frontend/pages/post/forget-password", {
+          title: "Homepage",
+          logError,
+        });
+      } catch (error) {
+        console.error("Error sending email:", error);
+        return res.status(500).send("Error sending email");
+      }
+    } else {
+      const logError = "Account does not exist!";
+      return res.render("frontend/pages/post/forget-password", {
+        title: "Homepage",
+        logError,
+      });
+    }
+  } catch (err) {
+    console.error("Internal Server Error:", err);
     return res.status(500).send("Internal Server Error");
   }
 });

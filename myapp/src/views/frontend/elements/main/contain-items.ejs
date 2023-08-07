@@ -11,7 +11,7 @@
         <div class="flexslider">
           <div class="slider-wrap">
             <div class="slide">
-              <a href="<%= item.slug %>-idp=<%= item._id.toString() %>"
+              <a href="/<%= item.slug %>-idp=<%= item._id.toString() %>"
                 ><img
                   src="backend/upload/product/<%= item.img[0] %>"
                   alt="<%= item.name %>"
@@ -36,6 +36,12 @@
         name="amount"
         title="Qty"
         class="qty"
+        hidden
+      />
+      <input
+        type="text"
+        value="<%= item.slug %>-idp=<%= item._id.toString() %>"
+        name="href"
         hidden
       />
       <input type="text" name="name" value="<%= item.name %>" hidden />

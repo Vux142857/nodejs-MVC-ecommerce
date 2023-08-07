@@ -179,6 +179,9 @@ function addToCartLocalStorage(event) {
   const main_Img = clickedButton
     .closest(".product")
     .querySelector('input[name="main_Img"]')?.value;
+  const href = clickedButton
+    .closest(".product")
+    .querySelector('input[name="href"]')?.value;
   const size_name = clickedButton
     .closest(".product")
     .querySelector('input[name="size"]:checked')?.dataset.name;
@@ -195,9 +198,7 @@ function addToCartLocalStorage(event) {
         ? existedProduct.sizes
         : [existedProduct.sizes];
 
-      let existedSize = sizesOfProduct.find(
-        (size) => size.name === selectedSize
-      );
+      let existedSize = sizesOfProduct.find((size) => size.id === selectedSize);
       if (existedSize) {
         existedSize.amount += quantity;
       } else {
@@ -224,6 +225,7 @@ function addToCartLocalStorage(event) {
         sizes: [size], // Initialize as an array with the selected size
         price,
         main_Img,
+        href,
       };
       cartItems.push(cartItem);
     }
@@ -262,7 +264,7 @@ function displayCart(listCart) {
       });
       innerHTML += `<div class="top-cart-item" >
 <div class="top-cart-item-image">
-  <a href=""
+  <a href="/${cartItem.href}"
     ><img
       src="backend/upload/product/${cartItem.main_Img}"
       alt="${cartItem.name}"
@@ -270,7 +272,7 @@ function displayCart(listCart) {
 </div>
 <div class="top-cart-item-desc ">
   <div class="top-cart-item-desc-title">
-    <a href="#" class="fw-normal">${cartItem.name}</a>
+    <a href="/${cartItem.href}" class="fw-normal">${cartItem.name}</a>
     <span class="top-cart-item-price d-block">$${cartItem.price}</span>
   </div>
   <div class="top-cart-item-quantity fw-semibold">x ${amount}</div>
@@ -298,6 +300,7 @@ function displayCartCheckout(cartItems) {
   let total = 0;
   let innerHTML = ``;
   cartItems.forEach((item) => {
+    console.log(item);
     let sizeAmount = item.sizes
       .map((size) => {
         return `size: ${size.name} x ${size.amount}`;
@@ -308,7 +311,7 @@ function displayCartCheckout(cartItems) {
     });
     innerHTML += `<div class="top-cart-item">
     <div class="top-cart-item-image">
-      <a href="#"
+      <a href="/${item.href}"
         ><img
           src="backend/upload/product/${item.main_Img}"
           alt="${item.name}"
@@ -317,7 +320,7 @@ function displayCartCheckout(cartItems) {
   
     <div class="top-cart-item-desc">
       <div class="top-cart-item-desc-title">
-        <a href="#" class="fw-normal"> ${item.name} </a>
+        <a href="/${item.href}" class="fw-normal"> ${item.name} </a>
         <span class="top-cart-item-price d-block">
         ${item.price}
         </span>

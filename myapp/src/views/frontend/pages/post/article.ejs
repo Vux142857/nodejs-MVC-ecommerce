@@ -147,6 +147,12 @@
                 value="<%= item.price %>"
                 hidden
               />
+              <input
+                type="text"
+                value="<%= item.slug %>-idp=<%= item._id.toString() %>"
+                name="href"
+                hidden
+              />
               <button
                 class="cart-btn button button-white button-light add-to-cart"
               >

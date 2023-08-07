@@ -14,7 +14,7 @@ const emailConfig = {
   },
 };
 
-exports.sendMail = async (mailSendTo, message) => {
+exports.sendMail = async (mailSendTo, message, type) => {
   try {
     const transporter = nodemailer.createTransport(emailConfig);
 
@@ -23,6 +23,14 @@ exports.sendMail = async (mailSendTo, message) => {
           <div style="padding: 10px; background-color: white;">
               <h4 style="color: #0085ff">Hello</h4>
               <span style="color: black">${message.text}</span>
+          </div>
+      </div>
+    `;
+    const link = `
+      <div style="padding: 10px; background-color: #003375">
+          <div style="padding: 10px; background-color: white;">
+              <h4 style="color: #0085ff">Hello</h4>
+              <p>Click to <a style="color: black" href="${message.text}">reset password !</a></p>
           </div>
       </div>
     `;
@@ -35,6 +43,10 @@ exports.sendMail = async (mailSendTo, message) => {
       text: "Your text is here",
       html: content,
     };
+    if (type == "link") {
+      mainOptions.html = link;
+    }
+
     const info = await transporter.sendMail(mainOptions);
   } catch (error) {
     console.log(error);
