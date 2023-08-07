@@ -123,9 +123,35 @@
                   </div>
                 </div>
               </div>
-              <a href="#" class="cart-btn button button-white button-light"
-                ><i class="icon-line-plus"></i>Add to Cart</a
+              <input
+                type="number"
+                step="1"
+                min="1"
+                value="1"
+                name="amount"
+                title="Qty"
+                class="qty"
+                hidden
+              />
+              <input type="text" name="name" value="<%= item.name %>" hidden />
+              <input type="text" name="_id" value="<%= item._id %>" hidden />
+              <input
+                type="text"
+                name="main_Img"
+                value="<%= item.img[0] %>"
+                hidden
+              />
+              <input
+                type="number"
+                name="price"
+                value="<%= item.price %>"
+                hidden
+              />
+              <button
+                class="cart-btn button button-white button-light add-to-cart"
               >
+                <i class="icon-line-plus"></i>Add to Cart
+              </button>
             </div>
             <div class="product-desc flex-column px-4">
               <div class="product-title">
@@ -136,7 +162,19 @@
                 element._id.toString() == item.category) %>
                 <span><a href="#"><%=categoryOfProductRelated.name %></a></span>
               </div>
-              <div class="product-price"><ins>$<%=item.price %></ins></div>
+              <div class="product-price">
+                <% item.size.forEach((element, index) => { %>
+                <input
+                  type="radio"
+                  id="<%= element.id %>"
+                  name="size"
+                  value="<%= element.id %>"
+                  data-name="<%= element.name %>"
+                />
+                <label for="<%= element.id %>"><%= element.name %></label>
+                <% }) %>
+                <ins>$<%= item.price %></ins>
+              </div>
             </div>
           </div>
         </div>

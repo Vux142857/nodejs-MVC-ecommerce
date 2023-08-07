@@ -57,16 +57,16 @@
         </h3>
       </div>
       <div class="product-price">
-          <% item.size.forEach((element, index) => { %>
-          <input
-            type="radio"
-            id="<%= element.id %>"
-            name="size"
-            value="<%= element.id %>"
-            data-name="<%= element.name %>"
-          />
-          <label for="<%= element.id %>"><%= element.name %></label>
-          <% }) %>
+        <% item.size.forEach((element, index) => { %>
+        <input
+          type="radio"
+          id="<%= element.id %>"
+          name="size"
+          value="<%= element.id %>"
+          data-name="<%= element.name %>"
+        />
+        <label for="<%= element.id %>"><%= element.name %></label>
+        <% }) %>
         <ins>$<%= item.price %></ins>
       </div>
     </div>

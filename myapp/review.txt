@@ -278,13 +278,15 @@ note {
     sort product by price +
     find product by name +
     }
-    - count revenue -
-    - count revenue Today -
+    - count revenue +
+    - count revenue Today +
     - tat adv -
-    - update data -
-    - userinfo -
+    - update data ?
+    - userinfo +
     - adjust ui upload file +
     - email admin -- and staff +
     - errors -
     - forget password -
 }
+
+microservices

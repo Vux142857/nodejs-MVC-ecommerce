@@ -164,7 +164,7 @@ router.get("/:id", async (req, res, next) => {
         .limit(4);
     } else if (idProduct) {
       productRelated = await productService
-        .getAll({ category: product.category })
+        .getAll({ category: product.category, _id: { $ne: idProduct } })
         .limit(4);
     }
 

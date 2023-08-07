@@ -161,18 +161,32 @@ addToCart.forEach((input) => {
   input.addEventListener("click", addToCartLocalStorage);
 });
 
-function addToCartLocalStorage() {
-  const selectedSize = document.querySelector(
-    'input[name="size"]:checked'
-  )?.value;
-  const nameProduct = document.querySelector('input[name="name"]')?.value;
-  const idProduct = document.querySelector('input[name="_id"]')?.value;
-  const price = document.querySelector('input[name="price"]')?.value;
-  const main_Img = document.querySelector('input[name="main_Img"]')?.value;
-  const size_name = document.querySelector('input[name="size"]:checked')
-    ?.dataset.name;
+function addToCartLocalStorage(event) {
+  event.preventDefault();
+  const clickedButton = event.currentTarget;
+  const selectedSize = clickedButton
+    .closest(".product")
+    .querySelector('input[name="size"]:checked')?.value;
+  const nameProduct = clickedButton
+    .closest(".product")
+    .querySelector('input[name="name"]')?.value;
+  const idProduct = clickedButton
+    .closest(".product")
+    .querySelector('input[name="_id"]')?.value;
+  const price = clickedButton
+    .closest(".product")
+    .querySelector('input[name="price"]')?.value;
+  const main_Img = clickedButton
+    .closest(".product")
+    .querySelector('input[name="main_Img"]')?.value;
+  const size_name = clickedButton
+    .closest(".product")
+    .querySelector('input[name="size"]:checked')?.dataset.name;
+  console.log(idProduct);
 
-  const quantity = parseInt(document.querySelector(".qty").value);
+  const quantity = parseInt(
+    clickedButton.closest(".product").querySelector(`.qty`).value
+  );
 
   if (selectedSize && quantity > 0) {
     let existedProduct = cartItems.find((item) => item._id === idProduct);
@@ -238,9 +252,10 @@ function deleteCartItem(itemId) {
 function displayCart(listCart) {
   let innerHTML = "";
   let total = 0;
-  let amount = 0;
+  console.log(listCart);
   if (Array.isArray(listCart)) {
     listCart.forEach((cartItem) => {
+      let amount = 0;
       cartItem.sizes.forEach((item) => {
         amount += item.amount;
         total += parseInt(cartItem.price) * item.amount;
@@ -327,7 +342,7 @@ ${innerHTML}
 <div id="cart-total">
 <p>
   Total
-  <span class="price" style="color: black"><b>${total}</b></span>
+  <span class="price" style="color: black"><b>$ ${total}</b></span>
 </p>
 </div>
 `;
@@ -370,13 +385,13 @@ function applyCoupon() {
             <input type="text" name = "coupon" value="${coupon.name}" hidden>
             <p>
               Coupon value
-              <span class="price" style="color: black"><b>${coupon.value}</b></span>
+              <span class="price" style="color: black"><b>- $${coupon.value}</b></span>
             </p><p>
               Ship fee
-              <span class="price" style="color: black"><b>${shipFee}</b></span>
+              <span class="price" style="color: black"><b>+ $${shipFee}</b></span>
             </p><p>
               Total
-              <span class="price" style="color: black"><b>${total}</b></span>
+              <span class="price" style="color: black"><b>$ ${total}</b></span>
             </p>`;
             generateNotify("Add coupon successfully !");
             return $("#cart-total").html(html);
@@ -398,13 +413,13 @@ function applyCoupon() {
             <input type="text" name = "coupon" value="${coupon.name}" hidden>
             <p>
               Coupon value
-              <span class="price" style="color: black"><b>${coupon.value}</b></span>
+              <span class="price" style="color: black"><b> $ ${coupon.value}</b></span>
             </p><p>
               Ship fee
-              <span class="price" style="color: black"><b>${shipFee}</b></span>
+              <span class="price" style="color: black"><b>+ $ ${shipFee}</b></span>
             </p><p>
               Total
-              <span class="price" style="color: black"><b>${total}</b></span>
+              <span class="price" style="color: black"><b>$ ${total}</b></span>
             </p>`;
     return $("#cart-total").html(html);
   }
