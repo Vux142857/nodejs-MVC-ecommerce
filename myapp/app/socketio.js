@@ -5,7 +5,7 @@ const appRoot = require("app-root-path");
 
 const io = new Server(server);
 
-const filePath = appRoot + "/app/file.json";
+const filePath = appRoot + "/app/file.txt";
 
 let clientsByCollection = {
   total: [],
