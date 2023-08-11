@@ -268,7 +268,7 @@ note {
     bố cục web +
     delete change status admin +
     nodejs13 --
-    tìm hiểu nonlogin login --
+    tìm hiểu nonblocking blocking --
     cloudinary --
 }
 

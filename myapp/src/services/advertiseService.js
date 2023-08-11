@@ -54,14 +54,6 @@ exports.delete = async (id) => {
   }
 };
 
-// exports.count = async (status) => {
-//   try {
-//     return await Item.count(status);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
 exports.updateOneById = async (id, params) => {
   try {
     return await Item.updateOne({ _id: id }, params);

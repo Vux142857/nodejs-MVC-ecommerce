@@ -1,0 +1,6 @@
+[2023-08-11T14:19:53.943Z] TypeError: Cannot read properties of undefined (reading 'category')
+    at D:\NodeOFF\nodejs-offline\myapp\src\routes\frontend\home.js:188:37
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[2023-08-11T14:20:09.976Z] TypeError: Cannot read properties of undefined (reading 'category')
+    at D:\NodeOFF\nodejs-offline\myapp\src\routes\frontend\home.js:188:37
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)

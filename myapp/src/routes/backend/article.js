@@ -23,8 +23,6 @@ router.get("/form(/:id)?", async (req, res, next) => {
   const title = currentId
     ? `Edit ${currentModel.name}`
     : `Add ${currentModel.name}`;
-  // const category = await subService.getAll();
-  // const item = currentId ? await mainService.getOne({ _id: currentId }) : {};
   const [category, item] = await Promise.all([
     subService.getAll({ special: "off" }),
     currentId ? await mainService.getOne({ _id: currentId }) : {},
