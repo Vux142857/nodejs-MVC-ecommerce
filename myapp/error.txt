@@ -4,3 +4,48 @@
 [2023-08-11T14:20:09.976Z] TypeError: Cannot read properties of undefined (reading 'category')
     at D:\NodeOFF\nodejs-offline\myapp\src\routes\frontend\home.js:188:37
     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[2023-08-11T14:21:17.530Z] NotFoundError: Not Found
+    at D:\NodeOFF\nodejs-offline\myapp\app.js:54:8
+    at Layer.handle [as handle_request] (D:\NodeOFF\nodejs-offline\myapp\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (D:\NodeOFF\nodejs-offline\myapp\node_modules\express\lib\router\index.js:317:13)
+    at D:\NodeOFF\nodejs-offline\myapp\node_modules\express\lib\router\index.js:284:7
+    at Function.process_params (D:\NodeOFF\nodejs-offline\myapp\node_modules\express\lib\router\index.js:335:12)
+    at Immediate.next (D:\NodeOFF\nodejs-offline\myapp\node_modules\express\lib\router\index.js:275:10)
+    at Immediate._onImmediate (D:\NodeOFF\nodejs-offline\myapp\node_modules\express\lib\router\index.js:635:15)
+    at process.processImmediate (node:internal/timers:473:21)
+[2023-08-11T14:21:18.869Z] NotFoundError: Not Found
+    at D:\NodeOFF\nodejs-offline\myapp\app.js:54:8
+    at Layer.handle [as handle_request] (D:\NodeOFF\nodejs-offline\myapp\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (D:\NodeOFF\nodejs-offline\myapp\node_modules\express\lib\router\index.js:317:13)
+    at D:\NodeOFF\nodejs-offline\myapp\node_modules\express\lib\router\index.js:284:7
+    at Function.process_params (D:\NodeOFF\nodejs-offline\myapp\node_modules\express\lib\router\index.js:335:12)
+    at Immediate.next (D:\NodeOFF\nodejs-offline\myapp\node_modules\express\lib\router\index.js:275:10)
+    at Immediate._onImmediate (D:\NodeOFF\nodejs-offline\myapp\node_modules\express\lib\router\index.js:635:15)
+    at process.processImmediate (node:internal/timers:473:21)
+[2023-08-11T14:21:18.893Z] NotFoundError: Not Found
+    at D:\NodeOFF\nodejs-offline\myapp\app.js:54:8
+    at Layer.handle [as handle_request] (D:\NodeOFF\nodejs-offline\myapp\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (D:\NodeOFF\nodejs-offline\myapp\node_modules\express\lib\router\index.js:317:13)
+    at D:\NodeOFF\nodejs-offline\myapp\node_modules\express\lib\router\index.js:284:7
+    at Function.process_params (D:\NodeOFF\nodejs-offline\myapp\node_modules\express\lib\router\index.js:335:12)
+    at Immediate.next (D:\NodeOFF\nodejs-offline\myapp\node_modules\express\lib\router\index.js:275:10)
+    at Immediate._onImmediate (D:\NodeOFF\nodejs-offline\myapp\node_modules\express\lib\router\index.js:635:15)
+    at process.processImmediate (node:internal/timers:473:21)
+[2023-08-11T14:21:19.373Z] NotFoundError: Not Found
+    at D:\NodeOFF\nodejs-offline\myapp\app.js:54:8
+    at Layer.handle [as handle_request] (D:\NodeOFF\nodejs-offline\myapp\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (D:\NodeOFF\nodejs-offline\myapp\node_modules\express\lib\router\index.js:317:13)
+    at D:\NodeOFF\nodejs-offline\myapp\node_modules\express\lib\router\index.js:284:7
+    at Function.process_params (D:\NodeOFF\nodejs-offline\myapp\node_modules\express\lib\router\index.js:335:12)
+    at Immediate.next (D:\NodeOFF\nodejs-offline\myapp\node_modules\express\lib\router\index.js:275:10)
+    at Immediate._onImmediate (D:\NodeOFF\nodejs-offline\myapp\node_modules\express\lib\router\index.js:635:15)
+    at process.processImmediate (node:internal/timers:473:21)
+[2023-08-11T14:21:20.701Z] NotFoundError: Not Found
+    at D:\NodeOFF\nodejs-offline\myapp\app.js:54:8
+    at Layer.handle [as handle_request] (D:\NodeOFF\nodejs-offline\myapp\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (D:\NodeOFF\nodejs-offline\myapp\node_modules\express\lib\router\index.js:317:13)
+    at D:\NodeOFF\nodejs-offline\myapp\node_modules\express\lib\router\index.js:284:7
+    at Function.process_params (D:\NodeOFF\nodejs-offline\myapp\node_modules\express\lib\router\index.js:335:12)
+    at Immediate.next (D:\NodeOFF\nodejs-offline\myapp\node_modules\express\lib\router\index.js:275:10)
+    at Immediate._onImmediate (D:\NodeOFF\nodejs-offline\myapp\node_modules\express\lib\router\index.js:635:15)
+    at process.processImmediate (node:internal/timers:473:21)

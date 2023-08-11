@@ -6,7 +6,6 @@ module.exports = (error) => {
   const timestamp = new Date().toISOString();
   const logMessage = `[${timestamp}] ${error.stack || error.message}\n`;
   const logFilePath = path.join(appRoot.path, "error.txt");
-  console.log(123);
 
   // Append the error message to the log file
   fs.appendFile(logFilePath, logMessage, (err) => {
