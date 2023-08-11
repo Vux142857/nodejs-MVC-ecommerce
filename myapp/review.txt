@@ -285,8 +285,9 @@ note {
     - userinfo +
     - adjust ui upload file +
     - email admin -- and staff +
-    - errors -
-    - forget password -
+    - errors +
+    - forget password +
+    - store cart in session for users (have acc) (for mobile)+
 }
 
 microservices
