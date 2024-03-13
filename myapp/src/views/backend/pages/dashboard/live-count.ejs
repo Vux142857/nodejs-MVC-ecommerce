@@ -116,15 +116,4 @@
   </div>
 </div>
 
-<script>
-  var socket = io();
-  socket.on("userInArticle", function (data) {
-    $("#articleCount").text(data.value);
-  });
-  socket.on("userInProduct", function (data) {
-    $("#productCount").text(data.value);
-  });
-  socket.on("totalVistor", function (data) {
-    $("#totalVistor").text(data.value);
-  });
-</script>
+

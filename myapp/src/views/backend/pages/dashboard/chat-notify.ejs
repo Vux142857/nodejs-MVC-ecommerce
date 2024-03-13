@@ -31,10 +31,18 @@
         />
         <span class="input-group-append">
           <button type="button" class="btn btn-primary" onclick="sendMessage()">
-            Send
+            Sendx
           </button>
         </span>
       </div>
     </form>
   </div>
 </div>
+<script>
+  sendMessage = () => {
+    const message = document.querySelector("input[name='message']").value;
+    var socket = io();
+    console.log(123);
+    socket.emit("sendMessage", { value: message });
+  };
+</script>

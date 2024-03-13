@@ -34,6 +34,8 @@ io.on("connection", (socket) => {
   });
 
   socket.on("sendMessage", (msg) => {
+    console.log("Send success");
+
     io.emit("rececivedMessage", msg);
   });
 
