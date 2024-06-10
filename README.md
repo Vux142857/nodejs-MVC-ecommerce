@@ -1,4 +1,4 @@
-## Nodejs
+## Nodejs E-commerce
 
 A fashion e-commerce web app facilitating clothing sales, with key features like
 shopping, billing generation, and admin/user role management. Admin capabilities include product
